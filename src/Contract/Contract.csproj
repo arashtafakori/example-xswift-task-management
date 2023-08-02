@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>$(AssemblyName)</PackageId>
+    <Authors>$(AssemblyName)</Authors>
+    <Product>$(AssemblyName)</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CoreX" Version="1.2.0.6" />
+    <PackageReference Include="Support.AuthModule.Messaging" Version="1.1.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ApplicationServices\" />
+  </ItemGroup>
+
+</Project>

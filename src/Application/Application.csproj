@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CoreX" Version="1.2.0.6" />
+    <PackageReference Include="EntityFrameworkCore.CoreX.Datastore" Version="1.2.0.5" />
+    <PackageReference Include="Support.AuthModule.Messaging" Version="1.1.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\corex\corex-settings\CoreX.Settings.csproj" />
+    <ProjectReference Include="..\Contract\Contract.csproj" />
+    <ProjectReference Include="..\Persistence\EFCore\Persistence.EFCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ApplicationServices\" />
+    <Folder Include="DomainServices\" />
+  </ItemGroup>
+
+</Project>
