@@ -1,0 +1,67 @@
+﻿@using CoreX.Base;
+
+@model DevError
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>
+
+@if (!string.IsNullOrEmpty(Model.RequestId))
+{
+    <p>
+        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+<p>Service : @Model.Service</p>
+<p>Type : @Model.Type</p>
+<p>State : @Model.State</p>
+<p><strong>Issues :</strong></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in @Model.Issues)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if(@Model.EnvironmentState != EnvironmentState.Production)
+{
+    <p><strong>StackTrace :</strong></p>
+    <table class="table">
+        <tbody>
+            @foreach (var item in (string[])@Model.StackTrace!)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+ 

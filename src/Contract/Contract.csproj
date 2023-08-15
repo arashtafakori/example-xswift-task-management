@@ -10,16 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CoreX" Version="1.2.0.6" />
-    <PackageReference Include="Support.AuthModule.Messaging" Version="1.1.0.5" />
+    <PackageReference Include="CoreX" Version="1.2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ApplicationServices\" />
   </ItemGroup>
 
 </Project>

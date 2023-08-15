@@ -1,6 +1,6 @@
 ﻿using EntityFrameworkCore.CoreX.Datastore;
 
-namespace Doit.AccountModule.Persistence.EFCore
+namespace Persistence.EFCore
 {
     public class ModuleEFCoreDatabase : Database
     {

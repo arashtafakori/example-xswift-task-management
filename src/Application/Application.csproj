@@ -7,20 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CoreX" Version="1.2.0.6" />
-    <PackageReference Include="EntityFrameworkCore.CoreX.Datastore" Version="1.2.0.5" />
-    <PackageReference Include="Support.AuthModule.Messaging" Version="1.1.0.5" />
+    <PackageReference Include="CoreX" Version="1.2.1.1" />
+    <PackageReference Include="EntityFrameworkCore.CoreX.Datastore" Version="1.2.0.9" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\corex\corex-settings\CoreX.Settings.csproj" />
+    <ProjectReference Include="..\..\..\..\..\corex\entityframeworkcore-corex-datastore\EntityFrameworkCore.CoreX.Datastore.csproj" />
     <ProjectReference Include="..\Contract\Contract.csproj" />
     <ProjectReference Include="..\Persistence\EFCore\Persistence.EFCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ApplicationServices\" />
-    <Folder Include="DomainServices\" />
   </ItemGroup>
 
 </Project>

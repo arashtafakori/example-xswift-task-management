@@ -3,7 +3,7 @@ using CoreX.Domain;
 using EntityFrameworkCore.CoreX.Datastore;
 using SoftDeleteServices.Configuration;
 
-namespace Doit.AccountModule.Persistence.EFCore
+namespace Persistence.EFCore
 {
     public class ModuleDeletabilityConfiguration :
         CascadeSoftDeleteConfiguration<ISoftDelete>
@@ -15,7 +15,7 @@ namespace Doit.AccountModule.Persistence.EFCore
         }
     }
 
-    internal class ModuleDeletabilityConfigurationFactory
+    public class ModuleDeletabilityConfigurationFactory
     {
         public ModuleDeletabilityConfiguration CreateInstance(
             IDatabase _database)

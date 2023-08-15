@@ -117,13 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnAccountWithThisEmailAddressHasAlreadyBeenRegistered" xml:space="preserve">
-    <value>An account with this email address has already been registered.</value>
-  </data>
-  <data name="FieldIsNotAValidName" xml:space="preserve">
-    <value>The {0} field as a name is not the same as a valid name. A valid name should start with an alphabet and all other characters can be alphabets, numbers or an underscore.</value>
-  </data>
-  <data name="FieldIsNotAValidUsername" xml:space="preserve">
-    <value>The {0} field as a username is not the same as a valid username. A valid username should start with an alphabet and all other characters can be alphabets, numbers or an underscore and white space is not acceptable.</value>
+  <data name="Invariant_AProjectWithThisNameHasAlreadyBeenDefined" xml:space="preserve">
+    <value>A project with this name has already been defined.</value>
   </data>
 </root>

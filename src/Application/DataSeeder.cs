@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace Doit.AccountModule.Application
+namespace Application
 {
     public static class DataSeeder
     {

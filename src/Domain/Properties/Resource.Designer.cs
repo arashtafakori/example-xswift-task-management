@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Doit.AccountModule.Domain.Properties {
+namespace Domain.Properties {
     using System;
     
     
@@ -63,27 +63,9 @@ namespace Doit.AccountModule.Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string AnAccountWithThisEmailAddressHasAlreadyBeenRegistered {
+        internal static string Invariant_AProjectWithThisNameHasAlreadyBeenDefined {
             get {
-                return ResourceManager.GetString("AnAccountWithThisEmailAddressHasAlreadyBeenRegistered", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string FieldIsNotAValidName {
-            get {
-                return ResourceManager.GetString("FieldIsNotAValidName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string FieldIsNotAValidUsername {
-            get {
-                return ResourceManager.GetString("FieldIsNotAValidUsername", resourceCulture);
+                return ResourceManager.GetString("Invariant_AProjectWithThisNameHasAlreadyBeenDefined", resourceCulture);
             }
         }
     }
