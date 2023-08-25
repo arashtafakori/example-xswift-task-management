@@ -26,7 +26,8 @@ namespace Persistence.EFCore.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnOrder(0);
 
                     b.Property<byte>("Deleted")
                         .HasColumnType("tinyint");
@@ -44,6 +45,58 @@ namespace Persistence.EFCore.Migrations
                     b.HasIndex("Deleted");
 
                     b.ToTable("Projects", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.SprintAggregation.Sprint", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnOrder(0);
+
+                    b.Property<byte>("Deleted")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Deleted");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Sprints", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.SprintAggregation.Sprint", b =>
+                {
+                    b.HasOne("Domain.ProjectAggregation.Project", "Project")
+                        .WithMany("Sprints")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("Domain.ProjectAggregation.Project", b =>
+                {
+                    b.Navigation("Sprints");
                 });
 #pragma warning restore 612, 618
         }

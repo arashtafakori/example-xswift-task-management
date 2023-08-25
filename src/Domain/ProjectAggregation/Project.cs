@@ -1,7 +1,8 @@
 ﻿using CoreX.Domain;
-using CoreX.Domain.PredefinedFieldValidationAttributes;
+using Domain.SprintAggregation;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
+using static MassTransit.MessageHeaders;
 
 namespace Domain.ProjectAggregation
 {
@@ -12,6 +13,9 @@ namespace Domain.ProjectAggregation
         [StringLength(50)]
         [Required(AllowEmptyStrings = false)]
         public string Name { get; private set; } = string.Empty;
+
+        public ICollection<Sprint> Sprints { get; }
+
         public override Expression<Func<Project, bool>>? UniqueSpecification()
         {
             return x => x.Name == Name;

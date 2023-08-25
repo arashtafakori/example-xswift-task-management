@@ -117,7 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Invariant_AProjectWithThisNameHasAlreadyBeenDefined" xml:space="preserve">
-    <value>A project with this name has already been defined.</value>
+  <data name="Invariant_TheStartDateAndEndDateOfTheSprintCanNotBeLaterThanTheLastTwelveMonths" xml:space="preserve">
+    <value>The start date and end date of the sprint can not be later than the last 12 months.</value>
+  </data>
+  <data name="Invariant_TheStartDateOfTheSprintCanNotBeLaterThanTheEndDate" xml:space="preserve">
+    <value>The start date of the sprint can not be later than the end date.</value>
   </data>
 </root>

@@ -29,7 +29,7 @@ namespace Application
 
             // Application Services
             services.AddScoped<IProjectService, ProjectService>();
-
+            services.AddScoped<ISprintService, SprintService>();
             // Domain Services
 
             // Infrastructure Services
@@ -37,17 +37,17 @@ namespace Application
 
         private static void ConfigureDataStore(this IServiceCollection services, DatabaseSettings databaseSettings)
         {
-            if (databaseSettings.UsingBy == DatabaseType.InMemory)
+            if (databaseSettings.Type == DatabaseType.InMemory)
             {
                 services.AddScoped<IDatabase, ModuleEFCoreDatabase>();
                 services.AddScoped<IDbTransaction, ModuleDbTransaction>();
 
                 services.AddDbContext<ModuleDbContext>(options =>
-                   options.UseInMemoryDatabase("mydb")
+                   options.UseInMemoryDatabase(databaseName: databaseSettings.InMemoryDatabaseName)
                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning)),
                    ServiceLifetime.Scoped);
             }
-            else if (databaseSettings.UsingBy == DatabaseType.SqlServer)
+            else if (databaseSettings.Type == DatabaseType.SqlServer)
             {
                 services.AddScoped<IDatabase, ModuleEFCoreDatabase>();
                 services.AddScoped<IDbTransaction, ModuleDbTransaction>();
@@ -62,7 +62,7 @@ namespace Application
                 services.RegisterSoftDelServicesAndYourConfigurations(
                     Assembly.GetAssembly(typeof(ModuleDeletabilityConfiguration)));
             }
-            else if (databaseSettings.UsingBy == DatabaseType.MongoDb)
+            else if (databaseSettings.Type == DatabaseType.MongoDb)
             {
             }
         }

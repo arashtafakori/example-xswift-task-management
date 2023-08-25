@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CoreX.Settings;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.EFCore;
 using Presentation.Configuration;
+using System;
 
 namespace AcceptanceTest
 {
@@ -14,7 +16,15 @@ namespace AcceptanceTest
                 AddJsonFile("appsettings.Test.json").Build();
  
             var services = new ServiceCollection();
-            services.ConfigureAndAddServices(configuration);
+
+            var databaseSettings = new DatabaseSettings(configuration);
+            databaseSettings.SetInMemoryDatabaseName(Guid.NewGuid().ToString());
+
+            services.ConfigureAndAddServices(
+                appLanguage: configuration.GetSection("AppLanguage").Value!,
+                databaseSettings: databaseSettings,
+                massTransitSettings: new MassTransitSettings(configuration));
+
             ServiceProvider = services.BuildServiceProvider(validateScopes: true);
 
             ResetDbContext();

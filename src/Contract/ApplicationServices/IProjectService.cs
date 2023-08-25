@@ -9,7 +9,7 @@ namespace Contract
         public Task Process(ArchiveTheProject request);
         public Task Process(RestoreTheProject request);
         public Task Process(DeleteTheProject request);
-        public Task<ProjectDetailsViewModel> Process(GetTheProjectDetails request);
-        public Task<List<ProjectDetailsViewModel>> Process(GetSomeProjectDetails request);
+        public Task<ProjectInfo?> Process(GetTheProjectInfo request);
+        public Task<List<ProjectInfo>> Process(GetSomeProjectInfo request);
     }
 }

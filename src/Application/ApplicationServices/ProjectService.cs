@@ -44,12 +44,12 @@ namespace Application
             await _mediator.Send(request);
             await _transaction.SaveChangesAsync();
         }
-        public async Task<ProjectDetailsViewModel> Process(GetTheProjectDetails request)
+        public async Task<ProjectInfo?> Process(GetTheProjectInfo request)
         {
             return await _mediator.Send(request);
         }
 
-        public async Task<List<ProjectDetailsViewModel>> Process(GetSomeProjectDetails request)
+        public async Task<List<ProjectInfo>> Process(GetSomeProjectInfo request)
         {
             return await _mediator.Send(request);
         }

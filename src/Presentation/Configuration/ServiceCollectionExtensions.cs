@@ -10,22 +10,34 @@ namespace Presentation.Configuration
 {
     public static class ServiceCollectionExtensions
     {
-        public static void ConfigureAndAddServices(this IServiceCollection services, IConfigurationRoot configuration)
+        public static void ConfigureAndAddServices(
+            this IServiceCollection services,
+            IConfigurationRoot configuration)
         {
-            Thread.CurrentThread.CurrentUICulture = 
-                CultureInfo.GetCultureInfo(
-                configuration.GetSection("AppLanguage").Value!);
+            services.ConfigureAndAddServices(
+                appLanguage: configuration.GetSection("AppLanguage").Value!,
+                databaseSettings: new DatabaseSettings(configuration),
+                massTransitSettings: new MassTransitSettings(configuration));
+        }
+
+        public static void ConfigureAndAddServices(
+            this IServiceCollection services,
+            string appLanguage,
+            DatabaseSettings databaseSettings,
+            MassTransitSettings massTransitSettings)
+        {
+            Thread.CurrentThread.CurrentUICulture =
+                CultureInfo.GetCultureInfo(appLanguage);
 
             //-- Application
-            services.AddApplicationServices(new DatabaseSettings(configuration));
+            services.AddApplicationServices(databaseSettings);
 
             //-- MassTransit
             services.AddMassTransit(x =>
             {
                 //x.AddConsumers();
 
-                x.ConfigureBasedOnSettings(
-                    new MassTransitSettings(configuration),
+                x.ConfigureBasedOnSettings(massTransitSettings,
                     (context, cfg) =>
                     {
                         //cfg.ConfigureConsumers(context);

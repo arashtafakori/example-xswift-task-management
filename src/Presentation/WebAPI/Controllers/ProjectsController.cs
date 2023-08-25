@@ -17,9 +17,9 @@ namespace Presentation.WebAPI
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProjectDetailsViewModel>>>Get()
+        public async Task<ActionResult<IEnumerable<ProjectInfo>>>Get()
         {
-            var request = RestApiHelper<GetSomeProjectDetails>
+            var request = RestApiHelper<GetSomeProjectInfo>
                            .QueryStringToObject(
                 HttpContext.Request.QueryString.ToString());
             var viewModels = await _service.Process(request);
@@ -28,10 +28,10 @@ namespace Presentation.WebAPI
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProjectDetailsViewModel>> Get(Guid id)
+        public async Task<ActionResult<ProjectInfo?>> Get(Guid id)
         {
             var viewModel = await ResloveIfAnEntityNotFound(
-                () => _service.Process(new GetTheProjectDetails(id)));
+                () => _service.Process(new GetTheProjectInfo(id)));
 
             return viewModel;
         }
