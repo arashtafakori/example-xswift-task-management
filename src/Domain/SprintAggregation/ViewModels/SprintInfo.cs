@@ -6,7 +6,7 @@ namespace Domain.SprintAggregation
     public class SprintInfo : IModifiedViewModel, IArchivableViewModel
     {
         public Guid Id { get; set; }
-
+        public Guid ProjectId { get; set; }
         public required string Name { get; set; }
 
         [Display(Name = "Start Date")]
@@ -33,6 +33,7 @@ namespace Domain.SprintAggregation
             return new SprintInfo()
             {
                 Id = entity.Id,
+                ProjectId = entity.ProjectId,
                 Name = entity.Name,
                 StartDate = entity.StartDate,
                 EndDate = entity.EndDate,

@@ -32,8 +32,8 @@ namespace AcceptanceTest
 
         public void ResetDbContext()
         {
-            var scope = ServiceProvider.CreateAsyncScope();
-            var context = scope.ServiceProvider.GetRequiredService<ModuleDbContext>();
+            var serviceScope = ServiceProvider.CreateAsyncScope();
+            var context = serviceScope.ServiceProvider.GetRequiredService<ModuleDbContext>();
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
         }

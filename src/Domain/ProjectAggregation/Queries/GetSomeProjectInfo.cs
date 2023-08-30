@@ -7,16 +7,9 @@ namespace Domain.ProjectAggregation
         ReadonlyRetrivalEntitiesRequest<Project>, 
         IRequest<List<ProjectInfo>>
     {
-        public int Limit { get; internal set; }
-        public int Offset { get; internal set; }
-
-        public GetSomeProjectInfo(
-            int limit = 20,
-            int offset = 0)
+        public GetSomeProjectInfo(int offset, int limit) : 
+            base(offset: offset, limit: limit)
         {
-            Limit = limit;
-            Offset = offset;
-
             ValidationState.Validate();
         }
 

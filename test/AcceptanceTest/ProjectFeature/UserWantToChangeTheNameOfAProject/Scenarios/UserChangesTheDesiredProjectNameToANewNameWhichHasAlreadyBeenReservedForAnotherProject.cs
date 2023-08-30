@@ -7,28 +7,25 @@ using Contract;
 using Domain.ProjectAggregation;
 using CoreX.Domain;
 
-namespace AcceptanceTest.TaskModule
+namespace ProjectFeature
 {
-    internal class UserChangesTheDesiredProjectNameToANewNameWhichHasAlreadyBeenReservedForAnotherProject
+    internal class UserChangesTheNameOfAProjectToANewNameWhichHasAlreadyBeenReservedForAnotherProject
     {
         private readonly IProjectService _service;
         private ChangeTheProjectName? _request = null;
         private Func<Task>? _actual = null;
 
-        internal UserChangesTheDesiredProjectNameToANewNameWhichHasAlreadyBeenReservedForAnotherProject(IServiceScope scope)
+        internal UserChangesTheNameOfAProjectToANewNameWhichHasAlreadyBeenReservedForAnotherProject(IServiceScope serviceScope)
         {
-            _service = scope.ServiceProvider.GetRequiredService<IProjectService>();
+            _service = serviceScope.ServiceProvider.GetRequiredService<IProjectService>();
         }
-        internal async Task GivenIWantToChangeADesiredProjectToANewName(string nameOfTheDesiredProject, string newName)
+        internal void GivenIWantToChangeTheNameOfAProjectToANewName(Guid projectId, string newProjectName)
         {
-            var idOfTheDesiredProject =
-                await _service.Process(new DefineANewProject(nameOfTheDesiredProject));
-
-            _request = new ChangeTheProjectName(idOfTheDesiredProject, newName);
+            _request = new ChangeTheProjectName(projectId, newProjectName);
         }
-        internal async Task AndGivenAProjectWithThisNameHasAlreadyBeenExisted(string newName)
+        internal async Task AndGivenAProjectWithThisNameHasAlreadyBeenExisted(string projectName)
         {
-            await _service.Process(new DefineANewProject(newName));
+            await _service.Process(new DefineANewProject(projectName));
         }
         internal void WhenIRequestIt()
         {
@@ -36,7 +33,7 @@ namespace AcceptanceTest.TaskModule
         }
         internal async Task ThenTheRequestSholudBeDenied()
         {
-            await _actual.Should().BeSatisfiedWith<TheEntityWithThisSpecificationHasAlreadyBeenExisted>();
+            await _actual.Should().BeSatisfiedWith<AnEntityWithThisSpecificationHasAlreadyBeenExisted>();
         }
     }
 }

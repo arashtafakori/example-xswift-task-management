@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Contract;
 using Domain.ProjectAggregation;
 
-namespace AcceptanceTest.TaskModule
+namespace ProjectFeature
 {
     internal class UserRestoresADeletedProject
     {
@@ -13,21 +13,13 @@ namespace AcceptanceTest.TaskModule
         private RestoreTheProject? _request = null;
         private Func<Task>? _actual = null;
 
-        private Guid IdOfEntityForTearinDown = Guid.Empty;
-
-        internal UserRestoresADeletedProject(IServiceScope scope)
+        internal UserRestoresADeletedProject(IServiceScope serviceScope)
         {
-            _service = scope.ServiceProvider.GetRequiredService<IProjectService>();
+            _service = serviceScope.ServiceProvider.GetRequiredService<IProjectService>();
         }
-        internal async Task GivenIWantToRestoreADeletedProjectWithTheName(string name)
+        internal void GivenIWantToRestoreAnArchivedProject(Guid projectId)
         {
-            var idOfTheDesiredProject =
-                await _service.Process(new DefineANewProject(name));
-            await _service.Process(new ArchiveTheProject(idOfTheDesiredProject));
-
-            _request = new RestoreTheProject(idOfTheDesiredProject);
-
-            IdOfEntityForTearinDown = idOfTheDesiredProject;
+            _request = new RestoreTheProject(projectId);
         }
         internal void WhenIRequestIt()
         {

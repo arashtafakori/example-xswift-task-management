@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Contract;
 using Domain.ProjectAggregation;
 
-namespace AcceptanceTest.TaskModule
+namespace ProjectFeature
 {
     internal class UserDefinesANewProjectWithANameWhichHasNotAlreadyReservedForAnotherProject
     {
@@ -13,9 +13,9 @@ namespace AcceptanceTest.TaskModule
         private DefineANewProject? _request = null;
         private Func<Task>? _actual = null;
 
-        internal UserDefinesANewProjectWithANameWhichHasNotAlreadyReservedForAnotherProject(IServiceScope scope)
+        internal UserDefinesANewProjectWithANameWhichHasNotAlreadyReservedForAnotherProject(IServiceScope serviceScope)
         {
-            _service = scope.ServiceProvider.GetRequiredService<IProjectService>();
+            _service = serviceScope.ServiceProvider.GetRequiredService<IProjectService>();
         }
         internal void GivenIWantToDefineANewProject(string name)
         {

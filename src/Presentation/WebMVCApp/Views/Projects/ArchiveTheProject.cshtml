@@ -4,14 +4,13 @@
     ViewData["Title"] = "Archive The Project";
 }
 
-<h1>Archive The Project</h1>
+<h4>@ViewData["Title"]</h4>
 
+<hr />
 <div>
     <form asp-action="ArchiveConfirmed">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Id" />
-
-        <hr />
         <dl class="row">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Name)

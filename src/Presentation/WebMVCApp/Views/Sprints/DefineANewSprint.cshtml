@@ -1,0 +1,38 @@
+﻿@using Domain.ProjectAggregation;
+@model MVCWebApp.Model.ViewModelAsDefineANewSprint
+
+@{
+    ViewData["Title"] = "Define A New Sprint";
+    var projectInfo = ViewData[nameof(ProjectInfo)] as ProjectInfo;
+}
+
+<h4>@ViewData["Title"] for the @projectInfo!.Name project</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DefineANewSprint">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProjectId" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <p></p>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="GetSomeSprintInfo" asp-route-projectId="@Model.ProjectId">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

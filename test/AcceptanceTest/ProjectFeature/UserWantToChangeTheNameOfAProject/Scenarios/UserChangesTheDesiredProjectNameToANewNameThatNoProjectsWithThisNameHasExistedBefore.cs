@@ -5,24 +5,21 @@ using System.Threading.Tasks;
 using Contract;
 using Domain.ProjectAggregation;
 
-namespace AcceptanceTest.TaskModule
+namespace ProjectFeature
 {
-    internal class UserChangesTheDesiredProjectNameToANewNameThatNoProjectsWithThisNameHasExistedBefore
+    internal class UserChangesTheNameOfAProjectToANewNameThatNoProjectsWithThisNameHasAlreadyExisted
     {
         private readonly IProjectService _service;
         private ChangeTheProjectName? _request = null;
         private Func<Task>? _actual = null;
 
-        internal UserChangesTheDesiredProjectNameToANewNameThatNoProjectsWithThisNameHasExistedBefore(IServiceScope scope)
+        internal UserChangesTheNameOfAProjectToANewNameThatNoProjectsWithThisNameHasAlreadyExisted(IServiceScope serviceScope)
         {
-            _service = scope.ServiceProvider.GetRequiredService<IProjectService>();
+            _service = serviceScope.ServiceProvider.GetRequiredService<IProjectService>();
         }
-        internal async Task GivenIWantToChangeADesiredProjectToANewName(string nameOfTheDesiredProject, string newName)
+        internal void GivenIWantToChangeTheNameOfAProjectToANewName(Guid projectId, string newProjectName)
         {
-            var idOfTheDesiredProject =
-                await _service.Process(new DefineANewProject(nameOfTheDesiredProject));
-
-            _request = new ChangeTheProjectName(idOfTheDesiredProject, newName);
+            _request = new ChangeTheProjectName(projectId, newProjectName);
         }
         internal void AndGivenAProjectWithThisNameHasNotAlreadyBeenExisted()
         {

@@ -7,7 +7,7 @@ using Contract;
 using Domain.ProjectAggregation;
 using CoreX.Domain;
 
-namespace AcceptanceTest.TaskModule
+namespace ProjectFeature
 {
     internal class UserDefinesANewProjectThatHasAlreadyExistedWithTheSameName
     {
@@ -15,9 +15,9 @@ namespace AcceptanceTest.TaskModule
         private DefineANewProject? _request = null;
         private Func<Task>? _actual = null;
 
-        internal UserDefinesANewProjectThatHasAlreadyExistedWithTheSameName(IServiceScope scope)
+        internal UserDefinesANewProjectThatHasAlreadyExistedWithTheSameName(IServiceScope serviceScope)
         {
-            _service = scope.ServiceProvider.GetRequiredService<IProjectService>();
+            _service = serviceScope.ServiceProvider.GetRequiredService<IProjectService>();
         }
         internal void GivenIWantToDefineANewProject(string name)
         {
@@ -33,7 +33,7 @@ namespace AcceptanceTest.TaskModule
         }
         internal async Task ThenTheRequestSholudBeDenied()
         {
-            await _actual.Should().BeSatisfiedWith<TheEntityWithThisSpecificationHasAlreadyBeenExisted>();
+            await _actual.Should().BeSatisfiedWith<AnEntityWithThisSpecificationHasAlreadyBeenExisted>();
         }
     }
 }

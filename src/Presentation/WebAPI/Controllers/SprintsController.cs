@@ -16,24 +16,11 @@ namespace Presentation.WebAPI
             _service = service;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<SprintInfo>>>Get()
-        {
-            var request = RestApiHelper<GetSomeSprintInfo>
-                           .QueryStringToObject(
-                HttpContext.Request.QueryString.ToString());
-            var viewModels = await _service.Process(request);
-
-            return viewModels;
-        }
-
         [HttpGet("{id}")]
         public async Task<ActionResult<SprintInfo?>> Get(Guid id)
         {
-            var viewModel = await ResloveIfAnEntityNotFound(
+            return await ResloveIfAnEntityNotFound(
                 () => _service.Process(new GetTheSprintInfo(id)));
-
-            return viewModel;
         }
 
         [HttpPost($"{nameof(DefineANewSprint)}")]

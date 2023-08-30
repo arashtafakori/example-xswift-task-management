@@ -1,14 +1,12 @@
 ﻿@model Domain.ProjectAggregation.ProjectInfo
 
 @{
-    ViewData["Title"] = "The Project Info";
+    ViewData["Title"] = "Project Info";
 }
 
-<h1>The Project Info</h1>
-
+<h4>@ViewData["Title"]</h4>
+<hr />
 <div>
-    <h4>Project</h4>
-    <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)

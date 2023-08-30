@@ -18,6 +18,7 @@
     <ProjectReference Include="..\..\..\..\..\..\corex\corex-datastore\CoreX.Datastore.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\corex\corex-domain\CoreX.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\corex\corex-settings\CoreX.Settings.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\corex\corex-web\CoreX.Web.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\corex\entityframeworkcore-corex-datastore\EntityFrameworkCore.CoreX.Datastore.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\corex\masstransit-corex\MassTransit.CoreX.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\corex\mongodb-corex-datastore\MongoDB.CoreX.Datastore.csproj" />

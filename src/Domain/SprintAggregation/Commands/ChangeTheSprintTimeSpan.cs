@@ -1,4 +1,5 @@
-﻿using CoreX.Domain;
+﻿using CoreX.Base;
+using CoreX.Domain;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,6 +21,11 @@ namespace Domain.SprintAggregation
         {
             StartDate = startDate;
             EndDate = endDate;
+
+            ValidationState.Add(
+                new PreventIfStartDateIsLaterThanEndDate<Sprint>
+                (StartDate, EndDate));
+
             ValidationState.Validate();
         }
 
@@ -28,14 +34,10 @@ namespace Domain.SprintAggregation
         {
             var invariantState = new InvariantState();
 
-            var lastYear = DateTime.Now.AddYears(-1);
+            var lastYear = DateTimeHelper.UtcNow.AddYears(-1);
             if (StartDate < lastYear || EndDate < lastYear)
                 invariantState.AddIssue(
-                    new TheStartDateAndEndDateOfTheSprintCanNotBeLaterThanTheLastTwelveMonths());
-
-            if (StartDate > EndDate)
-                invariantState.AddIssue(
-                    new TheStartDateOfTheSprintCanNotBeLaterThanTheEndDate());
+                    new TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths());
 
             await invariantState.CheckAsync(mediator);
 

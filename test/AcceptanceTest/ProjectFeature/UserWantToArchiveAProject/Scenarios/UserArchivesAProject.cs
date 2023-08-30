@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Contract;
 using Domain.ProjectAggregation;
 
-namespace AcceptanceTest.TaskModule
+namespace ProjectFeature
 {
     internal class UserArchivesAProject
     {
@@ -13,16 +13,13 @@ namespace AcceptanceTest.TaskModule
         private ArchiveTheProject? _request = null;
         private Func<Task>? _actual = null;
 
-        internal UserArchivesAProject(IServiceScope scope)
+        internal UserArchivesAProject(IServiceScope serviceScope)
         {
-            _service = scope.ServiceProvider.GetRequiredService<IProjectService>();
+            _service = serviceScope.ServiceProvider.GetRequiredService<IProjectService>();
         }
-        internal async Task GivenIWantToArchiveADesiredProjectWithTheName(string name)
+        internal void GivenIWantToArchiveAProject(Guid projectId)
         {
-            var idOfTheDesiredProject =
-                await _service.Process(new DefineANewProject(name));
-
-            _request = new ArchiveTheProject(idOfTheDesiredProject);
+            _request = new ArchiveTheProject(projectId);
         }
         internal void WhenIRequestIt()
         {

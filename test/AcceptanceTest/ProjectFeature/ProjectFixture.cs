@@ -1,6 +1,7 @@
-﻿using System;
+﻿using AcceptanceTest;
+using System;
 
-namespace AcceptanceTest.TaskModule
+namespace ProjectFeature
 {
     public class ProjectFixture : ServiceContext, IDisposable
     {

@@ -1,0 +1,45 @@
+﻿@using Domain.ProjectAggregation;
+@model Domain.SprintAggregation.SprintInfo
+ 
+@{
+    ViewData["Title"] = "Sprint Info";
+    var projectInfo = ViewData[nameof(ProjectInfo)] as ProjectInfo;
+}
+
+<h4>@ViewData["Title"]</h4>
+
+
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Belongs to
+        </dt>
+        <dd class="col-sm-10">
+            @projectInfo!.Name project
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="ChangeTheSprintName" asp-route-id="@Model.Id">Change the name</a> |
+    <a asp-action="ChangeTheSprintTimeSpan" asp-route-id="@Model.Id">Change the name</a> |
+    <a asp-action="GetSomeSprintInfo" asp-route-projectId="@Model.ProjectId">Back to List</a>
+</div>

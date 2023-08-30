@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AcceptanceTest;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace AcceptanceTest.TaskModule
+namespace ProjectFeature
 {
     /// <summary>
     /// As a user
@@ -11,23 +13,27 @@ namespace AcceptanceTest.TaskModule
     /// </summary>
     public class AsAUserIWantToChangeTheNameOfAProjectSoThatICanAccessTheProjectWithTheNewName : IClassFixture<ProjectFixture>
     {
-        private IServiceScope? _scope;
+        private IServiceScope _serviceScope;
         private readonly ProjectFixture _fixture;
         public AsAUserIWantToChangeTheNameOfAProjectSoThatICanAccessTheProjectWithTheNewName(ProjectFixture fixture)
         {
             _fixture = fixture;
-            _scope = _fixture.ServiceProvider.CreateAsyncScope();
+            _serviceScope = _fixture.ServiceProvider.CreateAsyncScope();
         }
 
         [Fact]
-        internal void UserChangesTheProjectNameToANewNameWhichHasAlreadyBeenReservedForAnotherProject()
+        internal async Task UserChangesTheNameOfAProjectToANewNameWhichHasAlreadyBeenReservedForAnotherProject()
         {
-            var steps = new UserChangesTheDesiredProjectNameToANewNameWhichHasAlreadyBeenReservedForAnotherProject(_scope!);
-            var nameOfTheDesiredProject = "mars";
-            var newName = "earth";
+            var steps = new UserChangesTheNameOfAProjectToANewNameWhichHasAlreadyBeenReservedForAnotherProject(_serviceScope!);
 
-            steps.Given(_ => steps.GivenIWantToChangeADesiredProjectToANewName(nameOfTheDesiredProject, newName))
-                .Given(_ => steps.AndGivenAProjectWithThisNameHasAlreadyBeenExisted(newName))
+            var dataBuilder = new DataFacilitator(_serviceScope);
+            var projectId = await dataBuilder.DefineAProject(
+                projectName: "Task Management");
+
+            var newProjectName = "Task Board";
+
+            steps.Given(_ => steps.GivenIWantToChangeTheNameOfAProjectToANewName(projectId, newProjectName))
+                .Given(_ => steps.AndGivenAProjectWithThisNameHasAlreadyBeenExisted(newProjectName))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDenied())
                 .TearDownWith(_ => _fixture.ResetDbContext())
@@ -35,13 +41,17 @@ namespace AcceptanceTest.TaskModule
         }
 
         [Fact]
-        internal void UserChangesTheProjectNameToANewNameThatNoProjectsWithThisNameHasAlreadyExisted()
+        internal async Task UserChangesTheNameOfAProjectToANewNameThatNoProjectsWithThisNameHasAlreadyExisted()
         {
-            var steps = new UserChangesTheDesiredProjectNameToANewNameThatNoProjectsWithThisNameHasExistedBefore(_scope!);
-            var nameOfTheDesiredProject = "mars";
-            var newName = "earth";
+            var steps = new UserChangesTheNameOfAProjectToANewNameThatNoProjectsWithThisNameHasAlreadyExisted(_serviceScope!);
 
-            steps.Given(_ => steps.GivenIWantToChangeADesiredProjectToANewName(nameOfTheDesiredProject, newName))
+            var dataBuilder = new DataFacilitator(_serviceScope);
+            var projectId = await dataBuilder.DefineAProject(
+                projectName: "Task Management");
+
+            var newProjectName = "Task Board";
+
+            steps.Given(_ => steps.GivenIWantToChangeTheNameOfAProjectToANewName(projectId, newProjectName))
                 .Given(_ => steps.AndGivenAProjectWithThisNameHasNotAlreadyBeenExisted())
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDone())

@@ -1,18 +1,21 @@
-﻿using Contract;
+﻿using Application;
+using Contract;
 using CoreX.Web;
 using Domain.ProjectAggregation;
+using Domain.SprintAggregation;
 using Microsoft.AspNetCore.Mvc;
-using MVCWebApp.Model.Projects;
+using MVCWebApp.Model;
+using static MassTransit.ValidationResultExtensions;
 
-namespace MVCWebApp.Controllers.Project
+namespace MVCWebApp.Controllers
 {
     public class ProjectsController : CoreXMVCController
     {
-        private readonly IProjectService _service;
-
-        public ProjectsController(IProjectService service)
+        private readonly IProjectService _projectService;
+        public ProjectsController(
+            IProjectService projectService)
         {
-            _service = service;
+            _projectService = projectService;
         }
 
         public async Task<IActionResult> GetSomeProjectInfo()
@@ -20,36 +23,16 @@ namespace MVCWebApp.Controllers.Project
             var request = RestApiHelper<GetSomeProjectInfo>
                            .QueryStringToObject(
                 HttpContext.Request.QueryString.ToString());
-            var viewModels = await _service.Process(request);
+            var result = await _projectService.Process(request);
 
-            return View(viewModels);
+            return View(result);
         }
 
         public async Task<IActionResult> GetTheProjectInfo(Guid id)
         {
-            var viewModel = await _service.Process(
+            var result = await _projectService.Process(
                 new GetTheProjectInfo(id));
-            return View(viewModel);
-        }
-
-        public async Task<IActionResult> ChangeTheProjectName(Guid id)
-        {
-            var viewModel = await _service.Process(new GetTheProjectInfo(id));
-            return View(viewModel.GetViewModelAsChangeTheProjectName());
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangeTheProjectName(
-            [Bind("Id,Name")] ViewModelAsChangeTheProjectName model)
-        {
-            if (ModelState.IsValid)
-            {
-                var request = model.GetTheRequest();
-                await ResloveIfAnEntityNotFound(
-                   () => _service.Process(request));
-                return RedirectToAction(nameof(GetSomeProjectInfo));
-            }
-            return View(model);
+            return View(result);
         }
 
         public IActionResult DefineANewProject()
@@ -59,15 +42,33 @@ namespace MVCWebApp.Controllers.Project
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DefineANewProject(
-            [Bind("Name")] ViewModelAsDefineANewProject model)
+            ViewModelAsDefineANewProject model)
         {
             if (ModelState.IsValid)
             {
-                var request = model.GetTheRequest();
                 await ResloveIfAnEntityNotFound(
                    async () => {
-                       await _service.Process(request);
+                       await _projectService.Process(model.ConvertToARequest());
                    });
+                return RedirectToAction(nameof(GetSomeProjectInfo));
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> ChangeTheProjectName(Guid id)
+        {
+            var result = await _projectService.Process(new GetTheProjectInfo(id));
+            return View(ViewModelAsChangeTheProjectName.GetViewModel(result!));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeTheProjectName(
+            ViewModelAsChangeTheProjectName model)
+        {
+            if (ModelState.IsValid)
+            {
+                await ResloveIfAnEntityNotFound(
+                   () => _projectService.Process(model.ConvertToARequest()));
                 return RedirectToAction(nameof(GetSomeProjectInfo));
             }
             return View(model);
@@ -75,9 +76,9 @@ namespace MVCWebApp.Controllers.Project
 
         public async Task<IActionResult> ArchiveTheProject(Guid id)
         {
-            var viewModel = await _service.Process(
+            var result = await _projectService.Process(
                 new GetTheProjectInfo(id));
-            return View(viewModel);
+            return View(result);
         }
 
         [HttpPost]
@@ -85,7 +86,7 @@ namespace MVCWebApp.Controllers.Project
         public async Task<IActionResult> ArchiveConfirmed(Guid id)
         {
             await ResloveIfAnEntityNotFound(
-                () => _service.Process(new ArchiveTheProject(id)));
+                () => _projectService.Process(new ArchiveTheProject(id)));
 
             return RedirectToAction(nameof(GetSomeProjectInfo));
         }

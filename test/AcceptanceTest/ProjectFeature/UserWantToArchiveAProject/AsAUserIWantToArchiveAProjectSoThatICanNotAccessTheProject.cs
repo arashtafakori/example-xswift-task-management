@@ -1,8 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AcceptanceTest;
+using Contract;
+using Domain.ProjectAggregation;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace AcceptanceTest.TaskModule
+namespace ProjectFeature
 {
     /// <summary>
     /// As a user
@@ -11,21 +15,24 @@ namespace AcceptanceTest.TaskModule
     /// </summary>
     public class AsAUserIWantToArchiveAProjectSoThatICanNotAccessTheProject : IClassFixture<ProjectFixture>
     {
-        private IServiceScope? _scope;
+        private IServiceScope _serviceScope;
         private readonly ProjectFixture _fixture;
         public AsAUserIWantToArchiveAProjectSoThatICanNotAccessTheProject(ProjectFixture fixture)
         {
             _fixture = fixture;
-            _scope = _fixture.ServiceProvider.CreateAsyncScope();
+            _serviceScope = _fixture.ServiceProvider.CreateAsyncScope();
         }
 
         [Fact]
-        internal void UserArchivesAProject()
+        internal async Task UserArchivesAProject()
         {
-            var steps = new UserArchivesAProject(_scope!);
-            var name = "earth";
+            var steps = new UserArchivesAProject(_serviceScope!);
 
-            steps.Given(_ => steps.GivenIWantToArchiveADesiredProjectWithTheName(name))
+            var dataBuilder = new DataFacilitator(_serviceScope);
+            var projectId = await dataBuilder.DefineAProject(
+                projectName: "Task Management");
+
+            steps.Given(_ => steps.GivenIWantToArchiveAProject(projectId))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDone())
                 .TearDownWith(_ => _fixture.ResetDbContext())

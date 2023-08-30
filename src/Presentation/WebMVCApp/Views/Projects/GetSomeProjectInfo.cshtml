@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<Domain.ProjectAggregation.ProjectInfo>
 
 @{
-    ViewData["Title"] = "Projects List";
+    ViewData["Title"] = "Projects";
 }
 
+<h4>@ViewData["Title"]</h4>
 
-<h1>Projects List</h1>
-
+<hr />
 <p>
     <a asp-action="DefineANewProject">Define A New</a>
 </p>
@@ -33,9 +33,10 @@
                     @Html.DisplayFor(modelItem => item.ModifiedDate)
                 </td>
                 <td>
-                    <a asp-action="ChangeTheProjectName" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="ChangeTheProjectName" asp-route-id="@item.Id">Name</a> |
                     <a asp-action="GetTheProjectInfo" asp-route-id="@item.Id">Info</a> |
-                    <a asp-action="ArchiveTheProject" asp-route-id="@item.Id">Archive</a>
+                    <a asp-action="ArchiveTheProject" asp-route-id="@item.Id">Archive</a> |
+                    <a asp-controller="Sprints" asp-action="GetSomeSprintInfo" asp-route-projectId="@item.Id">Sprints</a>
                 </td>
             </tr>
         }

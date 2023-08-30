@@ -1,5 +1,6 @@
 ﻿using CoreX.Domain;
 using MediatR;
+using System.Linq.Expressions;
 
 namespace Domain.SprintAggregation
 {
@@ -7,17 +8,18 @@ namespace Domain.SprintAggregation
         ReadonlyRetrivalEntitiesRequest<Sprint>, 
         IRequest<List<SprintInfo>>
     {
-        public int Limit { get; internal set; }
-        public int Offset { get; internal set; }
-
+        public Guid ProjectId { get; set; }
         public GetSomeSprintInfo(
-            int limit = 20,
-            int offset = 0)
+            int offset, int limit) :
+            base(offset: offset, limit: limit)
         {
-            Limit = limit;
-            Offset = offset;
-
             ValidationState.Validate();
+        }
+
+        public GetSomeSprintInfo SetProjectId(Guid value)
+        {
+            ProjectId = value;
+            return this;
         }
 
         /// <summary>
@@ -27,6 +29,11 @@ namespace Domain.SprintAggregation
         public bool OnIncludingArchivedDataConfiguration()
         {
             return true;
+        }
+
+        public override Expression<Func<Sprint, bool>>? Condition()
+        {
+            return x => x.ProjectId == ProjectId;
         }
     }
 }

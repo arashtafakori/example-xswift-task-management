@@ -29,6 +29,9 @@ namespace Persistence.EFCore.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnOrder(0);
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<byte>("Deleted")
                         .HasColumnType("tinyint");
 
@@ -53,6 +56,9 @@ namespace Persistence.EFCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnOrder(0);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<byte>("Deleted")
                         .HasColumnType("tinyint");

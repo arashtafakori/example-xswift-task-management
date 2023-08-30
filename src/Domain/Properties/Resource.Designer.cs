@@ -63,18 +63,10 @@ namespace Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string Invariant_TheStartDateAndEndDateOfTheSprintCanNotBeLaterThanTheLastTwelveMonths {
+        internal static string Invariant_TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths {
             get {
-                return ResourceManager.GetString("Invariant_TheStartDateAndEndDateOfTheSprintCanNotBeLaterThanTheLastTwelveMonths", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string Invariant_TheStartDateOfTheSprintCanNotBeLaterThanTheEndDate {
-            get {
-                return ResourceManager.GetString("Invariant_TheStartDateOfTheSprintCanNotBeLaterThanTheEndDate", resourceCulture);
+                return ResourceManager.GetString("Invariant_TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths" +
+                        "", resourceCulture);
             }
         }
     }

@@ -1,0 +1,43 @@
+﻿@model Domain.SprintAggregation.SprintInfo
+
+@{
+    ViewData["Title"] = "Archive The Sprint";
+}
+
+<h4>@ViewData["Title"]</h4>
+
+<div>
+    <form asp-action="ArchiveConfirmed">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ProjectId" />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ModifiedDate)
+            </dd>
+        </dl>
+        <p></p>
+        <div class="form-group">
+            <input type="submit" value="Confirm" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+<div>
+    <a asp-action="GetSomeSprintInfo" asp-route-projectId="@Model.ProjectId">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

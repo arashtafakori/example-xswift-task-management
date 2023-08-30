@@ -2,7 +2,7 @@
 using TestStack.BDDfy;
 using Xunit;
 
-namespace AcceptanceTest.TaskModule
+namespace ProjectFeature
 {
     /// <summary>
     /// As a user
@@ -11,22 +11,23 @@ namespace AcceptanceTest.TaskModule
     /// </summary>
     public class AsAUserIWantToDefineAProjectSoThatICanAccessTheProject : IClassFixture<ProjectFixture>
     {
-        private IServiceScope? _scope;
+        private IServiceScope _serviceScope;
         private readonly ProjectFixture _fixture;
         public AsAUserIWantToDefineAProjectSoThatICanAccessTheProject(ProjectFixture fixture)
         {
             _fixture = fixture;
-            _scope = _fixture.ServiceProvider.CreateAsyncScope();
+            _serviceScope = _fixture.ServiceProvider.CreateAsyncScope();
         }
 
         [Fact]
-        internal void UserDefinesANewProjectThatHasAlreadyBeenDefinedWithTheSameName()
+        internal void UserDefinesANewProjectThatHasAlreadyExistedWithTheSameName()
         {
-            var steps = new UserDefinesANewProjectThatHasAlreadyExistedWithTheSameName(_scope!);
-            var name = "earth";
+            var steps = new UserDefinesANewProjectThatHasAlreadyExistedWithTheSameName(_serviceScope!);
 
-            steps.Given(_ => steps.GivenIWantToDefineANewProject(name))
-                .Given(_ => steps.AndGivenAProjectWithThisNameHasAlreadyBeenExisted(name))
+            var projectName = "Task Management";
+
+            steps.Given(_ => steps.GivenIWantToDefineANewProject(projectName))
+                .Given(_ => steps.AndGivenAProjectWithThisNameHasAlreadyBeenExisted(projectName))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDenied())
                 .TearDownWith(_ => _fixture.ResetDbContext())
@@ -34,12 +35,13 @@ namespace AcceptanceTest.TaskModule
         }
 
         [Fact]
-        internal void UserDefinesANewProjectWithANameWhichHasNotAlreadyExisted()
+        internal void UserDefinesANewProjectWithANameWhichHasNotAlreadyReservedForAnotherProject()
         {
-            var steps = new UserDefinesANewProjectWithANameWhichHasNotAlreadyReservedForAnotherProject(_scope!);
-            var name = "earth";
+            var steps = new UserDefinesANewProjectWithANameWhichHasNotAlreadyReservedForAnotherProject(_serviceScope!);
 
-            steps.Given(_ => steps.GivenIWantToDefineANewProject(name))
+            var projectName = "Task Management";
+
+            steps.Given(_ => steps.GivenIWantToDefineANewProject(projectName))
                 .Given(_ => steps.AndGivenAProjectWithThisNameHasNotAlreadyBeenExisted())
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDone())
