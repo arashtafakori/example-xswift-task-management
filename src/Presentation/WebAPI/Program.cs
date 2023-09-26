@@ -14,14 +14,12 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 Application.DataSeeder.SeedData(app);
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.DefaultModelsExpandDepth(-1); // Disable swagger schemas at bottom
-    });
-}
+    c.DefaultModelsExpandDepth(-1); // Disable swagger schemas at bottom
+});
+
 app.UseHttpsRedirection();
 app.UseExceptionHandler(c => c.Run(async context =>
 {

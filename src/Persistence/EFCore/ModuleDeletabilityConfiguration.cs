@@ -11,7 +11,7 @@ namespace Persistence.EFCore
         public ModuleDeletabilityConfiguration(
             ModuleDbContext context): base(context)
         {
-            this.AddSoftDeleteConfiguration();
+            this.ConfigureSoftDelete();
         }
     }
 

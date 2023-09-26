@@ -1,13 +1,12 @@
 ﻿@using Domain.ProjectAggregation;
-@model Domain.SprintAggregation.SprintInfo
+@using Presentation.WebMVCApp.Controllers;
+@model Presentation.WebMVCApp.ViewModels.GetTheSprintInfoViewModel;
  
 @{
     ViewData["Title"] = "Sprint Info";
-    var projectInfo = ViewData[nameof(ProjectInfo)] as ProjectInfo;
 }
 
 <h4>@ViewData["Title"]</h4>
-
 
 <hr />
 <div>
@@ -16,30 +15,29 @@
             Belongs to
         </dt>
         <dd class="col-sm-10">
-            @projectInfo!.Name project
+            @Model.ProjectInfo!.Name project
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.SprintInfo!.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.SprintInfo!.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
+            @Html.DisplayNameFor(model => model.SprintInfo!.StartDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
+            @Html.DisplayFor(model => model.SprintInfo!.StartDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
+            @Html.DisplayNameFor(model => model.SprintInfo!.EndDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
+            @Html.DisplayFor(model => model.SprintInfo!.EndDate)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="ChangeTheSprintName" asp-route-id="@Model.Id">Change the name</a> |
-    <a asp-action="ChangeTheSprintTimeSpan" asp-route-id="@Model.Id">Change the name</a> |
-    <a asp-action="GetSomeSprintInfo" asp-route-projectId="@Model.ProjectId">Back to List</a>
+    <a asp-action="@nameof(Sprints.GetSprintInfoList)" 
+    asp-route-projectId="@Model.SprintInfo!.ProjectId">Back to List</a>
 </div>

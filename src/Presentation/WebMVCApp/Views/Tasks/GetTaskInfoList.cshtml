@@ -1,0 +1,175 @@
+﻿@using CoreX.Mvc;
+@using Domain.ProjectAggregation;
+@using Presentation.WebMVCApp.Controllers;
+@model Presentation.WebMVCApp.ViewModels.GetTaskInfoListViewModel
+
+@{
+    ViewData["Title"] = "Board";
+}
+<h4>@ViewData["Title"] of the @Model.ProjectInfo!.Name project</h4>
+<hr />
+ 
+<form id="filter-form" method="get" asp-controller="@nameof(Tasks)" asp-action="@nameof(Tasks.GetTaskInfoList)">
+    <div class="container">
+        <div class="row row-cols-5">
+            <div class="col">
+                <a asp-action="@nameof(Tasks.AddATask)"
+                   asp-route-projectId="@Model.ProjectInfo!.Id">New Task</a>
+            </div>
+            <div class="col">
+                <label asp-for="DescriptionSearchKey" class="control-label"></label>
+                <div class="input-group">
+                    <input asp-for="DescriptionSearchKey" class="form-control" placeholder="Search..." id="searchInput">
+                    <div class="input-group-append">
+                        <button id="searchButton" class="btn btn-primary" type="button" onclick="filter()">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <label asp-for="SprintId" class="control-label"></label>
+                @Html.DropDownListFor(
+                model => model.SprintId ,
+                Model.SprintsInfoItems,
+                "<All Sprints>",
+                new {@class = "form-control" , id="sprintAsFilter", onchange="filter()"})
+            </div>
+            <div class="col">
+                <label asp-for="Status" class="control-label"></label>
+                @Html.DropDownListFor(
+                model => model.Status,
+                Model.TaskStatusSelectListItems,
+                "<Any Status>",
+                new {@class = "form-control", id="statusAsFilter", onchange="filter()",
+                style = "width: 120px;"})
+            </div>
+            <div class="col">
+                <div class="row">
+                    @{
+                        var clearFilterVisibility =
+                        Model.DescriptionSearchKey != null ||
+                        Model.SprintId != null || Model.Status != null
+                        ? "" : "visibility: hidden";
+                    }
+                    <a asp-action="@nameof(Tasks.GetTaskInfoList)"
+                       asp-controller="@nameof(Tasks)"
+                       style="@clearFilterVisibility">
+                        Clear filters
+                    </a>
+                </div>
+                <div class="row">
+                    <h6>Total Items: @Model.TaskInfoList.CountOfAllItems</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskInfoList.Items.FirstOrDefault()!.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskInfoList.Items.FirstOrDefault()!.ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskInfoList.Items.FirstOrDefault()!.SprintName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskInfoList.Items.FirstOrDefault()!.StatusName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskInfoList.Items.FirstOrDefault()!.OwnerName)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TaskInfoList.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SprintName)
+                </td>
+                <td>
+                    @Html.DropDownListFor(
+                        model => item.Status,
+                        Model.TaskStatusSelectListItems,
+                        new {@class = "status-dropdown",
+                        style = "width: 120px;",
+                        data_id = item.Id})
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OwnerName)
+                </td>
+                <td>
+                    <a asp-action="@nameof(Tasks.GetTheTaskInfo)" asp-route-id="@item.Id">Info</a> |
+                    <a asp-action="@nameof(Tasks.EditTheTask)" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="@nameof(Tasks.ArchiveTheTask)" asp-route-id="@item.Id">Archive</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var previousPageDisabled = !Model.TaskInfoList.HasPreviousPage ? "disabled" : "";
+    var nextPageDisabled = !Model.TaskInfoList.HasNextPage ? "disabled" : "";
+}
+<a asp-action="@nameof(Tasks.GetTaskInfoList)"
+   asp-controller="@nameof(Tasks)"
+   asp-route-PageNumber="@(Model.TaskInfoList.PreviousPageNumber)"
+   asp-route-PageSize="@(Model.TaskInfoList.PageSize)"
+   class="btn btn-default @previousPageDisabled">
+    Previous
+</a>
+<a asp-action="@nameof(Tasks.GetTaskInfoList)"
+   asp-controller="@nameof(Tasks)"
+   asp-route-PageNumber="@(Model.TaskInfoList.NextPageNumber)"
+   asp-route-PageSize="@(Model.TaskInfoList.PageSize)"
+   class="btn btn-default @nextPageDisabled">
+    Next
+</a>
+
+
+<script>
+    window.onload = function () {
+        $(document).ready(function () {
+            $(".status-dropdown").change(function () {
+                var statusValue = $(this).val();
+                var taskId = $(this).data("id");
+
+                $.ajax({
+                    url: '@Url.Action(
+                        action: nameof(Tasks.ChangeTheTaskStatus),
+                        controller: nameof(Tasks))',
+                    type: 'POST',
+                    data: { id: taskId, status: statusValue },
+                    success: function (data) {
+                    },
+                    error: function (xhr, status, error) {
+                        if (xhr.status === 500) {
+                            window.location.href = '@Url.Action(
+                                action: nameof(Home.Error),
+                                controller: nameof(Home))';
+                        } else {
+                        }
+                    }
+                });
+            });
+        }
+    );
+    };
+
+    function filter() {
+        $("#filter-form").submit();
+    }
+</script>

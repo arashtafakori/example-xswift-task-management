@@ -89,6 +89,47 @@ namespace Persistence.EFCore.Migrations
                     b.ToTable("Sprints", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.TaskAggregation.Task", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnOrder(0);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte>("Deleted")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SprintId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Deleted");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("SprintId");
+
+                    b.ToTable("Tasks", (string)null);
+                });
+
             modelBuilder.Entity("Domain.SprintAggregation.Sprint", b =>
                 {
                     b.HasOne("Domain.ProjectAggregation.Project", "Project")
@@ -100,9 +141,33 @@ namespace Persistence.EFCore.Migrations
                     b.Navigation("Project");
                 });
 
+            modelBuilder.Entity("Domain.TaskAggregation.Task", b =>
+                {
+                    b.HasOne("Domain.ProjectAggregation.Project", "Project")
+                        .WithMany("Tasks")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.SprintAggregation.Sprint", "Sprint")
+                        .WithMany("Tasks")
+                        .HasForeignKey("SprintId");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("Sprint");
+                });
+
             modelBuilder.Entity("Domain.ProjectAggregation.Project", b =>
                 {
                     b.Navigation("Sprints");
+
+                    b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("Domain.SprintAggregation.Sprint", b =>
+                {
+                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

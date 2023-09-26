@@ -1,4 +1,5 @@
-﻿@model MVCWebApp.Model.ViewModelAsChangeTheProjectName
+﻿@using Presentation.WebMVCApp.Controllers;
+@model Presentation.WebMVCApp.ViewModels.ChangeTheProjectNameViewModel
 
 @{
     ViewData["Title"] = "Change The Project Name";
@@ -9,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="ChangeTheProjectName">
+        <form asp-action="@nameof(Projects.ChangeTheProjectName)">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -20,13 +21,12 @@
             <p></p>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                @Html.ActionLink("Cancel", 
+                nameof(Projects.GetProjectInfoList), 
+                null, null, new { @class="btn btn-light"})
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="GetSomeProjectInfo">Back to List</a>
 </div>
 
 @section Scripts {

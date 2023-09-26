@@ -2,6 +2,7 @@
 using CoreX.Datastore;
 using Contract;
 using Domain.ProjectAggregation;
+using CoreX.Domain;
 
 namespace Application
 {
@@ -17,7 +18,7 @@ namespace Application
             _mediator = mediator;
             _transaction = transaction;
         }
-        public async Task<Guid> Process(DefineANewProject request)
+        public async Task<Guid> Process(DefineAProject request)
         {
             var id = await _mediator.Send(request);
             await _transaction.SaveChangesAsync();
@@ -33,7 +34,10 @@ namespace Application
             await _mediator.Send(request);
             await _transaction.SaveChangesAsync(concurrencyCheck: true);
         }
-
+        public async Task Process(CheckTheProjectForArchiving request)
+        {
+            await _mediator.Send(request);
+        }
         public async Task Process(RestoreTheProject request)
         {
             await _mediator.Send(request);
@@ -49,7 +53,7 @@ namespace Application
             return await _mediator.Send(request);
         }
 
-        public async Task<List<ProjectInfo>> Process(GetSomeProjectInfo request)
+        public async Task<PaginatedViewModel<ProjectInfo>> Process(GetProjectInfoList request)
         {
             return await _mediator.Send(request);
         }

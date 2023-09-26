@@ -25,7 +25,7 @@ namespace ProjectFeature
         }
         internal async Task AndGivenAProjectWithThisNameHasAlreadyBeenExisted(string projectName)
         {
-            await _service.Process(new DefineANewProject(projectName));
+            await _service.Process(new DefineAProject(projectName));
         }
         internal void WhenIRequestIt()
         {
@@ -33,7 +33,7 @@ namespace ProjectFeature
         }
         internal async Task ThenTheRequestSholudBeDenied()
         {
-            await _actual.Should().BeSatisfiedWith<AnEntityWithThisSpecificationHasAlreadyBeenExisted>();
+            await _actual.Should().BeSatisfiedWith<AnEntityWithTheseConditionsOfExistenceHasAlreadyBeenExisted>();
         }
     }
 }

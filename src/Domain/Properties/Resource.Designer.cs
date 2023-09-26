@@ -63,10 +63,91 @@ namespace Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string Invariant_TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths {
+        internal static string ConditionOfBeingUniqueOfProject {
             get {
-                return ResourceManager.GetString("Invariant_TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths" +
-                        "", resourceCulture);
+                return ResourceManager.GetString("ConditionOfBeingUniqueOfProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ConditionOfBeingUniqueOfSprint {
+            get {
+                return ResourceManager.GetString("ConditionOfBeingUniqueOfSprint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Invariant_Issue_SomeTasksHaveBeenDefinedForThisProject {
+            get {
+                return ResourceManager.GetString("Invariant_Issue_SomeTasksHaveBeenDefinedForThisProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Invariant_Issue_SomeTasksHaveBeenDefinedForThisSprint {
+            get {
+                return ResourceManager.GetString("Invariant_Issue_SomeTasksHaveBeenDefinedForThisSprint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Invariant_Issue_TheProjectHasSomeSprints {
+            get {
+                return ResourceManager.GetString("Invariant_Issue_TheProjectHasSomeSprints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Invariant_Issue_TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths {
+            get {
+                return ResourceManager.GetString("Invariant_Issue_TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelve" +
+                        "Months", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string TaskStatus_Blocked {
+            get {
+                return ResourceManager.GetString("TaskStatus.Blocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string TaskStatus_Completed {
+            get {
+                return ResourceManager.GetString("TaskStatus.Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string TaskStatus_InProgress {
+            get {
+                return ResourceManager.GetString("TaskStatus.InProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string TaskStatus_NotStarted {
+            get {
+                return ResourceManager.GetString("TaskStatus.NotStarted", resourceCulture);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿@model Domain.ProjectAggregation.ProjectInfo
+﻿@using Presentation.WebMVCApp.Controllers;
+@model Presentation.WebMVCApp.ViewModels.ArchiveTheProjectViewModel;
 
 @{
     ViewData["Title"] = "Archive The Project";
@@ -8,32 +9,44 @@
 
 <hr />
 <div>
-    <form asp-action="ArchiveConfirmed">
+    <form asp-action="@nameof(Projects.ArchiveConfirmed)">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ProjectInfo!.Id" />
         <dl class="row">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.ProjectInfo!.Name)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.ModifiedDate)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.ModifiedDate)
+                @Html.DisplayFor(model => model.ProjectInfo!.Name)
             </dd>
         </dl>
         <p></p>
+        @{
+            if (Model.Issues != null)
+            {
+                <table class="table">
+                    <tbody>
+                        @foreach (var item in Model.Issues)
+                        {
+                            <tr>
+                                <td style="color: lightcoral;">
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
+        <h6>Are you sure you want to archive the project?</h6>
+        <p></p>
         <div class="form-group">
             <input type="submit" value="Confirm" class="btn btn-primary" />
+            @Html.ActionLink("Cancel", 
+            nameof(Projects.GetProjectInfoList),
+            null, null, new { @class="btn btn-light"})
         </div>
     </form>
-</div>
-
-<div>
-    <a asp-action="GetSomeProjectInfo">Back to List</a>
 </div>
 
 @section Scripts {

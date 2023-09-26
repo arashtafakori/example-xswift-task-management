@@ -2,6 +2,7 @@
 using CoreX.Datastore;
 using Contract;
 using Domain.SprintAggregation;
+using CoreX.Domain;
 
 namespace Application
 {
@@ -17,7 +18,7 @@ namespace Application
             _mediator = mediator;
             _transaction = transaction;
         }
-        public async Task<Guid> Process(DefineANewSprint request)
+        public async Task<Guid> Process(DefineASprint request)
         {
             var id = await _mediator.Send(request);
             await _transaction.SaveChangesAsync();
@@ -38,6 +39,11 @@ namespace Application
             await _mediator.Send(request);
             await _transaction.SaveChangesAsync(concurrencyCheck: true);
         }
+        public async Task Process(CheckTheSprintForArchiving request)
+        {
+            await _mediator.Send(request);
+            await _transaction.SaveChangesAsync(concurrencyCheck: true);
+        }
 
         public async Task Process(RestoreTheSprint request)
         {
@@ -49,7 +55,7 @@ namespace Application
             return await _mediator.Send(request);
         }
 
-        public async Task<List<SprintInfo>> Process(GetSomeSprintInfo request)
+        public async Task<PaginatedViewModel<SprintInfo>> Process(GetSprintInfoList request)
         {
             return await _mediator.Send(request);
         }

@@ -1,4 +1,8 @@
-﻿namespace MVCWebApp
+﻿using CoreX.Mvc;
+using Domain.SprintAggregation;
+using Presentation.WebMVCApp.Controllers;
+
+namespace Presentation.WebMVCApp
 {
     public static class ApplicationBuilderExtensions
     {
@@ -6,10 +10,10 @@
         {
             app.UseEndpoints(endpoints =>
             {
-            endpoints.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}",
-                defaults: new { controller = "Home", action = "Index" });
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: $"{nameof(Home)}/{nameof(Home.Index)}",
+                    defaults: new { controller = nameof(Home), action = nameof(Home.Index) });
 
                 endpoints.MapDefaultControllerRoute();
             });

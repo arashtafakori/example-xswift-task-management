@@ -117,7 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Invariant_TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths" xml:space="preserve">
+  <data name="ConditionOfBeingUniqueOfProject" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ConditionOfBeingUniqueOfSprint" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Invariant_Issue_SomeTasksHaveBeenDefinedForThisProject" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Invariant_Issue_SomeTasksHaveBeenDefinedForThisSprint" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Invariant_Issue_TheProjectHasSomeSprints" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Invariant_Issue_TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TaskStatus.Blocked" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TaskStatus.Completed" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TaskStatus.InProgress" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TaskStatus.NotStarted" xml:space="preserve">
     <value />
   </data>
 </root>

@@ -14,7 +14,7 @@ namespace Domain.ProjectAggregation
             IMediator mediator)
         {
             var entity = await mediator.Send(
-                new RetriveTheProject(Id, evenArchivedData: true));
+                new GetTheProject(Id, evenArchivedData: true));
             await base.ResolveAsync(mediator, entity!);
             return entity!;
         }

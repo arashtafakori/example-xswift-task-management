@@ -1,8 +1,7 @@
 ﻿using CoreX.Domain;
+using Domain.Properties;
 using Domain.SprintAggregation;
 using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
-using static MassTransit.MessageHeaders;
 
 namespace Domain.ProjectAggregation
 {
@@ -15,18 +14,22 @@ namespace Domain.ProjectAggregation
         public string Name { get; private set; } = string.Empty;
 
         public ICollection<Sprint> Sprints { get; }
+        public ICollection<TaskAggregation.Task> Tasks { get; }
 
-        public override Expression<Func<Project, bool>>? UniqueSpecification()
+        public Project()
         {
-            return x => x.Name == Name;
+            SetConditionOfBeingUnique(
+                condition: x => x.Name == Name ,
+                description: Resource.ConditionOfBeingUniqueOfProject);
         }
+
         public static Project New()
         {
             return new Project();
         }
-        public Project SetName(string name)
+        public Project SetName(string value)
         {
-            Name = name;
+            Name = value;
 
             return this;
         }

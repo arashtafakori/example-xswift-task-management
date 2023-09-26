@@ -1,5 +1,7 @@
 using Presentation.Configuration;
-using MVCWebApp;
+using Presentation.WebMVCApp;
+using CoreX.Mvc;
+using Presentation.WebMVCApp.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureAndAddServices(builder.Configuration);
@@ -11,7 +13,7 @@ builder.Services.AddControllersWithViews();
 var app = builder.Build();
 Application.DataSeeder.SeedData(app);
 
-app.UseExceptionHandler("/Home/Error");
+app.UseExceptionHandler("/" + nameof(Home) + "/" + nameof(Home.Error));
 app.UseHsts();
 
 app.UseHttpsRedirection();

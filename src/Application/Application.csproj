@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\corex\corex-datastore\CoreX.Datastore.csproj" />
+    <ProjectReference Include="..\..\..\..\..\corex\corex-domain\CoreX.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\..\corex\entityframeworkcore-corex-datastore\EntityFrameworkCore.CoreX.Datastore.csproj" />
     <ProjectReference Include="..\Contract\Contract.csproj" />
     <ProjectReference Include="..\Persistence\EFCore\Persistence.EFCore.csproj" />

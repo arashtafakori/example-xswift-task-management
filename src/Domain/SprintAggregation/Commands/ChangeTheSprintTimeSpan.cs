@@ -22,7 +22,7 @@ namespace Domain.SprintAggregation
             StartDate = startDate;
             EndDate = endDate;
 
-            ValidationState.Add(
+            ValidationState.AddAnValidation(
                 new PreventIfStartDateIsLaterThanEndDate<Sprint>
                 (StartDate, EndDate));
 
@@ -32,18 +32,14 @@ namespace Domain.SprintAggregation
         public override async Task<Sprint> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var invariantState = new InvariantState();
-
             var lastYear = DateTimeHelper.UtcNow.AddYears(-1);
-            if (StartDate < lastYear || EndDate < lastYear)
-                invariantState.AddIssue(
-                    new TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths());
+            InvariantState.DefineAnInvariant(
+                condition: () => { return StartDate < lastYear || EndDate < lastYear; },
+                issue: new TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths());
 
-            await invariantState.CheckAsync(mediator);
+            await InvariantState.CheckAsync(mediator);
 
-            //
-
-            var entity = await mediator.Send(new RetriveTheSprint(Id));
+            var entity = await mediator.Send(new GetTheSprint(Id));
             entity!.SetStartDate(StartDate).SetEndDate(EndDate);
             await base.ResolveAsync(mediator, entity!);
             return entity!;

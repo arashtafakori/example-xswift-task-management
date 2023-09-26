@@ -1,9 +1,9 @@
 ﻿@using Domain.ProjectAggregation;
-@model MVCWebApp.Model.ViewModelAsChangeTheSprintName
+@using Presentation.WebMVCApp.Controllers;
+@model Presentation.WebMVCApp.ViewModels.ChangeTheSprintNameViewModel
 
 @{
     ViewData["Title"] = "Change The Sprint Name";
-    var projectInfo = ViewData[nameof(ProjectInfo)] as ProjectInfo;
 }
 
 <h3>@ViewData["Title"]</h3>
@@ -11,10 +11,10 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="ChangeTheSprintName">
+        <form asp-action="@nameof(Sprints.ChangeTheSprintName)">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <input type="hidden" name="projectId" asp-for="@projectInfo!.Id" />
+            <input type="hidden" name="projectId" asp-for="SprintInfo!.ProjectId" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -23,13 +23,13 @@
             <p></p>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                @Html.ActionLink("Cancel",
+                nameof(Sprints.GetSprintInfoList),
+                null, routeValues: new {projectId = @Model.SprintInfo!.ProjectId},
+                new { @class="btn btn-light"})
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="GetSomeSprintInfo" asp-route-projectId="@projectInfo!.Id">Back to List</a>
 </div>
 
 @section Scripts {

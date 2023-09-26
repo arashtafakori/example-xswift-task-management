@@ -1,11 +1,10 @@
 ﻿@using Domain.SprintAggregation;
 @using Domain.ProjectAggregation;
-@model MVCWebApp.Model.ViewModelAsChangeTheSprintTimeSpan
+@using Presentation.WebMVCApp.Controllers;
+@model Presentation.WebMVCApp.ViewModels.ChangeTheSprintTimeSpanViewModel
 
 @{
-    ViewData["Title"] = "Change The Sprint Time Span";
-    var sprintInfo = ViewData[nameof(SprintInfo)] as SprintInfo;
-    var projectInfo = ViewData[nameof(ProjectInfo)] as ProjectInfo;
+    ViewData["Title"] = "Change The Sprint Time Span"; 
 }
 
 <h4>@ViewData["Title"]</h4>
@@ -14,17 +13,17 @@
 <div class="row">
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => sprintInfo!.Name)
+            @Html.DisplayNameFor(model => model.SprintInfo!.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => sprintInfo!.Name)
+            @Html.DisplayFor(model => model.SprintInfo!.Name)
         </dd>
     </dl>
     <div class="col-md-4">
-        <form asp-action="ChangeTheSprintTimeSpan">
+        <form asp-action="@nameof(Sprints.ChangeTheSprintTimeSpan)">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <input type="hidden" name="projectId" asp-for="@projectInfo!.Id" />
+            <input type="hidden" name="projectId" asp-for="@Model.SprintInfo!.ProjectId" />
 
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
@@ -42,13 +41,13 @@
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                @Html.ActionLink("Cancel",
+                nameof(Sprints.GetSprintInfoList),
+                null, routeValues: new {projectId = @Model.SprintInfo!.ProjectId},
+                new { @class="btn btn-light"})
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="GetSomeSprintInfo" asp-route-projectId="@projectInfo!.Id">Back to List</a>
 </div>
 
 @section Scripts {

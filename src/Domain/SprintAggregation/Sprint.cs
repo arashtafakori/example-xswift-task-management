@@ -1,7 +1,7 @@
 ﻿using CoreX.Domain;
 using Domain.ProjectAggregation;
+using Domain.Properties;
 using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
 
 namespace Domain.SprintAggregation
 {
@@ -21,36 +21,40 @@ namespace Domain.SprintAggregation
         public Guid ProjectId { get; private set; }
         public Project Project { get; private set; }
 
-        public override Expression<Func<Sprint, bool>>? UniqueSpecification()
+        public ICollection<TaskAggregation.Task> Tasks { get; }
+        public Sprint()
         {
-            return x => x.ProjectId == ProjectId && x.Name == Name;
+            SetConditionOfBeingUnique(
+               condition: x => x.ProjectId == ProjectId && x.Name == Name,
+               description: Resource.ConditionOfBeingUniqueOfSprint);
         }
+
         public static Sprint New()
         {
             return new Sprint();
         }
-        public Sprint SetProjectId(Guid projectId)
+        public Sprint SetProjectId(Guid value)
         {
-            ProjectId = projectId;
+            ProjectId = value;
 
             return this;
         }
-        public Sprint SetName(string name)
+        public Sprint SetName(string value)
         {
-            Name = name;
+            Name = value;
 
             return this;
         }
 
-        public Sprint SetStartDate(DateTime date)
+        public Sprint SetStartDate(DateTime value)
         {
-            StartDate = date;
+            StartDate = value;
 
             return this;
         }
-        public Sprint SetEndDate(DateTime date)
+        public Sprint SetEndDate(DateTime value)
         {
-            EndDate = date;
+            EndDate = value;
 
             return this;
         }

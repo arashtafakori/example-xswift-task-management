@@ -1,6 +1,7 @@
 ﻿using CoreX.Domain;
 using MediatR;
 
+
 namespace Domain.ProjectAggregation
 {
     public class ArchiveTheProject :
@@ -13,9 +14,10 @@ namespace Domain.ProjectAggregation
         public override async Task<Project> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var entity = await mediator.Send(
-                new RetriveTheProject(Id, evenArchivedData: true));
+            new PreventIfDeletingTheProjectIsNotPossible(id: Id);
 
+            var entity = await mediator.Send(
+                new GetTheProject(Id, evenArchivedData: true));
             await base.ResolveAsync(mediator, entity!);
             return entity!;
         }

@@ -14,7 +14,7 @@ namespace Domain.SprintAggregation
             IMediator mediator)
         {
             var entity = await mediator.Send(
-                new RetriveTheSprint(Id, evenArchivedData: true));
+                new GetTheSprint(Id, evenArchivedData: true));
             await base.ResolveAsync(mediator, entity!);
             return entity!;
         }

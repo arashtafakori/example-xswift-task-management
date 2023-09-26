@@ -9,8 +9,7 @@ using Contract;
 using MediatR;
 using Persistence.EFCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using EntityFrameworkCore.CoreX.Datastore;
-using System;
+
 
 namespace Application
 {
@@ -24,12 +23,14 @@ namespace Application
 
             // MediatR Registrations
             services.AddMediatR(typeof(ProjectService));
-            services.AddMediatR(typeof(Persistence.EFCore.ProjectRepository.DefineANewProjectHandler));
-            services.AddMediatR(typeof(Domain.ProjectAggregation.DefineANewProject));
+            services.AddMediatR(typeof(Persistence.EFCore.ProjectRepository.DefineAProjectHandler));
+            services.AddMediatR(typeof(Domain.ProjectAggregation.DefineAProject));
 
             // Application Services
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ISprintService, SprintService>();
+            services.AddScoped<ITaskService, TaskService>();
+
             // Domain Services
 
             // Infrastructure Services

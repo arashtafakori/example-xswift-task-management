@@ -6,11 +6,13 @@ namespace Domain.SprintAggregation
 {
     public class TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths : InvariantIssue
     {
-        public TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths()
+        public TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths(
+            string description = "")
         {
-            Name = GetType().FullName!;
-            Description = string.Format(CultureInfo.CurrentCulture,
-                Resource.Invariant_TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths);
+            Provide<TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths>(
+                outerDescription: description,
+                innerDescription: string.Format(CultureInfo.CurrentCulture,
+                Resource.Invariant_Issue_TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths));
         }
     }
 }

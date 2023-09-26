@@ -13,8 +13,10 @@ namespace Domain.ProjectAggregation
 
         public override async Task<Project> ResolveAndGetEntityAsync(IMediator mediator)
         {
+            await mediator.Send(new PreventIfDeletingTheProjectIsNotPossible(Id));
+
             var entity = await mediator.Send(
-                new RetriveTheProject(Id, evenArchivedData: true));
+                new GetTheProject(Id, evenArchivedData: true));
             await base.ResolveAsync(mediator, entity!);
             return entity!;
         }

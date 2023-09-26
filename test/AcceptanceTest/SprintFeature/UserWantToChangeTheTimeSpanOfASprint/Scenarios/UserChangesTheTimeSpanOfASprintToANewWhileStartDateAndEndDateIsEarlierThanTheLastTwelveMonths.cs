@@ -3,9 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 using Contract;
-using Domain.ProjectAggregation;
 using Domain.SprintAggregation;
-using CoreX.Domain;
 using CoreX.TestingFacilities;
 
 namespace SprintFeature
