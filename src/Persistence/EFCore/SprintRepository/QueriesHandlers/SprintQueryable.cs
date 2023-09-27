@@ -1,4 +1,4 @@
-﻿using CoreX.Datastore;
+﻿using XSwift.Datastore;
 using Domain.SprintAggregation;
 
 namespace Persistence.EFCore.SprintRepository

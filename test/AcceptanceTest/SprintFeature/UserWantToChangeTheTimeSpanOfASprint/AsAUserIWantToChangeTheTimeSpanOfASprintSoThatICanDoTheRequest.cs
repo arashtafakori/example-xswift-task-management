@@ -1,13 +1,10 @@
 ﻿using AcceptanceTest;
-using Contract;
-using CoreX.Base;
-using Domain.ProjectAggregation;
-using Domain.SprintAggregation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TestStack.BDDfy;
+using XSwift.Base;
 using Xunit;
 
 namespace SprintFeature

@@ -1,14 +1,13 @@
 ﻿using Contract;
-using CoreX.Domain;
+using XSwift.Domain;
 using Domain.ProjectAggregation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.WebMVCApp.ViewModels;
-using CoreX.Mvc;
-using CoreX.Base;
+using XSwift.Mvc;
 
 namespace Presentation.WebMVCApp.Controllers
 {
-    public class Projects : XMvcController
+    public class Projects : MvcControllerX
     {
         private readonly IProjectService _projectService;
         public Projects(

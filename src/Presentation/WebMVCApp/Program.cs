@@ -1,6 +1,6 @@
 using Presentation.Configuration;
 using Presentation.WebMVCApp;
-using CoreX.Mvc;
+using XSwift.Mvc;
 using Presentation.WebMVCApp.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);

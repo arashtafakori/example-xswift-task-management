@@ -1,15 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MassTransit;
-using CoreX.Settings;
+using XSwift.Settings;
 using SoftDeleteServices.Configuration;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using CoreX.Datastore;
+using XSwift.Datastore;
 using Contract;
 using MediatR;
 using Persistence.EFCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-
 
 namespace Application
 {

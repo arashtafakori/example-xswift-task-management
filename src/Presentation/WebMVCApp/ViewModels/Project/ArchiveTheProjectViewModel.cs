@@ -1,4 +1,4 @@
-﻿using CoreX.Base;
+﻿using XSwift.Base;
 using Domain.ProjectAggregation;
 
 namespace Presentation.WebMVCApp.ViewModels
