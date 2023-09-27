@@ -1,9 +1,9 @@
-﻿using CoreX.Settings;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.EFCore;
 using Presentation.Configuration;
 using System;
+using XSwift.Settings;
 
 namespace AcceptanceTest
 {

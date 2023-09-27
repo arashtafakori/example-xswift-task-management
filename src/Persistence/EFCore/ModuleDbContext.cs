@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using EntityFrameworkCore.CoreX.Datastore;
+using EntityFrameworkCore.XSwift.Datastore;
 using Domain.ProjectAggregation;
 using Persistence.EFCore.ProjectRepository;
 using Domain.SprintAggregation;
-using MassTransit.Transports;
 
 namespace Persistence.EFCore
 {

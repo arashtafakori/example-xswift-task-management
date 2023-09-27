@@ -1,16 +1,16 @@
 ﻿using Contract;
-using CoreX.Mvc;
+using XSwift.Mvc;
 using Domain.TaskAggregation;
 using Domain.ProjectAggregation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.WebMVCApp.ViewModels;
 using Domain.SprintAggregation;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using CoreX.Domain;
+using XSwift.Domain;
 
 namespace Presentation.WebMVCApp.Controllers
 {
-    public class Tasks : XMvcController
+    public class Tasks : MvcControllerX
     {
         private readonly IProjectService _projectService;
         private readonly ISprintService _sprintService;

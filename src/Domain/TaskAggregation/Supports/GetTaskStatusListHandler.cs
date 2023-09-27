@@ -1,4 +1,4 @@
-﻿using CoreX.Base;
+﻿using XSwift.Base;
 using Domain.Properties;
 using MediatR;
 

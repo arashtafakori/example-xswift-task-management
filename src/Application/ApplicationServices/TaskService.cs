@@ -1,8 +1,8 @@
 ﻿using MediatR;
-using CoreX.Datastore;
+using XSwift.Datastore;
 using Contract;
 using Domain.TaskAggregation;
-using CoreX.Domain;
+using XSwift.Domain;
 
 namespace Application
 {

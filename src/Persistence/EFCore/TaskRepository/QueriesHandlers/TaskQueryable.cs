@@ -1,4 +1,4 @@
-﻿using CoreX.Datastore;
+﻿using XSwift.Datastore;
 using Domain.TaskAggregation;
 
 namespace Persistence.EFCore.TaskRepository

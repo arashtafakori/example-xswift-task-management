@@ -1,6 +1,6 @@
-﻿using CoreX.Datastore;
-using CoreX.Domain;
-using EntityFrameworkCore.CoreX.Datastore;
+﻿using XSwift.Datastore;
+using XSwift.Domain;
+using EntityFrameworkCore.XSwift.Datastore;
 using SoftDeleteServices.Configuration;
 
 namespace Persistence.EFCore

@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Contract;
 using Domain.ProjectAggregation;
-using CoreX.Mvc;
-using CoreX.Domain;
+using XSwift.Mvc;
+using XSwift.Domain;
 
 namespace Presentation.WebAPI
 {
     [ApiController]
     [Route("v1/[controller]")]
-    public class Projects : XApiController
+    public class Projects : ApiControllerX
     {
         private readonly IProjectService _projectService;
         private readonly ISprintService _sprintService;

@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using CoreX.Datastore;
-using EntityFrameworkCore.CoreX.Datastore;
+using XSwift.Datastore;
+using EntityFrameworkCore.XSwift.Datastore;
 using Domain.SprintAggregation;
 
 namespace Persistence.EFCore.SprintAggregation

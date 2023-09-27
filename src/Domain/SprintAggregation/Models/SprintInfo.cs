@@ -1,4 +1,4 @@
-﻿using CoreX.Domain;
+﻿using XSwift.Domain;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.SprintAggregation

@@ -1,5 +1,5 @@
-﻿using CoreX.Base;
-using CoreX.Domain;
+﻿using XSwift.Base;
+using XSwift.Domain;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
 
