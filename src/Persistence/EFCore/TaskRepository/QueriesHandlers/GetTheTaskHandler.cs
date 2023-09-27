@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using XSwift.Datastore;
+using CoreX.Datastore;
 using Domain.TaskAggregation;
-using EntityFrameworkCore.XSwift.Datastore;
+using EntityFrameworkCore.CoreX.Datastore;
 
 namespace Persistence.EFCore.TaskRepository
 {

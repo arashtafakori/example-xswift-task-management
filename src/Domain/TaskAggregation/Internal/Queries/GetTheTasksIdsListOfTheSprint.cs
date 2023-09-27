@@ -1,4 +1,4 @@
-﻿using XSwift.Domain;
+﻿using CoreX.Domain;
 using MediatR;
 using System.Linq.Expressions;
 

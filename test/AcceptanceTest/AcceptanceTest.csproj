@@ -20,13 +20,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CoreX" Version="1.2.2.4" />
+    <PackageReference Include="CoreX.TestingFacilities" Version="1.2.2.1" />
     <PackageReference Include="FluentAssertions" Version="6.5.1" />
-    <PackageReference Include="FluentAssertions.Xswift" Version="1.3.0.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="TestStack.BDDfy" Version="4.3.2" />
-    <PackageReference Include="XSwift" Version="1.3.0.7" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\corex\corex-domain\CoreX.Domain.csproj" />
     <ProjectReference Include="..\..\src\Application\Application.csproj" />
     <ProjectReference Include="..\..\src\Presentation\Configuration\Presentation.Configuration.csproj" />
   </ItemGroup>

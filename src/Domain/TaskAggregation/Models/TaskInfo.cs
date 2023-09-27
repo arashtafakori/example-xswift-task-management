@@ -1,5 +1,5 @@
-﻿using XSwift.Base;
-using XSwift.Domain;
+﻿using CoreX.Base;
+using CoreX.Domain;
 using Domain.Properties;
 using System.ComponentModel.DataAnnotations;
 

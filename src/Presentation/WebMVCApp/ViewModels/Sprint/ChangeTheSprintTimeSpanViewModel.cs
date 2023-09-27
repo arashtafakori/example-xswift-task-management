@@ -1,4 +1,4 @@
-﻿using XSwift.Base;
+﻿using CoreX.Base;
 using Domain.SprintAggregation;
 using System.ComponentModel.DataAnnotations;
 

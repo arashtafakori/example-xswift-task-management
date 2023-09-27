@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Contract;
 using Domain.SprintAggregation;
-using FluentAssertions.XSwift;
+using CoreX.TestingFacilities;
 
 namespace SprintFeature
 {

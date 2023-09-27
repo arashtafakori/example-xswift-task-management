@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using XSwift.Mvc;
-using XSwift.Base;
+using CoreX.Mvc;
+using CoreX.Base;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Diagnostics;
 
 namespace Presentation.WebMVCApp.Controllers
 {
-    public class Home : MvcControllerX
+    public class Home : XMvcController
     {
         private readonly ILogger<Home> _logger;
 

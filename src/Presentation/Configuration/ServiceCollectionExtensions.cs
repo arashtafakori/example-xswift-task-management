@@ -1,6 +1,6 @@
-﻿using XSwift.MassTransit;
+﻿using MassTransit.CoreX;
 using MassTransit;
-using XSwift.Settings;
+using CoreX.Settings;
 using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;

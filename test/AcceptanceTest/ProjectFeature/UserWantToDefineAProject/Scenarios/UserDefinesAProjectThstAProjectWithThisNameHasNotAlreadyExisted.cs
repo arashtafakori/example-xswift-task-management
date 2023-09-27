@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using FluentAssertions.XSwift;
+using CoreX.TestingFacilities;
 using Contract;
 using Domain.ProjectAggregation;
-using XSwift.Domain;
+using CoreX.Domain;
 
 namespace ProjectFeature
 {

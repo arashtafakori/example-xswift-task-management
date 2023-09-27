@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Contract;
 using Domain.TaskAggregation;
-using XSwift.Mvc;
-using XSwift.Domain;
+using CoreX.Mvc;
+using CoreX.Domain;
 
 namespace Presentation.WebAPI
 {
     [ApiController]
     [Route("v1/[controller]")]
-    public class Tasks : ApiControllerX
+    public class Tasks : XApiController
     {
         private readonly ITaskService _service;
 

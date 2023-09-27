@@ -2,9 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using FluentAssertions.XSwift;
+using CoreX.TestingFacilities;
 using Contract;
-using XSwift.Domain;
+using CoreX.Domain;
 using Domain.SprintAggregation;
 
 namespace SprintFeature

@@ -1,4 +1,4 @@
-﻿using EntityFrameworkCore.XSwift.Datastore;
+﻿using EntityFrameworkCore.CoreX.Datastore;
 
 namespace Persistence.EFCore
 {

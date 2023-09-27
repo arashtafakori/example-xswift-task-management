@@ -1,6 +1,6 @@
 ﻿using Contract;
-using XSwift.Domain;
-using XSwift.Mvc;
+using CoreX.Domain;
+using CoreX.Mvc;
 using Domain.ProjectAggregation;
 using Domain.SprintAggregation;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ using Presentation.WebMVCApp.ViewModels;
 
 namespace Presentation.WebMVCApp.Controllers
 {
-    public class Sprints : MvcControllerX
+    public class Sprints : XMvcController
     {
         private readonly IProjectService _projectService;
         private readonly ISprintService _sprintService;

@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Contract;
 using Domain.SprintAggregation;
-using XSwift.Mvc;
-using XSwift.Domain;
+using CoreX.Mvc;
+using CoreX.Domain;
 
 namespace Presentation.WebAPI
 {
     [ApiController]
     [Route("v1/[controller]")]
-    public class Sprints : ApiControllerX
+    public class Sprints : XApiController
     {
         private readonly ISprintService _service;
 

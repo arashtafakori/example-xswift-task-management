@@ -1,4 +1,4 @@
-﻿using XSwift.Base;
+﻿using CoreX.Base;
 using Presentation.Configuration;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Diagnostics;
