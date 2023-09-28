@@ -21,7 +21,7 @@ namespace Domain.TaskAggregation
             SprintId = value;
             return this;
         }
-        public override Expression<Func<Task, bool>>? Condition()
+        public override Expression<Func<Task, bool>>? Identification()
         {
             return x => x.SprintId == SprintId;
         }

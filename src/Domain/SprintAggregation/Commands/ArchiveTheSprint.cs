@@ -5,7 +5,7 @@ using MediatR;
 namespace Domain.SprintAggregation
 {
     public class ArchiveTheSprint :
-        ArchivingRequestById<ArchiveTheSprint, Sprint, Guid>, IRequest
+        RequestToArchiveById<Sprint, Guid>, IRequest
     {
         public bool ArchivingAllTaskMode { get; private set; }
         public ArchiveTheSprint(

@@ -4,7 +4,7 @@ using MediatR;
 namespace Domain.ProjectAggregation
 {
     public class DefineAProject
-        : CreationRequest<DefineAProject, Project>, IRequest<Guid>
+        : RequestToCreate<Project>, IRequest<Guid>
     {
         [BindTo(typeof(Project), nameof(Project.Name))]
         public string Name { get; private set; }

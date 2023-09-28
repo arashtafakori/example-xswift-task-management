@@ -7,12 +7,11 @@ namespace Domain.ProjectAggregation
     internal class TheProjectHasSomeSprints : InvariantIssue
     {
         public TheProjectHasSomeSprints(
-            string description = "")
-        {
-            Provide<TheProjectHasSomeSprints>(
-                outerDescription: description,
+            string description = "") :
+            base(outerDescription: description,
                 innerDescription: string.Format(CultureInfo.CurrentCulture,
-                Resource.Invariant_Issue_TheProjectHasSomeSprints));
+                Resource.Invariant_Issue_TheProjectHasSomeSprints))
+        {
         }
     }
 }

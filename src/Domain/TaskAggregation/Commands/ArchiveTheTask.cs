@@ -4,7 +4,7 @@ using MediatR;
 namespace Domain.TaskAggregation
 {
     public class ArchiveTheTask :
-        ArchivingRequestById<ArchiveTheTask, Task, Guid>, IRequest
+        RequestToArchiveById<Task, Guid>, IRequest
     {
         public ArchiveTheTask(Guid id) : base(id)
         {

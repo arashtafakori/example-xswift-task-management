@@ -8,11 +8,10 @@ namespace Domain.ProjectAggregation
     {
         public SomeTasksHaveBeenDefinedForThisProject(
             string description = "")
-        {
-            Provide<SomeTasksHaveBeenDefinedForThisProject>(
-                outerDescription: description,
+            : base(outerDescription: description,
                 innerDescription: string.Format(CultureInfo.CurrentCulture,
-                Resource.Invariant_Issue_SomeTasksHaveBeenDefinedForThisProject));
+                Resource.Invariant_Issue_SomeTasksHaveBeenDefinedForThisProject))
+        {
         }
     }
 }

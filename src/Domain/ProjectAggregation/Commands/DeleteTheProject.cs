@@ -4,7 +4,7 @@ using MediatR;
 namespace Domain.ProjectAggregation
 {
     public class DeleteTheProject :
-        DeletionRequestById<DeleteTheProject, Project, Guid>, IRequest
+        RequestToDeleteById<Project, Guid>, IRequest
     {
         public DeleteTheProject(Guid id) : base(id)
         { 

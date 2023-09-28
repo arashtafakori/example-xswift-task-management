@@ -5,7 +5,7 @@ using MediatR;
 namespace Domain.ProjectAggregation
 {
     public class ArchiveTheProject :
-        ArchivingRequestById<ArchiveTheProject, Project, Guid>, IRequest
+        RequestToArchiveById<Project, Guid>, IRequest
     {
         public ArchiveTheProject(Guid id) : base(id)
         {

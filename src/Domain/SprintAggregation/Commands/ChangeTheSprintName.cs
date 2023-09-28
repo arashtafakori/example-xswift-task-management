@@ -5,7 +5,7 @@ using MediatR;
 namespace Domain.SprintAggregation
 {
     public class ChangeTheSprintName :
-        UpdationRequestById<ChangeTheSprintName, Sprint, Guid>, IRequest
+        RequestToUpdateById<Sprint, Guid>, IRequest
     {
         [BindTo(typeof(Sprint), nameof(Sprint.Name))]
         public string Name { get; private set; }

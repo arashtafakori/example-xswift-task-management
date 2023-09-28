@@ -63,18 +63,18 @@ namespace Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string ConditionOfBeingUniqueOfProject {
+        internal static string UniquenessOfTheProject {
             get {
-                return ResourceManager.GetString("ConditionOfBeingUniqueOfProject", resourceCulture);
+                return ResourceManager.GetString("UniquenessOfTheProject", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string ConditionOfBeingUniqueOfSprint {
+        internal static string UniquenessOfTheSprint {
             get {
-                return ResourceManager.GetString("ConditionOfBeingUniqueOfSprint", resourceCulture);
+                return ResourceManager.GetString("UniquenessOfTheSprint", resourceCulture);
             }
         }
         

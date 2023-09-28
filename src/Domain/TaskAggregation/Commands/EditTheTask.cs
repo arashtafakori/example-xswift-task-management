@@ -4,7 +4,7 @@ using MediatR;
 namespace Domain.TaskAggregation
 {
     public class EditTheTask :
-        UpdationRequestById<EditTheTask, Task, Guid>, IRequest
+        RequestToUpdateById<Task, Guid>, IRequest
     {
         [BindTo(typeof(Task), nameof(Task.Description))]
         public string Description { get; private set; }

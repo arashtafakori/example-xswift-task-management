@@ -4,7 +4,7 @@ using MediatR;
 namespace Domain.TaskAggregation
 {
     public class RestoreTheTask :
-        RestorationRequestById<RestoreTheTask, Task, Guid>, IRequest
+        RequestToRestoreById<Task, Guid>, IRequest
     {
         public RestoreTheTask(Guid id) : base(id)
         {

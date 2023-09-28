@@ -4,7 +4,7 @@ using MediatR;
 namespace Domain.ProjectAggregation
 {
     public class RestoreTheProject :
-        RestorationRequestById<RestoreTheProject, Project, Guid>, IRequest
+        RequestToRestoreById<Project, Guid>, IRequest
     {
         public RestoreTheProject(Guid id) : base(id)
         {

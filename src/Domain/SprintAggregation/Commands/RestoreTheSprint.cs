@@ -4,7 +4,7 @@ using MediatR;
 namespace Domain.SprintAggregation
 {
     public class RestoreTheSprint :
-        RestorationRequestById<RestoreTheSprint, Sprint, Guid>, IRequest
+        RequestToRestoreById<Sprint, Guid>, IRequest
     {
         public RestoreTheSprint(Guid id) : base(id)
         {

@@ -5,7 +5,7 @@ using MediatR;
 namespace Domain.ProjectAggregation
 {
     public class ChangeTheProjectName :
-        UpdationRequestById<ChangeTheProjectName, Project, Guid>, IRequest
+        RequestToUpdateById<Project, Guid>, IRequest
     {
         [BindTo(typeof(Project), nameof(Project.Name))]
         public string Name { get; private set; }

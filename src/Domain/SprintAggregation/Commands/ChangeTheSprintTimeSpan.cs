@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Domain.SprintAggregation
 {
     public class ChangeTheSprintTimeSpan :
-        UpdationRequestById<ChangeTheSprintName, Sprint, Guid>, IRequest
+        RequestToUpdateById<Sprint, Guid>, IRequest
     {
         [BindTo(typeof(Sprint), nameof(Sprint.StartDate))]
         [Required]

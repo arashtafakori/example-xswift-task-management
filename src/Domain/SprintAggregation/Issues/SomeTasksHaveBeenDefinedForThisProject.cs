@@ -8,12 +8,11 @@ namespace Domain.SprintAggregation
     internal class SomeTasksHaveBeenDefinedForThisSprint : InvariantIssue
     {
         public SomeTasksHaveBeenDefinedForThisSprint(
-           string description = "")
-        {
-            Provide<SomeTasksHaveBeenDefinedForThisProject>(
-                outerDescription: description,
+           string description = "") :
+            base(outerDescription: description,
                 innerDescription: string.Format(CultureInfo.CurrentCulture,
-                Resource.Invariant_Issue_SomeTasksHaveBeenDefinedForThisSprint));
+                Resource.Invariant_Issue_SomeTasksHaveBeenDefinedForThisSprint))
+        {
         }
     }
 }

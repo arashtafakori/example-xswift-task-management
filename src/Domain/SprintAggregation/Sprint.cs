@@ -22,13 +22,14 @@ namespace Domain.SprintAggregation
         public Project Project { get; private set; }
 
         public ICollection<TaskAggregation.Task> Tasks { get; }
-        public Sprint()
+        public override ConditionProperty<Sprint>? Uniqueness()
         {
-            SetConditionOfBeingUnique(
-               condition: x => x.ProjectId == ProjectId && x.Name == Name,
-               description: Resource.ConditionOfBeingUniqueOfSprint);
+            return new ConditionProperty<Sprint>()
+            {
+                Condition = x => x.ProjectId == ProjectId && x.Name == Name,
+                Description = Resource.UniquenessOfTheSprint
+            };
         }
-
         public static Sprint New()
         {
             return new Sprint();

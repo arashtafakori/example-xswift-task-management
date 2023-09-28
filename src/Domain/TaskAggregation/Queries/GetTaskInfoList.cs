@@ -24,7 +24,7 @@ namespace Domain.TaskAggregation
             ProjectId = value;
             return this;
         }
-        public override Expression<Func<Task, bool>>? Condition()
+        public override Expression<Func<Task, bool>>? Identification()
         {
             return x => x.ProjectId == ProjectId;
         }

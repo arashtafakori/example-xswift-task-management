@@ -19,7 +19,7 @@ namespace Domain.SprintAggregation
             ProjectId = value;
             return this;
         }
-        public override Expression<Func<Sprint, bool>>? Condition()
+        public override Expression<Func<Sprint, bool>>? Identification()
         {
             return x => x.ProjectId == ProjectId;
         }

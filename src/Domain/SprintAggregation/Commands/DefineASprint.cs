@@ -4,7 +4,7 @@ using MediatR;
 namespace Domain.SprintAggregation
 {
     public class DefineASprint
-        : CreationRequest<DefineASprint, Sprint>, IRequest<Guid>
+        : RequestToCreate<Sprint>, IRequest<Guid>
     {
         public Guid ProjectId { get; private set; }
 

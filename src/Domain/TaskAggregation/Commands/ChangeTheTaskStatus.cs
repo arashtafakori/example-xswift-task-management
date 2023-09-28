@@ -4,7 +4,7 @@ using MediatR;
 namespace Domain.TaskAggregation
 {
     public class ChangeTheTaskStatus :
-        UpdationRequestById<EditTheTask, Task, Guid>, IRequest
+        RequestToUpdateById<Task, Guid>, IRequest
     {
         public TaskStatus Status { get; private set; }
 

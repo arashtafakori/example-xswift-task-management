@@ -16,11 +16,13 @@ namespace Domain.ProjectAggregation
         public ICollection<Sprint> Sprints { get; }
         public ICollection<TaskAggregation.Task> Tasks { get; }
 
-        public Project()
+        public override ConditionProperty<Project>? Uniqueness()
         {
-            SetConditionOfBeingUnique(
-                condition: x => x.Name == Name ,
-                description: Resource.ConditionOfBeingUniqueOfProject);
+            return new ConditionProperty<Project>()
+            {
+                Condition = x => x.Name == Name,
+                Description = Resource.UniquenessOfTheProject
+            };
         }
 
         public static Project New()

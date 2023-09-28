@@ -4,7 +4,7 @@ using MediatR;
 namespace Domain.TaskAggregation
 {
     public class AddATask
-        : CreationRequest<AddATask, Task>, IRequest<Guid>
+        : RequestToCreate<Task>, IRequest<Guid>
     {
         public Guid ProjectId { get; private set; }
 

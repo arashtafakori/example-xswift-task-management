@@ -4,7 +4,7 @@ using MediatR;
 namespace Domain.TaskAggregation
 {
     internal class ChangeTheTaskSprint :
-        UpdationRequestById<ChangeTheTaskSprint, Task, Guid>, IRequest
+        RequestToUpdateById<Task, Guid>, IRequest
     {
         public Guid? SprintId { get; private set; }
 
