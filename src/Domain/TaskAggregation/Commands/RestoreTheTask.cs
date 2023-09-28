@@ -13,10 +13,10 @@ namespace Domain.TaskAggregation
         public override async Task<Task> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var entity = await mediator.Send(
-                new GetTheTask(Id, evenArchivedData: true));
-            await base.ResolveAsync(mediator, entity!);
-            return entity!;
+            var task = (await mediator.Send(
+                new GetTheTask(Id, evenArchivedData: true)))!;
+            await base.ResolveAsync(mediator, task);
+            return task;
         }
     }
 }

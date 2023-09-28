@@ -19,15 +19,15 @@ namespace Presentation.WebMVCApp.ViewModels
         public Domain.TaskAggregation.TaskStatus Status { get; set; }
         public List<SelectListItem>? SprintsInfoItems { get; set; }
         public List<SelectListItem>? TaskStatusSelectListItems { get; set; }
-        public static EditTheTaskViewModel ToViewModel(TaskInfo taskInfo)
+        public static EditTheTaskViewModel ToViewModel(TaskInfo info)
         {
             return new EditTheTaskViewModel()
             {
-                Id = taskInfo.Id,
-                Description = taskInfo.Description,
-                SprintId = taskInfo.SprintId,
-                Status = taskInfo.Status,
-                TaskInfo = taskInfo
+                Id = info.Id,
+                Description = info.Description,
+                SprintId = info.SprintId,
+                Status = info.Status,
+                TaskInfo = info
             };
         }
 

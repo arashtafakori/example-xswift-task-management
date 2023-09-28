@@ -18,9 +18,9 @@ namespace Domain.SprintAggregation
         public override async Task<Sprint> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var entity = await mediator.Send(
-                new GetTheSprint(Id, evenArchivedData: true));
-            await base.ResolveAsync(mediator, entity!);
+            var sprint = (await mediator.Send(
+                new GetTheSprint(Id, evenArchivedData: true)))!;
+            await base.ResolveAsync(mediator, sprint);
 
             if(ArchivingAllTaskMode)
             {
@@ -36,7 +36,7 @@ namespace Domain.SprintAggregation
                     await mediator.Send(new ChangeTheTaskSprint(id: taskId, sprintId: null));
             }
 
-            return entity!;
+            return sprint;
         }
     }
 }

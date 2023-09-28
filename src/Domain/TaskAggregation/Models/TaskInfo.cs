@@ -42,7 +42,7 @@ namespace Domain.TaskAggregation
                 Description = task.Description,
                 ModifiedDate = task.ModifiedDate,
                 SprintId = sprintId,
-                ProjectName = projectName,
+                ProjectName = projectName!,
                 SprintName = sprintName,
                 Status = task.Status,
                 StatusName = EnumHelper.GetEnumMemberResourceValue<TaskStatus>(

@@ -23,20 +23,20 @@ namespace Domain.SprintAggregation
         public DateTime? ModifiedDate { get; set; }
 
         public static SprintInfo? ToModel(
-            Sprint? entity,
+            Sprint? sprint,
             string projectName)
         {
-            if (entity == null) return null;
+            if (sprint == null) return null;
 
             return new SprintInfo()
             {
-                Id = entity.Id,
-                ProjectId = entity.ProjectId,
-                Name = entity.Name,
+                Id = sprint.Id,
+                ProjectId = sprint.ProjectId,
+                Name = sprint.Name,
                 ProjectName = projectName,
-                StartDate = entity.StartDate,
-                EndDate = entity.EndDate,
-                ModifiedDate = entity.ModifiedDate
+                StartDate = sprint.StartDate,
+                EndDate = sprint.EndDate,
+                ModifiedDate = sprint.ModifiedDate
             };
         }
     }

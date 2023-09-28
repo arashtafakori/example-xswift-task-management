@@ -7,12 +7,12 @@ namespace Presentation.WebMVCApp.ViewModels
         public Guid Id { get; set; }
         public required string Name { get; set; }
 
-        public static ChangeTheProjectNameViewModel ToViewModel(ProjectInfo projectInfo)
+        public static ChangeTheProjectNameViewModel ToViewModel(ProjectInfo info)
         {
             return new ChangeTheProjectNameViewModel()
             {
-                Id = projectInfo.Id,
-                Name = projectInfo.Name
+                Id = info.Id,
+                Name = info.Name
             };
         }
 

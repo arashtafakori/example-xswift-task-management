@@ -1,1 +1,1 @@
-# sample-homox-task-management
+sample-xswift-task-management-efcore

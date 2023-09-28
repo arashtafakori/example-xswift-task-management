@@ -39,10 +39,10 @@ namespace Domain.SprintAggregation
 
             await InvariantState.CheckAsync(mediator);
 
-            var entity = await mediator.Send(new GetTheSprint(Id));
-            entity!.SetStartDate(StartDate).SetEndDate(EndDate);
-            await base.ResolveAsync(mediator, entity!);
-            return entity!;
+            var sprint = (await mediator.Send(new GetTheSprint(Id)))!;
+            sprint.SetStartDate(StartDate).SetEndDate(EndDate);
+            await base.ResolveAsync(mediator, sprint);
+            return sprint;
         }
     }
 }

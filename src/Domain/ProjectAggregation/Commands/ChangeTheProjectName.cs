@@ -19,10 +19,10 @@ namespace Domain.ProjectAggregation
         public override async Task<Project> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var entity = await mediator.Send(new GetTheProject(Id));
-            entity!.SetName(Name);
-            await base.ResolveAsync(mediator, entity!);
-            return entity!;
+            var project = (await mediator.Send(new GetTheProject(Id)))!;
+            project.SetName(Name);
+            await base.ResolveAsync(mediator, project);
+            return project;
         }
     }
 }

@@ -15,10 +15,10 @@ namespace Domain.ProjectAggregation
         {
             await mediator.Send(new PreventIfDeletingTheProjectIsNotPossible(Id));
 
-            var entity = await mediator.Send(
-                new GetTheProject(Id, evenArchivedData: true));
-            await base.ResolveAsync(mediator, entity!);
-            return entity!;
+            var project = (await mediator.Send(
+                new GetTheProject(Id, evenArchivedData: true)))!;
+            await base.ResolveAsync(mediator, project);
+            return project;
         }
     }
 }

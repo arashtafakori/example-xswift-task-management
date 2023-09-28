@@ -61,8 +61,8 @@ namespace Presentation.WebMVCApp.Controllers
 
         public async Task<IActionResult> ChangeTheProjectName(Guid id)
         {
-            var projectInfo = await _projectService.Process(new GetTheProjectInfo(id));
-            return View(ChangeTheProjectNameViewModel.ToViewModel(projectInfo!));
+            return View(ChangeTheProjectNameViewModel.ToViewModel(
+                (await _projectService.Process(new GetTheProjectInfo(id)))!));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -103,7 +103,7 @@ namespace Presentation.WebMVCApp.Controllers
             var model = new DeleteTheProjectViewModel
             {
                 ProjectInfo = await _projectService.Process(
-                new GetTheProjectInfo(id))
+                    new GetTheProjectInfo(id))
             };
             return View(model);
         }

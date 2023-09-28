@@ -1,7 +1,6 @@
 ﻿using XSwift.Domain;
 using MediatR;
 
-
 namespace Domain.ProjectAggregation
 {
     public class ArchiveTheProject :
@@ -14,12 +13,12 @@ namespace Domain.ProjectAggregation
         public override async Task<Project> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            new PreventIfDeletingTheProjectIsNotPossible(id: Id);
+            await mediator.Send(new PreventIfDeletingTheProjectIsNotPossible(id: Id));
 
-            var entity = await mediator.Send(
-                new GetTheProject(Id, evenArchivedData: true));
-            await base.ResolveAsync(mediator, entity!);
-            return entity!;
+            var project = (await mediator.Send(
+                new GetTheProject(Id, evenArchivedData: true)))!;
+            await base.ResolveAsync(mediator, project);
+            return project;
         }
     }
 }

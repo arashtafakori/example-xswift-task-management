@@ -14,16 +14,16 @@ namespace Domain.ProjectAggregation
         [DataType(DataType.Date)]
         public DateTime? ModifiedDate { get; set; }
 
-        public static ProjectInfo? ToModel(Project? entity)
+        public static ProjectInfo? ToModel(Project? project)
         {
-            if (entity == null) return null;
+            if (project == null) return null;
 
             return new ProjectInfo()
             {
-                Id = entity.Id,
-                Name = entity.Name,
-                IsArchived = Convert.ToBoolean(entity.Deleted),
-                ModifiedDate = entity.ModifiedDate
+                Id = project.Id,
+                Name = project.Name,
+                IsArchived = Convert.ToBoolean(project.Deleted),
+                ModifiedDate = project.ModifiedDate
             };
         }
     }

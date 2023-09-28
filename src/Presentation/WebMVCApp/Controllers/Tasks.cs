@@ -51,13 +51,13 @@ namespace Presentation.WebMVCApp.Controllers
 
         public async Task<IActionResult> GetTheTaskInfo(Guid id)
         {
-            var taskInfo = await _taskService.Process(
-                new GetTheTaskInfo(id));
+            var taskInfo = (await _taskService.Process(
+                new GetTheTaskInfo(id)))!;
             var model = new GetTheTaskInfoViewModel()
             {
                 TaskInfo = taskInfo,
                 ProjectInfo = await _projectService.Process(
-                    new GetTheProjectInfo(taskInfo!.ProjectId))
+                    new GetTheProjectInfo(taskInfo.ProjectId))
             };
             return View(model);
         }
@@ -93,10 +93,10 @@ namespace Presentation.WebMVCApp.Controllers
 
         public async Task<IActionResult> EditTheTask(Guid id)
         {
-            var taskInfo = await _taskService.Process(new GetTheTaskInfo(id));
-            var model = EditTheTaskViewModel.ToViewModel(taskInfo!);
+            var taskInfo = (await _taskService.Process(new GetTheTaskInfo(id)))!;
+            var model = EditTheTaskViewModel.ToViewModel(taskInfo);
             model.TaskStatusSelectListItems = await GetSelectListOfTaskStatus();
-            model.SprintsInfoItems = await GetSelectListOfSprintInfoList(taskInfo!.ProjectId);
+            model.SprintsInfoItems = await GetSelectListOfSprintInfoList(taskInfo.ProjectId);
 
             return View(model);
         }
@@ -118,11 +118,10 @@ namespace Presentation.WebMVCApp.Controllers
 
         public async Task<IActionResult> ArchiveTheTask(Guid id)
         {
-            var taskInfo = await _taskService.Process(
-                new GetTheTaskInfo(id));
             var model = new ArchiveTheTaskViewModel
             {
-                TaskInfo = taskInfo
+                TaskInfo = (await _taskService.Process(
+                new GetTheTaskInfo(id)))!
             };
             return View(model);
         }

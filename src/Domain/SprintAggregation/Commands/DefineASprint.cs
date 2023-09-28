@@ -20,10 +20,9 @@ namespace Domain.SprintAggregation
         public override async Task<Sprint> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var entity = Sprint.New();
-            entity.SetProjectId(ProjectId).SetName(Name);
-            await base.ResolveAsync(mediator, entity!);
-            return entity;
+            var sprint = Sprint.New().SetProjectId(ProjectId).SetName(Name);
+            await base.ResolveAsync(mediator, sprint);
+            return sprint;
         }
     }
 }

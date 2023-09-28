@@ -43,12 +43,12 @@ namespace Presentation.WebMVCApp.Controllers
 
         public async Task<IActionResult> GetTheSprintInfo(Guid id)
         {
-            var sprintInfo = await _sprintService.Process(
-                new GetTheSprintInfo(id));
+            var sprintInfo = (await _sprintService.Process(
+                new GetTheSprintInfo(id)))!;
             var model = new GetTheSprintInfoViewModel
             {
                 SprintInfo = sprintInfo,
-                ProjectInfo = await _projectService.Process(new GetTheProjectInfo(sprintInfo!.ProjectId))
+                ProjectInfo = await _projectService.Process(new GetTheProjectInfo(sprintInfo.ProjectId))
             };
 
             return View(model);
@@ -80,8 +80,8 @@ namespace Presentation.WebMVCApp.Controllers
 
         public async Task<IActionResult> ChangeTheSprintName(Guid id)
         {
-            var sprintInfo = await _sprintService.Process(new GetTheSprintInfo(id));
-            var model = ChangeTheSprintNameViewModel.ToViewModel(sprintInfo!);
+            var model = ChangeTheSprintNameViewModel.ToViewModel(
+                (await _sprintService.Process(new GetTheSprintInfo(id)))!);
             return View(model);
         }
         [HttpPost]
@@ -101,8 +101,8 @@ namespace Presentation.WebMVCApp.Controllers
 
         public async Task<IActionResult> ChangeTheSprintTimeSpan(Guid id)
         {
-            var sprintInfo = await _sprintService.Process(new GetTheSprintInfo(id));
-            var model = ChangeTheSprintTimeSpanViewModel.ToViewModel(sprintInfo!);
+            var model = ChangeTheSprintTimeSpanViewModel.ToViewModel(
+                (await _sprintService.Process(new GetTheSprintInfo(id)))!);
             return View(model);
         }
         [HttpPost]
@@ -122,17 +122,14 @@ namespace Presentation.WebMVCApp.Controllers
 
         public async Task<IActionResult> ArchiveTheSprint(Guid id)
         {
-            var sprintInfo = await _sprintService.Process(
-                new GetTheSprintInfo(id));
             var model = new ArchiveTheSprintViewModel
             {
-                SprintInfo = sprintInfo!,
+                SprintInfo = await _sprintService.Process(
+                new GetTheSprintInfo(id))!,
                 Issues = (await CatchDomainErrors(
                     () => _sprintService.Process(new CheckTheSprintForArchiving(id))))
                     ?.Issues
             };
-
-
 
             return View(model);
         }

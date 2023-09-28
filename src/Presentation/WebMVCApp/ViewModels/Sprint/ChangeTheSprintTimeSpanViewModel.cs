@@ -13,14 +13,14 @@ namespace Presentation.WebMVCApp.ViewModels
         [Required]
         public DateTime EndDate { get; set; }
         public SprintInfo? SprintInfo { get; set; }
-        public static ChangeTheSprintTimeSpanViewModel ToViewModel(SprintInfo sprintInfo)
+        public static ChangeTheSprintTimeSpanViewModel ToViewModel(SprintInfo info)
         {
             return new ChangeTheSprintTimeSpanViewModel()
             {
-                Id = sprintInfo.Id,
-                StartDate = sprintInfo.StartDate ?? DateTimeHelper.UtcNow,
-                EndDate = sprintInfo.EndDate ?? DateTimeHelper.UtcNow,
-                SprintInfo = sprintInfo
+                Id = info.Id,
+                StartDate = info.StartDate ?? DateTimeHelper.UtcNow,
+                EndDate = info.EndDate ?? DateTimeHelper.UtcNow,
+                SprintInfo = info
             };
         }
 

@@ -7,13 +7,13 @@ namespace Presentation.WebMVCApp.ViewModels
         public Guid Id { get; set; }
         public required string Name { get; set; }
         public SprintInfo? SprintInfo { get; set; }
-        public static ChangeTheSprintNameViewModel ToViewModel(SprintInfo sprintInfo)
+        public static ChangeTheSprintNameViewModel ToViewModel(SprintInfo info)
         {
             return new ChangeTheSprintNameViewModel()
             {
-                Id = sprintInfo.Id,
-                Name = sprintInfo.Name,
-                SprintInfo = sprintInfo,
+                Id = info.Id,
+                Name = info.Name,
+                SprintInfo = info,
             };
         }
 
