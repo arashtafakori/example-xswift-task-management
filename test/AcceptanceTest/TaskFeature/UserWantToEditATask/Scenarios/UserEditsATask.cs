@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using Contract;
 using Domain.TaskAggregation;
+using System.Threading.Tasks;
 
 namespace TaskFeature
 {
@@ -17,7 +18,7 @@ namespace TaskFeature
             _service = serviceScope.ServiceProvider.GetRequiredService<ITaskService>();
         }
         internal void GivenIWantToEditATask(Guid taskId, string newDescription,
-            TaskStatus newStatus, Guid? newSprintId)
+            Domain.TaskAggregation.TaskStatus newStatus, Guid? newSprintId)
         {
             _request = new EditTheTask(taskId, newDescription, 
                 newStatus, newSprintId);

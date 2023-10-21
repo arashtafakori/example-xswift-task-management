@@ -1,7 +1,4 @@
 ﻿using AcceptanceTest;
-using Contract;
-using Domain.ProjectAggregation;
-using Domain.SprintAggregation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using TestStack.BDDfy;

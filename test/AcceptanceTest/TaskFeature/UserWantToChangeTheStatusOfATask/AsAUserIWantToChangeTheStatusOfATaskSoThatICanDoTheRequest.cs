@@ -1,5 +1,6 @@
 ﻿using AcceptanceTest;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
