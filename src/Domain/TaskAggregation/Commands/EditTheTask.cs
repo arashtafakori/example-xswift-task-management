@@ -4,9 +4,9 @@ using MediatR;
 namespace Domain.TaskAggregation
 {
     public class EditTheTask :
-        RequestToUpdateById<Task, Guid>, IRequest
+        RequestToUpdateById<TaskEntity, Guid>
     {
-        [BindTo(typeof(Task), nameof(Task.Description))]
+        [BindTo(typeof(TaskEntity), nameof(TaskEntity.Description))]
         public string Description { get; private set; }
         public Guid? SprintId { get; private set; }
         public TaskStatus Status { get; private set; }
@@ -24,9 +24,11 @@ namespace Domain.TaskAggregation
             ValidationState.Validate();
         }
 
-        public override async Task<Task> ResolveAndGetEntityAsync(
+        public override async Task<TaskEntity> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
+            await InvariantState.AssestAsync(mediator);
+
             var task = (await mediator.Send(new GetTheTask(Id)))!;
             task.SetDescription(Description)
                 .SetSprintId(SprintId)

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.EFCore.ProjectRepository
 {
-    public class ProjectEntityTypeConfiguration : IEntityTypeConfiguration<Project>
+    public class ProjectDbEntityConfiguration : IEntityTypeConfiguration<ProjectEntity>
     {
-        public void Configure(EntityTypeBuilder<Project> builder)
+        public void Configure(EntityTypeBuilder<ProjectEntity> builder)
         {
             builder.ToTable(nameof(ModuleDbContext.Projects));
             builder.HasKey(x => x.Id);

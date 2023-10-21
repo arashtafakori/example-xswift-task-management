@@ -16,7 +16,7 @@ namespace Presentation.WebMVCApp.ViewModels
 
         [DisplayName("Task Status")]
         public Domain.TaskAggregation.TaskStatus Status { get; set; } =
-            Domain.TaskAggregation.Task.GetTaskStatusDefaultValue();
+            TaskEntity.GetTaskStatusDefaultValue();
 
         public ProjectInfo? ProjectInfo { get; set; }
         public List<SelectListItem>? SprintsInfoItems { get; set; }

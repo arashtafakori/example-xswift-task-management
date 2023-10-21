@@ -6,7 +6,7 @@ using EntityFrameworkCore.XSwift.Datastore;
 namespace Persistence.EFCore.ProjectRepository
 {
     public class CheckTheProjectForArchivingHandler :
-        IRequestHandler<CheckTheProjectForArchiving>
+        IRequestHandler<CheckTheProjectForArchiving, bool>
     {
         private readonly IMediator _mediator;
         private readonly Database _database;
@@ -18,14 +18,14 @@ namespace Persistence.EFCore.ProjectRepository
             _database = (Database)database;
         }
 
-        public async Task<Unit> Handle(
+        public async Task<bool> Handle(
             CheckTheProjectForArchiving request,
             CancellationToken cancellationToken)
         {
-            await _database.CheckInvariantsAsync<
-                 CheckTheProjectForArchiving, Project>(request);
+            var result = await _database.AnyAsync<
+                 CheckTheProjectForArchiving, ProjectEntity>(request);
             await request.ResolveAsync(_mediator);
-            return new Unit();
+            return result;
         }
     }
 }

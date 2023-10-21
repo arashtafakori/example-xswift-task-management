@@ -21,9 +21,9 @@ namespace Persistence.EFCore.SprintRepository
             CancellationToken cancellationToken)
         {
             return await _database.GetPaginatedListAsync<
-                GetSprintInfoList, Sprint, SprintInfo>(
+                GetSprintInfoList, SprintEntity, SprintInfo>(
                 request: request,
-                selector: (IQueryable<Sprint> query) =>
+                selector: (IQueryable<SprintEntity> query) =>
                 {
                     return SprintQueryable.SelectAsSprintInfo(_database, query);
                 });

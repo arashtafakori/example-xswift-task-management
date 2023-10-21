@@ -5,18 +5,9 @@ namespace Persistence.EFCore.TaskRepository
 {
     public class TaskQueryable
     {
-        public static IQueryable<Guid> SelectAsTaskId(
-            IDatabase database, 
-            IQueryable<Domain.TaskAggregation.Task> query)
-        {
-            var dbContext = database.GetDbContext<ModuleDbContext>();
-            return from task in query
-                   select task.Id;
-        }
-
         public static IQueryable<TaskInfo> SelectAsTaskInfo(
             IDatabase database,
-            IQueryable<Domain.TaskAggregation.Task> query)
+            IQueryable<TaskEntity> query)
         {
             var dbContext = database.GetDbContext<ModuleDbContext>();
             return from task in query

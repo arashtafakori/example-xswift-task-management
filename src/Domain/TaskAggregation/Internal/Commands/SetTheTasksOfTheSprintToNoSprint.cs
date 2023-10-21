@@ -1,13 +1,11 @@
 ﻿using XSwift.Domain;
 using MediatR;
-using System.Linq.Expressions;
-
+using XSwift.Base;
 
 namespace Domain.TaskAggregation
 {
     internal class SetTheTasksOfTheSprintToNoSprint :
-        BulkCommandRequest<Task, Guid>,
-        IRequest
+        BulkCommandRequest<TaskEntity, List<Guid>>
     {
         public Guid SprintId { get; private set; }
 
@@ -21,16 +19,23 @@ namespace Domain.TaskAggregation
             SprintId = value;
             return this;
         }
-        public override Expression<Func<Task, bool>>? Identification()
+
+        public override ExpressionBuilder<TaskEntity> Where()
         {
-            return x => x.SprintId == SprintId;
+            WhereExpression.And(x => x.SprintId == SprintId);
+            return base.Where();
         }
 
-        public override  async System.Threading.Tasks.Task ResolveAsync(
-            List<Guid> tasksIds, IMediator mediator)  
+        public override async Task ResolveAsync(IMediator mediator)
+        {
+            await InvariantState.AssestAsync(mediator);
+        }
+
+        public override async Task NextAsync(
+            IMediator mediator, List<Guid> tasksIds)
         {
             foreach (Guid taskId in tasksIds)
-              await mediator.Send(new ArchiveTheTask(taskId));
+                await mediator.Send(new ArchiveTheTask(taskId));
         }
     }
 }

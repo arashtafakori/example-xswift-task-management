@@ -1,11 +1,10 @@
-﻿using XSwift.Domain;
-using MediatR;
+﻿using MediatR;
+using XSwift.Domain;
 
 namespace Domain.SprintAggregation
 {
     internal class GetTheSprint :
-        QueryItemRequestById<Sprint, Guid>,
-        IRequest<Sprint?>
+        QueryItemRequestById<SprintEntity, Guid, SprintEntity?>
     {
 
         public GetTheSprint(Guid id,
@@ -15,6 +14,10 @@ namespace Domain.SprintAggregation
             TrackingMode = true;
             PreventIfNoEntityWasFound = true;
             EvenArchivedData = evenArchivedData;
+        }
+        public override async Task ResolveAsync(IMediator mediator)
+        {
+            await InvariantState.AssestAsync(mediator);
         }
     }
 }

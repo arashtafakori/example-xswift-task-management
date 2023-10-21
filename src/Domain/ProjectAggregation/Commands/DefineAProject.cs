@@ -4,9 +4,9 @@ using MediatR;
 namespace Domain.ProjectAggregation
 {
     public class DefineAProject
-        : RequestToCreate<Project>, IRequest<Guid>
+        : RequestToCreate<ProjectEntity, Guid>
     {
-        [BindTo(typeof(Project), nameof(Project.Name))]
+        [BindTo(typeof(ProjectEntity), nameof(ProjectEntity.Name))]
         public string Name { get; private set; }
 
         public DefineAProject(string name)
@@ -15,10 +15,12 @@ namespace Domain.ProjectAggregation
             ValidationState.Validate();
         }
 
-        public override async Task<Project> ResolveAndGetEntityAsync(
+        public override async Task<ProjectEntity> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var project = Project.New().SetName(Name);
+            await InvariantState.AssestAsync(mediator);
+
+            var project = ProjectEntity.New().SetName(Name);
             await base.ResolveAsync(mediator, project);
             return project;
         }

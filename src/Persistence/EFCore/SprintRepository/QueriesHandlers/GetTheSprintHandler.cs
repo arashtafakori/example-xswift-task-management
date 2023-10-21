@@ -6,7 +6,7 @@ using EntityFrameworkCore.XSwift.Datastore;
 namespace Persistence.EFCore.SprintRepository
 {
     internal class GetTheSprintHandler :
-        IRequestHandler<GetTheSprint, Sprint?>
+        IRequestHandler<GetTheSprint, SprintEntity?>
     {
         private readonly Database _database;
         public GetTheSprintHandler(IDatabase database)
@@ -14,11 +14,11 @@ namespace Persistence.EFCore.SprintRepository
             _database = (Database)database;
         }
 
-        public async Task<Sprint?> Handle(
+        public async Task<SprintEntity?> Handle(
             GetTheSprint request,
             CancellationToken cancellationToken)
         {
-            return await _database.GetItemAsync<GetTheSprint, Sprint>(request: request);
+            return await _database.GetItemAsync<GetTheSprint, SprintEntity>(request: request);
         }
     }
 }

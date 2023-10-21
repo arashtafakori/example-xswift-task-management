@@ -20,16 +20,13 @@ namespace Persistence.EFCore.TaskRepository
             GetTaskInfoList request,
             CancellationToken cancellationToken)
         {
-            var query = _database.MakeQuery
-               <GetTaskInfoList, Domain.TaskAggregation.Task>(request);
-
             return await _database.GetPaginatedListAsync(
                 request: request,
-                selector: (IQueryable<Domain.TaskAggregation.Task> query) =>
+                selector: (IQueryable<TaskEntity> query) =>
                 {
                     return TaskQueryable.SelectAsTaskInfo(_database, query); 
                 },
-                filter: delegate (IQueryable<Domain.TaskAggregation.Task> query)
+                filter: delegate (IQueryable<TaskEntity> query)
                 {
                     return from task in query
                            where

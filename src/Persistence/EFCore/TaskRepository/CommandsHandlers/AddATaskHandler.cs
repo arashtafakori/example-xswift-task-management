@@ -21,7 +21,7 @@ namespace Persistence.EFCore.TaskRepository
             CancellationToken cancellationToken)
         {
             var entity = await request.ResolveAndGetEntityAsync(_mediator);
-            await _database.CreateAsync(request, entity);
+            await _database.CreateAsync<AddATask, TaskEntity, Guid>(request, entity);
             return entity.Id;
         }
     }

@@ -7,7 +7,7 @@ namespace Persistence.EFCore.SprintRepository
     {
         public static IQueryable<SprintInfo> SelectAsSprintInfo(
             IDatabase database,
-            IQueryable<Sprint> query)
+            IQueryable<SprintEntity> query)
         {
             var dbContext = database.GetDbContext<ModuleDbContext>();
             return from sprint in query

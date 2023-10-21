@@ -4,11 +4,11 @@ using MediatR;
 namespace Domain.SprintAggregation
 {
     public class DefineASprint
-        : RequestToCreate<Sprint>, IRequest<Guid>
+        : RequestToCreate<SprintEntity, Guid>
     {
         public Guid ProjectId { get; private set; }
 
-        [BindTo(typeof(Sprint), nameof(Sprint.Name))]
+        [BindTo(typeof(SprintEntity), nameof(SprintEntity.Name))]
         public string Name { get; private set; }
         public DefineASprint(Guid projectId, string name)
         {
@@ -17,10 +17,12 @@ namespace Domain.SprintAggregation
             ValidationState.Validate();
         }
 
-        public override async Task<Sprint> ResolveAndGetEntityAsync(
+        public override async Task<SprintEntity> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var sprint = Sprint.New().SetProjectId(ProjectId).SetName(Name);
+            await InvariantState.AssestAsync(mediator);
+
+            var sprint = SprintEntity.New().SetProjectId(ProjectId).SetName(Name);
             await base.ResolveAsync(mediator, sprint);
             return sprint;
         }

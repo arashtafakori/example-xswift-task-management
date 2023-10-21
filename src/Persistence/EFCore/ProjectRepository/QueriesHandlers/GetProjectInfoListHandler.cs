@@ -21,7 +21,7 @@ namespace Persistence.EFCore.ProjectRepository
             CancellationToken cancellationToken)
         {
             return await _database.GetPaginatedListAsync<
-                GetProjectInfoList, Project, ProjectInfo>(
+                GetProjectInfoList, ProjectEntity, ProjectInfo>(
                 request: request, converter: ProjectInfo.ToModel!);
         }
     }

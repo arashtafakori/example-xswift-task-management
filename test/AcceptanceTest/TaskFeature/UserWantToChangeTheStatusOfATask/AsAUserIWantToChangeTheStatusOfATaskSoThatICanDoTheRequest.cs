@@ -21,7 +21,7 @@ namespace TaskFeature
         }
  
         [Fact]
-        internal async System.Threading.Tasks.Task UserChangesTheStatusOfATask()
+        internal async Task UserChangesTheStatusOfATask()
         {
             var steps = new UserChangesTheStatusOfATask(_serviceScope!);
 

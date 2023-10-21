@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\xswift-framework\xswift-masstransit\Xswift.MassTransit.csproj" />
     <ProjectReference Include="..\..\Application\Application.csproj" />
   </ItemGroup>
 

@@ -4,16 +4,18 @@ using MediatR;
 namespace Domain.ProjectAggregation
 {
     public class DeleteTheProject :
-        RequestToDeleteById<Project, Guid>, IRequest
+        RequestToDeleteById<ProjectEntity, Guid>
     {
         public DeleteTheProject(Guid id) : base(id)
         { 
             ValidationState.Validate();
         }
 
-        public override async Task<Project> ResolveAndGetEntityAsync(IMediator mediator)
+        public override async Task<ProjectEntity> ResolveAndGetEntityAsync(IMediator mediator)
         {
-            await mediator.Send(new PreventIfDeletingTheProjectIsNotPossible(Id));
+            InvariantState.AddAnInvariantRequest(new PreventIfTheProjectHasSomeSprints(id: Id));
+            InvariantState.AddAnInvariantRequest(new PreventIfTheProjectHasSomeTasks(id: Id));
+            await InvariantState.AssestAsync(mediator);
 
             var project = (await mediator.Send(
                 new GetTheProject(Id, evenArchivedData: true)))!;

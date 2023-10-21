@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\xswift-framework\xswift-entityframeworkcore\Xswift.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\Domain\Domain.csproj" />
   </ItemGroup>
 

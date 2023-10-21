@@ -11,7 +11,7 @@ namespace Domain.TaskAggregation
             GetTaskStatusList request,
             CancellationToken cancellationToken)
         {
-            return System.Threading.Tasks.Task.FromResult(
+            return Task.FromResult(
                 EnumHelper.ToKeyValuePairList<TaskStatus>(Resource.ResourceManager));
         }
     }

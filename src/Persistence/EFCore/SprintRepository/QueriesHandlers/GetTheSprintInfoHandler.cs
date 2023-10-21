@@ -19,8 +19,8 @@ namespace Persistence.EFCore.SprintRepository
             CancellationToken cancellationToken)
         {
             return await _database.
-                GetItemAsync<GetTheSprintInfo, Sprint, SprintInfo>
-                (request, selector: (IQueryable<Sprint> query) =>
+                GetItemAsync<GetTheSprintInfo, SprintEntity, SprintInfo>
+                (request, selector: (IQueryable<SprintEntity> query) =>
                 {
                     return SprintQueryable.SelectAsSprintInfo(_database, query);
                 });

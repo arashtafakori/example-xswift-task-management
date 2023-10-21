@@ -2,6 +2,7 @@
 using Domain.SprintAggregation;
 using EntityFrameworkCore.XSwift.Datastore;
 using XSwift.Datastore;
+using Domain.ProjectAggregation;
 
 namespace Persistence.EFCore.SprintRepository
 {
@@ -21,7 +22,7 @@ namespace Persistence.EFCore.SprintRepository
             CancellationToken cancellationToken)
         {
             var entity = await request.ResolveAndGetEntityAsync(_mediator);
-            await _database.CreateAsync(request, entity);
+            await _database.CreateAsync<DefineASprint, SprintEntity, Guid>(request, entity);
             return entity.Id;
         }
     }

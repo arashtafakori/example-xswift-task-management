@@ -1,13 +1,13 @@
 ﻿using XSwift.Domain;
-using MediatR;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
+using MediatR;
+using XSwift.Base;
 
 namespace Domain.TaskAggregation
 {
     public class GetTaskInfoList :
-        QueryListRequest<Task>, 
-        IRequest<PaginatedViewModel<TaskInfo>>
+        QueryListRequest<TaskEntity, PaginatedViewModel<TaskInfo>>
     {
         [Required]
         public Guid ProjectId { get; private set; }
@@ -24,9 +24,15 @@ namespace Domain.TaskAggregation
             ProjectId = value;
             return this;
         }
-        public override Expression<Func<Task, bool>>? Identification()
+
+        public override ExpressionBuilder<TaskEntity> Where()
         {
-            return x => x.ProjectId == ProjectId;
+            WhereExpression.And(x => x.ProjectId == ProjectId);
+            return base.Where();    
+        }
+        public override async Task ResolveAsync(IMediator mediator)
+        {
+            await InvariantState.AssestAsync(mediator);
         }
     }
 }

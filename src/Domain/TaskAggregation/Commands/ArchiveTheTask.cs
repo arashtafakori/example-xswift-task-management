@@ -4,15 +4,17 @@ using MediatR;
 namespace Domain.TaskAggregation
 {
     public class ArchiveTheTask :
-        RequestToArchiveById<Task, Guid>, IRequest
+        RequestToArchiveById<TaskEntity, Guid>
     {
         public ArchiveTheTask(Guid id) : base(id)
         {
             ValidationState.Validate();
         }
-        public override async Task<Task> ResolveAndGetEntityAsync(
+        public override async Task<TaskEntity> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
+            await InvariantState.AssestAsync(mediator);
+
             var task = (await mediator.Send(
                 new GetTheTask(Id, evenArchivedData: true)))!;
             await base.ResolveAsync(mediator, task);

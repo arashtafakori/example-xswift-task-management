@@ -65,6 +65,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\xswift-framework\xswift\XSwift.csproj" />
     <ProjectReference Include="..\..\Application\Application.csproj" />
     <ProjectReference Include="..\..\Contract\Contract.csproj" />
     <ProjectReference Include="..\..\Domain\Domain.csproj" />

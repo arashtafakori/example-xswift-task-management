@@ -28,7 +28,7 @@ namespace Domain.TaskAggregation
         public string? OwnerName { get; set; }
 
         public static TaskInfo ToModel(
-            Task task,
+            TaskEntity task,
             string? projectName = "",
             Guid? sprintId = null,
             string? sprintName = null,

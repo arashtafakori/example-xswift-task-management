@@ -4,8 +4,7 @@ using MediatR;
 namespace Domain.ProjectAggregation
 {
     internal class GetTheProject :
-        QueryItemRequestById<Project,  Guid>,
-        IRequest<Project?>
+        QueryItemRequestById<ProjectEntity, Guid, ProjectEntity?>
     {
         public GetTheProject(Guid id,
             bool evenArchivedData = false)
@@ -14,6 +13,11 @@ namespace Domain.ProjectAggregation
             TrackingMode = true;
             PreventIfNoEntityWasFound = true;
             EvenArchivedData = evenArchivedData;
+        }
+
+        public override async Task ResolveAsync(IMediator mediator)
+        {
+            await InvariantState.AssestAsync(mediator);
         }
     }
 }

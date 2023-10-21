@@ -34,7 +34,7 @@ namespace SprintFeature
         }
         internal async Task ThenTheRequestSholudBeDenied()
         {
-            await _actual.Should().BeSatisfiedWith<AnEntityWithTheseConditionsOfExistenceHasAlreadyBeenExisted>();
+            await _actual.Should().BeSatisfiedWith<AnEntityWithTheseUniquenessConditionsHasAlreadyBeenExisted>();
         }
     }
 }

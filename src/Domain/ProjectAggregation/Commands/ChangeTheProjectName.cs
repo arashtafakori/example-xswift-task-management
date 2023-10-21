@@ -5,9 +5,9 @@ using MediatR;
 namespace Domain.ProjectAggregation
 {
     public class ChangeTheProjectName :
-        RequestToUpdateById<Project, Guid>, IRequest
+        RequestToUpdateById<ProjectEntity, Guid>
     {
-        [BindTo(typeof(Project), nameof(Project.Name))]
+        [BindTo(typeof(ProjectEntity), nameof(ProjectEntity.Name))]
         public string Name { get; private set; }
  
         public ChangeTheProjectName(Guid id, string name) : base(id)
@@ -16,9 +16,11 @@ namespace Domain.ProjectAggregation
             ValidationState.Validate();
         }
 
-        public override async Task<Project> ResolveAndGetEntityAsync(
+        public override async Task<ProjectEntity> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
+            await InvariantState.AssestAsync(mediator);
+
             var project = (await mediator.Send(new GetTheProject(Id)))!;
             project.SetName(Name);
             await base.ResolveAsync(mediator, project);
