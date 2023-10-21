@@ -128,7 +128,7 @@ namespace Presentation.WebMVCApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ArchiveConfirmed(ArchiveTheTaskViewModel model)
+        public async Task<IActionResult> ArchivingTheTaskConfirmed(ArchiveTheTaskViewModel model)
         {
             await _taskService.Process(new ArchiveTheTask(model.TaskInfo!.Id));
 

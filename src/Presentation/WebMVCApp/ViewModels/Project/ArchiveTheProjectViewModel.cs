@@ -7,6 +7,6 @@ namespace Presentation.WebMVCApp.ViewModels
     {
         public ProjectInfo? ProjectInfo { get; set; }
 
-        public List<IIssue>? Issues { get; set; }    
+        public List<IIssue>? IssuesOfArchivingPossibility { get; set; }    
     }
 }

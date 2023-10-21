@@ -83,7 +83,7 @@ namespace Presentation.WebMVCApp.Controllers
             {
                 ProjectInfo = await _projectService.Process(
                 new GetTheProjectInfo(id)),
-                Issues = (await CatchDomainErrors(
+                IssuesOfArchivingPossibility = (await CatchDomainErrors(
                     () => _projectService.Process(new CheckTheProjectForArchiving(id))))
                     ?.Issues
             };
@@ -92,7 +92,7 @@ namespace Presentation.WebMVCApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ArchiveConfirmed(ArchiveTheProjectViewModel model)
+        public async Task<IActionResult> ArchivingTheProjectConfirmed(ArchiveTheProjectViewModel model)
         {
             await _projectService.Process(new ArchiveTheProject(model.ProjectInfo!.Id));
             return RedirectToAction(nameof(GetProjectInfoList));
@@ -111,7 +111,7 @@ namespace Presentation.WebMVCApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(DeleteTheProjectViewModel model)
+        public async Task<IActionResult> DeletingTheProjectConfirmed(DeleteTheProjectViewModel model)
         {
             await _projectService.Process(new DeleteTheProject(model.ProjectInfo!.Id));
             return RedirectToAction(nameof(GetProjectInfoList));

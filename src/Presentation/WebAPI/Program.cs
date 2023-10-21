@@ -32,7 +32,5 @@ app.UseExceptionHandler(c => c.Run(async context =>
         await context.Response.WriteAsJsonAsync((Error)devError);
     await context.Response.WriteAsJsonAsync(devError);
 }));
-app.UseAuthorization();
 app.MapControllers();
-
 app.Run();

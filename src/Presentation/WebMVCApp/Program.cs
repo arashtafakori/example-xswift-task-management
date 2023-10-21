@@ -1,6 +1,5 @@
 using Presentation.Configuration;
 using Presentation.WebMVCApp;
-using XSwift.Mvc;
 using Presentation.WebMVCApp.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,11 +14,8 @@ Application.DataSeeder.SeedData(app);
 
 app.UseExceptionHandler("/" + nameof(Home) + "/" + nameof(Home.Error));
 app.UseHsts();
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-app.UseAuthorization();
 app.AddEndpoints();
 app.Run();

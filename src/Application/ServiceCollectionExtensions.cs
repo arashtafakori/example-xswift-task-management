@@ -30,8 +30,6 @@ namespace Application
             services.AddScoped<ISprintService, SprintService>();
             services.AddScoped<ITaskService, TaskService>();
 
-            // Domain Services
-
             // Infrastructure Services
         }
 

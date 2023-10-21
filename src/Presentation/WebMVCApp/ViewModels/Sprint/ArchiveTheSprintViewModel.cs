@@ -7,7 +7,7 @@ namespace Presentation.WebMVCApp.ViewModels
     {
         public SprintInfo? SprintInfo { get; set; }
 
-        public List<IIssue>? Issues { get; set; }
+        public List<IIssue>? IssuesOfArchivingPossibility { get; set; }
 
         public bool ArchivingAllTaskMode { get; set; } = false;
 

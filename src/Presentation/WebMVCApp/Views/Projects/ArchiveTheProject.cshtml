@@ -9,7 +9,7 @@
 
 <hr />
 <div>
-    <form asp-action="@nameof(Projects.ArchiveConfirmed)">
+    <form asp-action="@nameof(Projects.ArchivingTheProjectConfirmed)">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="ProjectInfo!.Id" />
         <dl class="row">
@@ -22,11 +22,11 @@
         </dl>
         <p></p>
         @{
-            if (Model.Issues != null)
+            if (Model.IssuesOfArchivingPossibility != null)
             {
                 <table class="table">
                     <tbody>
-                        @foreach (var item in Model.Issues)
+                        @foreach (var item in Model.IssuesOfArchivingPossibility)
                         {
                             <tr>
                                 <td style="color: lightcoral;">

@@ -126,7 +126,7 @@ namespace Presentation.WebMVCApp.Controllers
             {
                 SprintInfo = await _sprintService.Process(
                 new GetTheSprintInfo(id))!,
-                Issues = (await CatchDomainErrors(
+                IssuesOfArchivingPossibility = (await CatchDomainErrors(
                     () => _sprintService.Process(new CheckTheSprintForArchiving(id))))
                     ?.Issues
             };
@@ -136,7 +136,7 @@ namespace Presentation.WebMVCApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ArchiveConfirmed(ArchiveTheSprintViewModel model)
+        public async Task<IActionResult> ArchivingTheSprintConfirmed(ArchiveTheSprintViewModel model)
         {
             await _sprintService.Process(model.ToRequest());
             return RedirectToRoute(
