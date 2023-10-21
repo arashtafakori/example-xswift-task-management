@@ -23,7 +23,7 @@ namespace Persistence.EFCore.TaskRepository
         {
             var tasksIds = await _database.GetListAsync(
                            request: request,
-                           selector: (IQueryable<Domain.TaskAggregation.Task> query) => {
+                           selector: (IQueryable<TaskEntity> query) => {
                                return from task in query
                                       select task.Id; 
                            });

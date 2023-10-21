@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ProjectRepository\ChecksHandlers\**" />
+    <Compile Remove="ProjectRepository\InvariantsHandlers\**" />
+    <Compile Remove="SprintRepository\**" />
+    <Compile Remove="TaskRepository\**" />
+    <EmbeddedResource Remove="ProjectRepository\ChecksHandlers\**" />
+    <EmbeddedResource Remove="ProjectRepository\InvariantsHandlers\**" />
+    <EmbeddedResource Remove="SprintRepository\**" />
+    <EmbeddedResource Remove="TaskRepository\**" />
+    <None Remove="ProjectRepository\ChecksHandlers\**" />
+    <None Remove="ProjectRepository\InvariantsHandlers\**" />
+    <None Remove="SprintRepository\**" />
+    <None Remove="TaskRepository\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ProjectRepository\CommandsHandlers\ArchiveTheProjectHandler.cs" />
+    <Compile Remove="ProjectRepository\CommandsHandlers\ChangeTheProjectNameHandler.cs" />
+    <Compile Remove="ProjectRepository\CommandsHandlers\DeleteTheProjectHandler.cs" />
+    <Compile Remove="ProjectRepository\CommandsHandlers\RestoreTheProjectHandler.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MongoDB.Driver" Version="2.21.0" />
+    <PackageReference Include="Xswift.EntityFrameworkCore" Version="1.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+</Project>

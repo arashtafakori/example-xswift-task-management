@@ -14,7 +14,7 @@ namespace Domain.ProjectAggregation
         [DataType(DataType.Date)]
         public DateTime? ModifiedDate { get; set; }
 
-        public static ProjectInfo? ToModel(Project? project)
+        public static ProjectInfo? ToModel(ProjectEntity? project)
         {
             if (project == null) return null;
 

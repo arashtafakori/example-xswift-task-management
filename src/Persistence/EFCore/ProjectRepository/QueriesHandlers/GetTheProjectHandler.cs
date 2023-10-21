@@ -6,7 +6,7 @@ using EntityFrameworkCore.XSwift.Datastore;
 namespace Persistence.EFCore.ProjectRepository
 {
     internal class GetTheProjectHandler :
-        IRequestHandler<GetTheProject, Project?>
+        IRequestHandler<GetTheProject, ProjectEntity?>
     {
         private readonly Database _database;
         public GetTheProjectHandler(IDatabase database)
@@ -14,11 +14,11 @@ namespace Persistence.EFCore.ProjectRepository
             _database = (Database)database;
         }
 
-        public async Task<Project?> Handle(
+        public async Task<ProjectEntity?> Handle(
             GetTheProject request,
             CancellationToken cancellationToken)
         {
-            return await _database.GetItemAsync<GetTheProject, Project>(request: request);
+            return await _database.GetItemAsync<GetTheProject, ProjectEntity>(request: request);
         }
     }
 }

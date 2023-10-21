@@ -22,7 +22,7 @@ namespace Persistence.EFCore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Domain.ProjectAggregation.Project", b =>
+            modelBuilder.Entity("Persistence.EFCore.ProjectRepository.ProjectDbEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,7 +50,7 @@ namespace Persistence.EFCore.Migrations
                     b.ToTable("Projects", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.SprintAggregation.Sprint", b =>
+            modelBuilder.Entity("Persistence.EFCore.SprintRepository.SprintDbEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,7 +89,7 @@ namespace Persistence.EFCore.Migrations
                     b.ToTable("Sprints", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.TaskAggregation.Task", b =>
+            modelBuilder.Entity("Persistence.EFCore.TaskRepository.TaskDbEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,9 +130,9 @@ namespace Persistence.EFCore.Migrations
                     b.ToTable("Tasks", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.SprintAggregation.Sprint", b =>
+            modelBuilder.Entity("Persistence.EFCore.SprintRepository.SprintDbEntity", b =>
                 {
-                    b.HasOne("Domain.ProjectAggregation.Project", "Project")
+                    b.HasOne("Persistence.EFCore.ProjectRepository.ProjectDbEntity", "Project")
                         .WithMany("Sprints")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -141,15 +141,15 @@ namespace Persistence.EFCore.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("Domain.TaskAggregation.Task", b =>
+            modelBuilder.Entity("Persistence.EFCore.TaskRepository.TaskDbEntity", b =>
                 {
-                    b.HasOne("Domain.ProjectAggregation.Project", "Project")
+                    b.HasOne("Persistence.EFCore.ProjectRepository.ProjectDbEntity", "Project")
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.SprintAggregation.Sprint", "Sprint")
+                    b.HasOne("Persistence.EFCore.SprintRepository.SprintDbEntity", "Sprint")
                         .WithMany("Tasks")
                         .HasForeignKey("SprintId");
 
@@ -158,14 +158,14 @@ namespace Persistence.EFCore.Migrations
                     b.Navigation("Sprint");
                 });
 
-            modelBuilder.Entity("Domain.ProjectAggregation.Project", b =>
+            modelBuilder.Entity("Persistence.EFCore.ProjectRepository.ProjectDbEntity", b =>
                 {
                     b.Navigation("Sprints");
 
                     b.Navigation("Tasks");
                 });
 
-            modelBuilder.Entity("Domain.SprintAggregation.Sprint", b =>
+            modelBuilder.Entity("Persistence.EFCore.SprintRepository.SprintDbEntity", b =>
                 {
                     b.Navigation("Tasks");
                 });

@@ -23,7 +23,7 @@ namespace Domain.SprintAggregation
         public DateTime? ModifiedDate { get; set; }
 
         public static SprintInfo? ToModel(
-            Sprint? sprint,
+            SprintEntity? sprint,
             string projectName)
         {
             if (sprint == null) return null;

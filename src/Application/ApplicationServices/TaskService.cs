@@ -24,22 +24,22 @@ namespace Application
             await _transaction.SaveChangesAsync();
             return id;
         }
-        public async System.Threading.Tasks.Task Process(EditTheTask request)
+        public async Task Process(EditTheTask request)
         {
             await _mediator.Send(request);
             await _transaction.SaveChangesAsync(concurrencyCheck: true);
         }
-        public async System.Threading.Tasks.Task Process(ArchiveTheTask request)
+        public async Task Process(ArchiveTheTask request)
         {
             await _mediator.Send(request);
             await _transaction.SaveChangesAsync(concurrencyCheck: true);
         }
-        public async System.Threading.Tasks.Task Process(ChangeTheTaskStatus request)
+        public async Task Process(ChangeTheTaskStatus request)
         {
             await _mediator.Send(request);
             await _transaction.SaveChangesAsync(concurrencyCheck: true);
         }
-        public async System.Threading.Tasks.Task Process(RestoreTheTask request)
+        public async Task Process(RestoreTheTask request)
         {
             await _mediator.Send(request);
             await _transaction.SaveChangesAsync(concurrencyCheck: true);

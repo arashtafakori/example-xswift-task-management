@@ -19,7 +19,7 @@ namespace Persistence.EFCore.ProjectRepository
             CancellationToken cancellationToken)
         {
             return await _database.GetItemAsync<
-                GetTheProjectInfo, Project, ProjectInfo>(
+                GetTheProjectInfo, ProjectEntity, ProjectInfo>(
                 request: request,
                 converter : ProjectInfo.ToModel!);
         }

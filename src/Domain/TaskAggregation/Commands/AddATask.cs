@@ -4,15 +4,15 @@ using MediatR;
 namespace Domain.TaskAggregation
 {
     public class AddATask
-        : RequestToCreate<Task>, IRequest<Guid>
+        : RequestToCreate<TaskEntity, Guid>
     {
         public Guid ProjectId { get; private set; }
 
-        [BindTo(typeof(Task), nameof(Task.Description))]
+        [BindTo(typeof(TaskEntity), nameof(TaskEntity.Description))]
         public string Description { get; private set; }
 
         public Guid? SprintId { get; private set; }
-        public TaskStatus Status { get; private set; } = Task.GetTaskStatusDefaultValue();
+        public TaskStatus Status { get; private set; } = TaskEntity.GetTaskStatusDefaultValue();
 
         public AddATask(
             Guid projectId,
@@ -25,10 +25,12 @@ namespace Domain.TaskAggregation
             ValidationState.Validate();
         }
 
-        public override async Task<Task> ResolveAndGetEntityAsync(
+        public override async Task<TaskEntity> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
-            var task = Task.New()
+            await InvariantState.AssestAsync(mediator);
+
+            var task = TaskEntity.New()
                 .SetProjectId(ProjectId)
                 .SetDescription(Description)
                 .SetSprintId(SprintId)

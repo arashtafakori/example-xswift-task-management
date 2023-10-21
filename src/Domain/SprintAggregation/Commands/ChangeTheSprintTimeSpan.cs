@@ -6,13 +6,13 @@ using System.ComponentModel.DataAnnotations;
 namespace Domain.SprintAggregation
 {
     public class ChangeTheSprintTimeSpan :
-        RequestToUpdateById<Sprint, Guid>, IRequest
+        RequestToUpdateById<SprintEntity, Guid>
     {
-        [BindTo(typeof(Sprint), nameof(Sprint.StartDate))]
+        [BindTo(typeof(SprintEntity), nameof(SprintEntity.StartDate))]
         [Required]
         public DateTime StartDate { get; private set; }
 
-        [BindTo(typeof(Sprint), nameof(Sprint.EndDate))]
+        [BindTo(typeof(SprintEntity), nameof(SprintEntity.EndDate))]
         [Required]
         public DateTime EndDate { get; private set; }
 
@@ -23,13 +23,13 @@ namespace Domain.SprintAggregation
             EndDate = endDate;
 
             ValidationState.AddAnValidation(
-                new PreventIfStartDateIsLaterThanEndDate<Sprint>
+                new PreventIfStartDateIsLaterThanEndDate<SprintEntity>
                 (StartDate, EndDate));
 
             ValidationState.Validate();
         }
 
-        public override async Task<Sprint> ResolveAndGetEntityAsync(
+        public override async Task<SprintEntity> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
             var lastYear = DateTimeHelper.UtcNow.AddYears(-1);
@@ -37,7 +37,7 @@ namespace Domain.SprintAggregation
                 condition: () => { return StartDate < lastYear || EndDate < lastYear; },
                 issue: new TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths());
 
-            await InvariantState.CheckAsync(mediator);
+            await InvariantState.AssestAsync(mediator);
 
             var sprint = (await mediator.Send(new GetTheSprint(Id)))!;
             sprint.SetStartDate(StartDate).SetEndDate(EndDate);

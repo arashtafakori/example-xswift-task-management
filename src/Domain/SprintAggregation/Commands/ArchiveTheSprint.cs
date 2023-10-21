@@ -5,7 +5,7 @@ using MediatR;
 namespace Domain.SprintAggregation
 {
     public class ArchiveTheSprint :
-        RequestToArchiveById<Sprint, Guid>, IRequest
+        RequestToArchiveById<SprintEntity, Guid>
     {
         public bool ArchivingAllTaskMode { get; private set; }
         public ArchiveTheSprint(
@@ -15,9 +15,11 @@ namespace Domain.SprintAggregation
             ArchivingAllTaskMode = archivingAllTaskMode;
             ValidationState.Validate();
         }
-        public override async Task<Sprint> ResolveAndGetEntityAsync(
+        public override async Task<SprintEntity> ResolveAndGetEntityAsync(
             IMediator mediator)
         {
+            await InvariantState.AssestAsync(mediator);
+
             var sprint = (await mediator.Send(
                 new GetTheSprint(Id, evenArchivedData: true)))!;
             await base.ResolveAsync(mediator, sprint);

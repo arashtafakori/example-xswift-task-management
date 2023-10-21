@@ -18,9 +18,7 @@ namespace Persistence.EFCore.TaskRepository
             GetTheTaskInfo request,
             CancellationToken cancellationToken)
         {
-            return await _database.
-                GetItemAsync<GetTheTaskInfo, Domain.TaskAggregation.Task, TaskInfo>
-                (request, selector: (IQueryable<Domain.TaskAggregation.Task> query) =>
+            return await _database.GetItemAsync(request, selector: (IQueryable<TaskEntity> query) =>
                 {
                     return TaskQueryable.SelectAsTaskInfo(_database, query);
                 });

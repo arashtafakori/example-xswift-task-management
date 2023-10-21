@@ -1,11 +1,10 @@
-﻿using XSwift.Domain;
-using MediatR;
+﻿using MediatR;
+using XSwift.Domain;
 
 namespace Domain.TaskAggregation
 {
     internal class GetTheTask :
-        QueryItemRequestById<Task, Guid>,
-        IRequest<Task?>
+        QueryItemRequestById<TaskEntity, Guid, TaskEntity?>
     {
         public GetTheTask(Guid id,
             bool evenArchivedData = false)
@@ -14,6 +13,10 @@ namespace Domain.TaskAggregation
             TrackingMode = true;
             PreventIfNoEntityWasFound = true;
             EvenArchivedData = evenArchivedData;
+        }
+        public override async Task ResolveAsync(IMediator mediator)
+        {
+            await InvariantState.AssestAsync(mediator);
         }
     }
 }

@@ -1,13 +1,12 @@
 ﻿using XSwift.Domain;
-using MediatR;
 using System.Linq.Expressions;
-
+using MediatR;
+using XSwift.Base;
 
 namespace Domain.TaskAggregation
 {
     internal class GetTheTasksIdsListOfTheSprint :
-        QueryListRequest<Task>,
-        IRequest<List<Guid>>
+        QueryListRequest<TaskEntity, List<Guid>>
     {
         public Guid SprintId { get; private set; }
 
@@ -21,9 +20,15 @@ namespace Domain.TaskAggregation
             SprintId = value;
             return this;
         }
-        public override Expression<Func<Task, bool>>? Identification()
+
+        public override ExpressionBuilder<TaskEntity> Where()
         {
-            return x => x.SprintId == SprintId;
+            WhereExpression.And(x => x.SprintId == SprintId);
+            return base.Where();
+        }
+        public override async Task ResolveAsync(IMediator mediator)
+        {
+            await InvariantState.AssestAsync(mediator);
         }
     }
 }

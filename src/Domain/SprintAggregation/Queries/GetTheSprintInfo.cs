@@ -4,12 +4,15 @@ using MediatR;
 namespace Domain.SprintAggregation
 {
     public class GetTheSprintInfo :
-        QueryItemRequestById<Sprint, Guid>,
-        IRequest<SprintInfo?>
+        QueryItemRequestById<SprintEntity, Guid, SprintInfo?>
     {
         public GetTheSprintInfo(Guid id) : base(id)
         {
             PreventIfNoEntityWasFound = true;
+        }
+        public override async Task ResolveAsync(IMediator mediator)
+        {
+            await InvariantState.AssestAsync(mediator);
         }
     }
 }

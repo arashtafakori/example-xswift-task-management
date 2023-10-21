@@ -6,7 +6,7 @@ using EntityFrameworkCore.XSwift.Datastore;
 namespace Persistence.EFCore.TaskRepository
 {
     internal class GetTheTaskHandler :
-        IRequestHandler<GetTheTask, Domain.TaskAggregation.Task?>
+        IRequestHandler<GetTheTask, TaskEntity?>
     {
         private readonly Database _database;
         public GetTheTaskHandler(IDatabase database)
@@ -14,11 +14,11 @@ namespace Persistence.EFCore.TaskRepository
             _database = (Database)database;
         }
 
-        public async Task<Domain.TaskAggregation.Task?> Handle(
+        public async Task<TaskEntity?> Handle(
             GetTheTask request,
             CancellationToken cancellationToken)
         {
-            return await _database.GetItemAsync<GetTheTask, Domain.TaskAggregation.Task>(request: request);
+            return await _database.GetItemAsync<GetTheTask,TaskEntity>(request: request);
         }
     }
 }

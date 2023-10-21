@@ -1,12 +1,11 @@
 ﻿using XSwift.Domain;
 using MediatR;
-using System.Linq.Expressions;
+using XSwift.Base;
 
 namespace Domain.SprintAggregation
 {
     public class GetSprintInfoList :
-        QueryListRequest<Sprint>, 
-        IRequest<PaginatedViewModel<SprintInfo>>
+        QueryListRequest<SprintEntity, PaginatedViewModel<SprintInfo>>
     {
         public Guid ProjectId { get; private set; }
         public GetSprintInfoList()
@@ -19,9 +18,16 @@ namespace Domain.SprintAggregation
             ProjectId = value;
             return this;
         }
-        public override Expression<Func<Sprint, bool>>? Identification()
+
+        public override ExpressionBuilder<SprintEntity> Where()
         {
-            return x => x.ProjectId == ProjectId;
+            WhereExpression.And(x => x.ProjectId == ProjectId);
+            return base.Where();
+        }
+
+        public override async Task ResolveAsync(IMediator mediator)
+        {
+            await InvariantState.AssestAsync(mediator);
         }
     }
 }

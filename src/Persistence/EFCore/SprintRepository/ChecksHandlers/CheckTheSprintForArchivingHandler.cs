@@ -6,7 +6,7 @@ using Domain.SprintAggregation;
 namespace Persistence.EFCore.SprintAggregation
 {
     public class CheckTheSprintForArchivingHandler :
-        IRequestHandler<CheckTheSprintForArchiving>
+        IRequestHandler<CheckTheSprintForArchiving, bool>
     {
         private readonly IMediator _mediator;
         private readonly Database _database;
@@ -18,14 +18,14 @@ namespace Persistence.EFCore.SprintAggregation
             _database = (Database)database;
         }
 
-        public async Task<Unit> Handle(
+        public async Task<bool> Handle(
             CheckTheSprintForArchiving request,
             CancellationToken cancellationToken)
         {
-            await _database.CheckInvariantsAsync<
-                 CheckTheSprintForArchiving, Sprint>(request);
+            var result = await _database.AnyAsync<
+                 CheckTheSprintForArchiving, SprintEntity>(request);
             await request.ResolveAsync(_mediator);
-            return new Unit();
+            return result;
         }
     }
 }

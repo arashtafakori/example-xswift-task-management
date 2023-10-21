@@ -10,7 +10,7 @@ namespace TaskFeature
     {
         private readonly ITaskService _service;
         private EditTheTask? _request = null;
-        private Func<System.Threading.Tasks.Task>? _actual = null;
+        private Func<Task>? _actual = null;
 
         internal UserEditsATask(IServiceScope serviceScope)
         {
@@ -26,7 +26,7 @@ namespace TaskFeature
         {
             _actual = async () => await _service.Process(_request!);
         }
-        internal async System.Threading.Tasks.Task ThenTheRequestSholudBeDone()
+        internal async Task ThenTheRequestSholudBeDone()
         {
             await _actual.Should().NotThrowAsync();
         }

@@ -1,16 +1,18 @@
-﻿using XSwift.Domain;
-using MediatR;
-using System.Linq.Expressions;
+﻿using MediatR;
+using XSwift.Domain;
 
 namespace Domain.TaskAggregation
 {
     public class GetTheTaskInfo :
-        QueryItemRequestById<Task, Guid>,
-        IRequest<TaskInfo?>
+        QueryItemRequestById<TaskEntity, Guid, TaskInfo?>
     {
         public GetTheTaskInfo(Guid id) : base(id)
         {
             PreventIfNoEntityWasFound = true;
+        }
+        public override async Task ResolveAsync(IMediator mediator)
+        {
+            await InvariantState.AssestAsync(mediator);
         }
     }
 }

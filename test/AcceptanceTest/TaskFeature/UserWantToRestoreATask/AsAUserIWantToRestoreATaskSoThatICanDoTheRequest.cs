@@ -23,7 +23,7 @@ namespace TaskFeature
         }
 
         [Fact]
-        internal async System.Threading.Tasks.Task UserRestoresADeletedTask()
+        internal async Task UserRestoresADeletedTask()
         {
             var steps = new UserRestoresADeletedTask(_serviceScope!);
 

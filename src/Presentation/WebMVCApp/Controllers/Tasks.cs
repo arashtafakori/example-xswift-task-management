@@ -137,7 +137,7 @@ namespace Presentation.WebMVCApp.Controllers
                  new { model.TaskInfo!.ProjectId });
         }
 
-        public async System.Threading.Tasks.Task ChangeTheTaskStatus(Guid id, Domain.TaskAggregation.TaskStatus status)
+        public async Task ChangeTheTaskStatus(Guid id, Domain.TaskAggregation.TaskStatus status)
         {
             await _taskService.Process(new ChangeTheTaskStatus(id, status));
         }
