@@ -5,6 +5,7 @@ using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Application;
+using EntityFrameworkCore.XSwift;
 
 namespace Presentation.Configuration
 {
@@ -16,28 +17,35 @@ namespace Presentation.Configuration
         {
             services.ConfigureAndAddServices(
                 appLanguage: configuration.GetSection("AppLanguage").Value!,
+                massTransitSettings: new MassTransitSettings(configuration),
                 databaseSettings: new DatabaseSettings(configuration),
-                massTransitSettings: new MassTransitSettings(configuration));
+                inMemoryDatabaseSettings: new InMemoryDatabaseSettings(configuration),
+                sqlServerSettings: new SqlServerSettings(configuration));
         }
 
         public static void ConfigureAndAddServices(
             this IServiceCollection services,
             string appLanguage,
+            MassTransitSettings massTransitSettings,
             DatabaseSettings databaseSettings,
-            MassTransitSettings massTransitSettings)
+            InMemoryDatabaseSettings? inMemoryDatabaseSettings = null,
+            SqlServerSettings? sqlServerSettings = null)
         {
             Thread.CurrentThread.CurrentUICulture =
                 CultureInfo.GetCultureInfo(appLanguage);
 
             //-- Application
-            services.AddApplicationServices(databaseSettings);
+            services.AddApplicationServices(
+                databaseSettings, 
+                inMemoryDatabaseSettings,
+                sqlServerSettings);
 
             //-- MassTransit
             services.AddMassTransit(x =>
             {
                 //x.AddConsumers();
 
-                x.ConfigureBasedOnSettings(massTransitSettings,
+                x.ConfigureBasedOnSettings(massTransitSettings!,
                     (context, cfg) =>
                     {
                         //cfg.ConfigureConsumers(context);

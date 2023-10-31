@@ -1,6 +1,4 @@
-﻿using XSwift.Mvc;
-using Domain.SprintAggregation;
-using Presentation.WebMVCApp.Controllers;
+﻿using Presentation.WebMVCApp.Controllers;
 
 namespace Presentation.WebMVCApp
 {

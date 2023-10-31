@@ -46,7 +46,7 @@ namespace SprintFeature
         {
             var steps = new ToDefineASprintToAProjectAndGivenASprintWithThisNameHasAlreadyExistedForThisProject(_serviceScope!);
 
-            var projectId = await new DataFacilitator(_serviceScope).
+            var projectId = await new ApplicationServiceFacilitator(_serviceScope).
                 DefineAProject(projectName: "Task Managment");
             var sprintName = "Sprint 01";
 

@@ -3,6 +3,7 @@ using XSwift.Datastore;
 using Contract;
 using Domain.ProjectAggregation;
 using XSwift.Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Application
 {

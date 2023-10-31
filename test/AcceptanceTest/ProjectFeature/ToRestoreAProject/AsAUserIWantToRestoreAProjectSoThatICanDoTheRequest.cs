@@ -28,7 +28,7 @@ namespace ProjectFeature
         {
             var steps = new ToRestoreAnArchivedProject(_serviceScope!);
 
-            var projectId = await new DataFacilitator(_serviceScope).
+            var projectId = await new ApplicationServiceFacilitator(_serviceScope).
                 DefineAProject(projectName: "Task Management");
 
             await _serviceScope.ServiceProvider.

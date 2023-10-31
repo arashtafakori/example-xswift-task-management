@@ -28,7 +28,7 @@ namespace SprintFeature
         {
             var steps = new UserRestoresAnArchivedSprint(_serviceScope!);
 
-            var dataFacilitator = new DataFacilitator(_serviceScope);
+            var dataFacilitator = new ApplicationServiceFacilitator(_serviceScope);
             var projectId = await dataFacilitator.DefineAProject(
                 projectName: "Task Managment");
             var sprintId = await dataFacilitator.DefineASprint(

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using EntityFrameworkCore.XSwift.Datastore;
+using EntityFrameworkCore.XSwift;
 using Persistence.EFCore.ProjectRepository;
 using Domain.ProjectAggregation;
 using Domain.SprintAggregation;

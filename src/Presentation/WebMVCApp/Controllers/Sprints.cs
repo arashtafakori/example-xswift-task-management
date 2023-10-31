@@ -1,24 +1,31 @@
-﻿using Contract;
-using XSwift.Domain;
+﻿using XSwift.Domain;
 using XSwift.Mvc;
-using Domain.ProjectAggregation;
 using Domain.SprintAggregation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.WebMVCApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.WebMVCApp.Controllers
 {
+    [Authorize]
     public class Sprints : MvcControllerX
     {
-        private readonly IProjectService _projectService;
-        private readonly ISprintService _sprintService;
+        private HttpService ProjectApiService { get; set; }
+        private HttpService SprintApiService { get; set; }
 
-        public Sprints(
-            IProjectService projectService,
-            ISprintService sprintService)
+        public Sprints(IHttpClientFactory httpClientFactory)
         {
-            _projectService = projectService;
-            _sprintService = sprintService;
+            var httpClient = httpClientFactory.CreateClient(HttpClientNames.WebAPIClient);
+
+            ProjectApiService = new HttpService(
+                httpClient: httpClient,
+                version: "v1",
+                collectionResource: "Projects");
+
+            SprintApiService = new HttpService(
+                httpClient: httpClient,
+                version: "v1",
+                collectionResource: "Sprints");
         }
 
         [Route($"{nameof(Projects)}/{{{nameof(Domain.SprintAggregation.GetSprintInfoList.ProjectId)}}}/[controller]", Name = nameof(GetSprintInfoList))]
@@ -28,27 +35,32 @@ namespace Presentation.WebMVCApp.Controllers
             int? pageNumber = null,
             int? pageSize = null)
         {
-            var request = GetRequest<GetSprintInfoList>()
-                           .SetProjectId(projectId);
-            request.Setup(
-                paginationSetting: new PaginationSetting(
-                    defaultPageNumber: 1, defaultPageSize: 10));
-
             model ??= new GetSprintInfoListViewModel();
-            model.SprintInfoList = await _sprintService.Process(request);
-            model.ProjectInfo = await _projectService.Process(new GetTheProjectInfo(projectId));
+
+            model.SprintInfoList =
+                await SprintApiService.SendAsync<PaginatedViewModel<SprintInfo>>(
+                    HttpMethod.Get,
+                    version: "v1.1",
+                    collectionResource: "Projects",
+                    collectionItemParameter: projectId,
+                    subCollectionResource: "Sprints",
+                    queryParametersString: HttpContext.Request.QueryString.ToString());
+            model.ProjectInfo = await ApiServiceFacilitator.GetTheProjectInfo(
+                    ProjectApiService, projectId);
 
             return View(model);
         }
 
-        public async Task<IActionResult> GetTheSprintInfo(Guid id)
+        public async Task<IActionResult> GetTheSprintInfo(Guid sprintId)
         {
-            var sprintInfo = (await _sprintService.Process(
-                new GetTheSprintInfo(id)))!;
+            var sprintInfo = await ApiServiceFacilitator.GetTheSprintInfo(
+                    SprintApiService, sprintId);
+
             var model = new GetTheSprintInfoViewModel
             {
                 SprintInfo = sprintInfo,
-                ProjectInfo = await _projectService.Process(new GetTheProjectInfo(sprintInfo.ProjectId))
+                ProjectInfo = await ApiServiceFacilitator.GetTheProjectInfo(
+                    ProjectApiService, sprintInfo.ProjectId)
             };
 
             return View(model);
@@ -59,18 +71,20 @@ namespace Presentation.WebMVCApp.Controllers
             var model = new DefineASprintViewModel()
             {
                 ProjectId = projectId,
-                ProjectInfo = await _projectService.Process(new GetTheProjectInfo(projectId))
+                ProjectInfo = await ApiServiceFacilitator.GetTheProjectInfo(
+                    ProjectApiService, projectId)
             };
             return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DefineASprint(
+        public async Task<IActionResult> DefiningASprintConfirmed(
             DefineASprintViewModel model)
         {
             if (ModelState.IsValid)
             {
-                await _sprintService.Process(model.ToRequest());
+                await SprintApiService.SendAsync(HttpMethod.Post, model.ToRequest());
+
                 return RedirectToRoute(
                     nameof(GetSprintInfoList),
                     new { projectId = model.ProjectId });
@@ -78,20 +92,25 @@ namespace Presentation.WebMVCApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ChangeTheSprintName(Guid id)
+        public async Task<IActionResult> ChangeTheSprintName(Guid sprintId)
         {
             var model = ChangeTheSprintNameViewModel.ToViewModel(
-                (await _sprintService.Process(new GetTheSprintInfo(id)))!);
+                await ApiServiceFacilitator.GetTheSprintInfo(
+                    SprintApiService, sprintId));
             return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangeTheSprintName(
+        public async Task<IActionResult> ChangingTheSprintNameConfirmed(
             ChangeTheSprintNameViewModel model, Guid projectId)
         {
             if (ModelState.IsValid)
             {
-                await _sprintService.Process(model.ToRequest());
+                await SprintApiService.SendAsync(
+                    HttpMethod.Patch,
+                    model.ToRequest(),
+                    actionName: "ChangeTheSprintName");
+
                 return RedirectToRoute(
                     nameof(GetSprintInfoList),
                     new { projectId });
@@ -99,20 +118,25 @@ namespace Presentation.WebMVCApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ChangeTheSprintTimeSpan(Guid id)
+        public async Task<IActionResult> ChangeTheSprintTimeSpan(Guid sprintId)
         {
             var model = ChangeTheSprintTimeSpanViewModel.ToViewModel(
-                (await _sprintService.Process(new GetTheSprintInfo(id)))!);
+                await ApiServiceFacilitator.GetTheSprintInfo(
+                    SprintApiService, sprintId));
             return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangeTheSprintTimeSpan(
+        public async Task<IActionResult> ChangingTheSprintTimeSpanConfirmed(
             ChangeTheSprintTimeSpanViewModel model, Guid projectId)
         {
             if (ModelState.IsValid)
             {
-                await _sprintService.Process(model.ToRequest());
+                await SprintApiService.SendAsync(
+                    HttpMethod.Patch,
+                    model.ToRequest(),
+                    actionName: "ChangeTheSprintTimeSpan");
+
                 return RedirectToRoute(
                     nameof(GetSprintInfoList),
                     new { projectId });
@@ -120,14 +144,17 @@ namespace Presentation.WebMVCApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ArchiveTheSprint(Guid id)
+        public async Task<IActionResult> ArchiveTheSprint(Guid sprintId)
         {
             var model = new ArchiveTheSprintViewModel
             {
-                SprintInfo = await _sprintService.Process(
-                new GetTheSprintInfo(id))!,
+                SprintInfo = await ApiServiceFacilitator.GetTheSprintInfo(
+                    SprintApiService, sprintId),
                 IssuesOfArchivingPossibility = (await CatchDomainErrors(
-                    () => _sprintService.Process(new CheckTheSprintForArchiving(id))))
+                    () => SprintApiService.SendAsync(
+                        HttpMethod.Get,
+                        actionName: "CheckTheSprintForArchiving",
+                        collectionItemParameter: sprintId)))
                     ?.Issues
             };
 
@@ -138,7 +165,15 @@ namespace Presentation.WebMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ArchivingTheSprintConfirmed(ArchiveTheSprintViewModel model)
         {
-            await _sprintService.Process(model.ToRequest());
+            var dd = HttpContext.Request.QueryString.ToString();
+
+            await SprintApiService.SendAsync(
+                HttpMethod.Patch,
+                 actionName: "ArchiveTheSprint",
+                 collectionItemParameter: model.SprintInfo!.Id,
+                 queryParameters: new QueryParameters()
+                 .AddParameter("archivingAllTasksMode", model.ArchivingAllTaskMode));
+
             return RedirectToRoute(
                 nameof(GetSprintInfoList),
                 new { model.SprintInfo!.ProjectId });

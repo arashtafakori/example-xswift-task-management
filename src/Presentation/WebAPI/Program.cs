@@ -2,9 +2,11 @@
 using Presentation.Configuration;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Diagnostics;
+using Presentation.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureAndAddServices(builder.Configuration);
+builder.Services.AddAuthService(builder.Configuration);
 builder.Services.AddControllers().AddNewtonsoftJson();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -33,4 +35,8 @@ app.UseExceptionHandler(c => c.Run(async context =>
     await context.Response.WriteAsJsonAsync(devError);
 }));
 app.MapControllers();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.Run();

@@ -3,6 +3,7 @@ using Domain.Properties;
 using System.ComponentModel.DataAnnotations;
 using Domain.SprintAggregation;
 using Domain.TaskAggregation;
+using System.Text.Json.Serialization;
 
 namespace Domain.ProjectAggregation
 {

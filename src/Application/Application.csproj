@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\xswift-framework\xswift\XSwift.csproj" />
+    <ProjectReference Include="..\..\..\..\..\xswift-framework\xswift\src\XSwift.csproj" />
     <ProjectReference Include="..\Contract\Contract.csproj" />
     <ProjectReference Include="..\Persistence\EFCore\Persistence.EFCore.csproj" />
   </ItemGroup>

@@ -26,7 +26,7 @@ namespace ProjectFeature
         {
             var steps = new ToChangeTheNameOfAProjectToANewName(_serviceScope!);
 
-            var projectId = await new DataFacilitator(_serviceScope)
+            var projectId = await new ApplicationServiceFacilitator(_serviceScope)
                 .DefineAProject(projectName: "Task Management");
 
             var newProjectName = "Task Board";
@@ -43,7 +43,7 @@ namespace ProjectFeature
         {
             var steps = new ToChangeTheNameOfAProjectToANewAndGivenAProjectWithTheSameNewNameHasAlreadyExisted(_serviceScope!);
 
-            var projectId = await new DataFacilitator(_serviceScope)
+            var projectId = await new ApplicationServiceFacilitator(_serviceScope)
                 .DefineAProject(projectName: "Task Management");
 
             var newProjectName = "Task Board";

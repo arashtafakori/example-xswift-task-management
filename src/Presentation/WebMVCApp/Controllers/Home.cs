@@ -3,6 +3,9 @@ using XSwift.Mvc;
 using XSwift.Base;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Presentation.WebMVCApp.Controllers
 {
@@ -33,6 +36,12 @@ namespace Presentation.WebMVCApp.Controllers
 
             devError.RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
             return View(devError);
+        }
+
+        public async Task Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
         }
     }
 }

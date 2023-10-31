@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using Domain.ProjectAggregation;
 using XSwift.Datastore;
-using EntityFrameworkCore.XSwift.Datastore;
-using Domain.TaskAggregation;
-using Domain.SprintAggregation;
+using EntityFrameworkCore.XSwift;
 
 namespace Persistence.EFCore.ProjectRepository
 {

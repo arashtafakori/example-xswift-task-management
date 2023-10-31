@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
@@ -18,7 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\xswift-framework\xswift\XSwift.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\xswift-framework\xswift-oauth\src\Xswift.OAuth.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\xswift-framework\xswift\src\XSwift.csproj" />
     <ProjectReference Include="..\..\Application\Application.csproj" />
     <ProjectReference Include="..\..\Contract\Contract.csproj" />
     <ProjectReference Include="..\..\Domain\Domain.csproj" />

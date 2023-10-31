@@ -9,9 +9,13 @@
 <h4>@ViewData["Title"]</h4>
 
 <hr />
-<p>
-    <a asp-action="@nameof(Projects.DefineAProject)">Define A New</a>
-</p>
+@if (User.IsInRole(
+               Presentation.Configuration.AuthDefinitions.Roles.Admin))
+{
+    <p>
+        <a asp-action="@nameof(Projects.DefineAProject)">Define A New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -29,12 +33,22 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    <a asp-action="@nameof(Projects.GetTheProjectInfo)" asp-route-id="@item.Id">Info</a> |
-                    <a asp-controller="@nameof(Tasks)" asp-action="@nameof(Tasks.GetTaskInfoList)" asp-route-projectId="@item.Id">Board</a> |
-                    <a asp-controller="@nameof(Sprints)" asp-action="@nameof(Sprints.GetSprintInfoList)" asp-route-projectId="@item.Id">Sprints</a> |
-                    <a asp-action="@nameof(Projects.ChangeTheProjectName)" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="@nameof(Projects.ArchiveTheProject)" asp-route-id="@item.Id">Archive</a> |
-                    <a asp-action="@nameof(Projects.DeleteTheProject)" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="@nameof(Projects.GetTheProjectInfo)" asp-route-projectId="@item.Id">Info</a>
+                    <span> | </span>
+                    <a asp-controller="@nameof(Tasks)" asp-action="@nameof(Tasks.GetTaskInfoList)" asp-route-projectId="@item.Id">Board</a>
+                    <span> | </span>
+                    <a asp-controller="@nameof(Sprints)" asp-action="@nameof(Sprints.GetSprintInfoList)" asp-route-projectId="@item.Id">Sprints</a>
+
+                    @if (User.IsInRole(
+                        Presentation.Configuration.AuthDefinitions.Roles.Admin))
+                    {
+                        <span> | </span>
+                        <a asp-action="@nameof(Projects.ChangeTheProjectName)" asp-route-projectId="@item.Id">Edit</a>
+                        <span> | </span>
+                        <a asp-action="@nameof(Projects.ArchiveTheProject)" asp-route-projectId="@item.Id">Archive</a>
+                        <span> | </span>
+                        <a asp-action="@nameof(Projects.DeleteTheProject)" asp-route-projectId="@item.Id">Delete</a>
+                    }
                 </td>
             </tr>
         }

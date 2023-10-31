@@ -27,7 +27,7 @@ namespace TaskFeature
         {
             var steps = new ToEditATask(_serviceScope!);
 
-            var dataFacilitator = new DataFacilitator(_serviceScope);
+            var dataFacilitator = new ApplicationServiceFacilitator(_serviceScope);
             var projectId = await dataFacilitator.DefineAProject(
                 projectName: "Task Managment");
             Guid? sprintId = null;
@@ -38,7 +38,7 @@ namespace TaskFeature
                 sprintId);
             var newDescription = "Implement the project feature as an application service.";
 
-            Guid? newSprintId = await new DataFacilitator(_serviceScope).
+            Guid? newSprintId = await new ApplicationServiceFacilitator(_serviceScope).
                 DefineASprint(projectId, "Sprint 01");
 
             var newStatus = Domain.TaskAggregation.TaskStatus.Completed;

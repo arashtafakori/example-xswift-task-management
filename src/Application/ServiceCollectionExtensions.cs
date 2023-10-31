@@ -4,11 +4,12 @@ using XSwift.Settings;
 using SoftDeleteServices.Configuration;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using XSwift.Datastore;
 using Contract;
 using MediatR;
 using Persistence.EFCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using EntityFrameworkCore.XSwift;
+using XSwift.Datastore;
 
 namespace Application
 {
@@ -16,9 +17,14 @@ namespace Application
     {
         public static void AddApplicationServices(
             this IServiceCollection services,
-            DatabaseSettings databaseSettings)
+            DatabaseSettings databaseSettings,
+            InMemoryDatabaseSettings? inMemoryDatabaseSettings = null,
+            SqlServerSettings? sqlServerSettings = null)
         {
-            services.ConfigureDataStore(databaseSettings);
+            services.ConfigureDataStore(
+                databaseSettings,
+                inMemoryDatabaseSettings,
+                sqlServerSettings);
 
             // MediatR Registrations
             services.AddMediatR(typeof(ProjectService));
@@ -33,19 +39,23 @@ namespace Application
             // Infrastructure Services
         }
 
-        private static void ConfigureDataStore(this IServiceCollection services, DatabaseSettings databaseSettings)
+        private static void ConfigureDataStore(
+            this IServiceCollection services,
+            DatabaseSettings databaseSettings,
+            InMemoryDatabaseSettings? inMemoryDatabaseSettings = null,
+            SqlServerSettings? sqlServerSettings = null)
         {
-            if (databaseSettings.Type == DatabaseType.InMemory)
+            if (databaseSettings.IsInMemory)
             {
                 services.AddScoped<IDatabase, ModuleEFCoreDatabase>();
                 services.AddScoped<IDbTransaction, ModuleDbTransaction>();
 
                 services.AddDbContext<ModuleDbContext>(options =>
-                   options.UseInMemoryDatabase(databaseName: databaseSettings.InMemoryDatabaseName)
+                   options.UseInMemoryDatabase(databaseName: inMemoryDatabaseSettings.DatabaseName)
                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning)),
                    ServiceLifetime.Scoped);
             }
-            else if (databaseSettings.Type == DatabaseType.SqlServer)
+            else
             {
                 services.AddScoped<IDatabase, ModuleEFCoreDatabase>();
                 services.AddScoped<IDbTransaction, ModuleDbTransaction>();
@@ -53,15 +63,12 @@ namespace Application
                 var assembly = typeof(ModuleDbContext).Assembly.GetName().Name;
                 services.AddDbContext<ModuleDbContext>(options =>
                    options.UseSqlServer(
-                       databaseSettings.SqlServerConnectString!,
+                       sqlServerSettings.ConnectString!,
                        b => b.MigrationsAssembly(assembly)),
                    ServiceLifetime.Scoped);
 
                 services.RegisterSoftDelServicesAndYourConfigurations(
                     Assembly.GetAssembly(typeof(ModuleDeletabilityConfiguration)));
-            }
-            else if (databaseSettings.Type == DatabaseType.MongoDb)
-            {
             }
         }
 

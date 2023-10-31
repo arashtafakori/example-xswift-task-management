@@ -1,19 +1,27 @@
-﻿using Contract;
-using XSwift.Domain;
-using Domain.ProjectAggregation;
+﻿using Domain.ProjectAggregation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.WebMVCApp.ViewModels;
 using XSwift.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using XSwift.Domain;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using System.Diagnostics;
 
 namespace Presentation.WebMVCApp.Controllers
 {
+    [Authorize]
     public class Projects : MvcControllerX
     {
-        private readonly IProjectService _projectService;
-        public Projects(
-            IProjectService projectService)
+        private HttpService ProjectApiService { get; set; }
+        public Projects(IHttpClientFactory httpClientFactory)
         {
-            _projectService = projectService;
+            var httpClient = httpClientFactory.CreateClient(HttpClientNames.WebAPIClient);
+
+            ProjectApiService = new HttpService(
+                httpClient: httpClient,
+                version: "v1", 
+                collectionResource: "Projects");
         }
 
         public async Task<IActionResult> GetProjectInfoList(
@@ -21,70 +29,92 @@ namespace Presentation.WebMVCApp.Controllers
             int? pageNumber = null,
             int? pageSize = null)
         {
-            var request = GetRequest<GetProjectInfoList>();
-            request.Setup(
-                paginationSetting: new PaginationSetting(
-                    defaultPageNumber: 1, defaultPageSize: 10));
-
             model ??= new GetProjectInfoListViewModel();
-            model.ProjectInfoList = await _projectService.Process(request);
+            model.ProjectInfoList = 
+                await ProjectApiService.SendAsync<PaginatedViewModel<ProjectInfo>>(
+                    HttpMethod.Get,
+                    version: "v1.1",
+                    queryParametersString: HttpContext.Request.QueryString.ToString());
+
+            await LogTokenAndClaims();
 
             return View(model);
         }
 
-        public async Task<IActionResult> GetTheProjectInfo(Guid id)
+        public async Task LogTokenAndClaims()
+        {
+            var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
+
+            Debug.WriteLine($"Identity token: {identityToken}");
+
+            foreach (var claim in User.Claims)
+            {
+                Debug.WriteLine($"Claim type: {claim.Type} - Claim value: {claim.Value}");
+            }
+        }
+        public async Task<IActionResult> GetTheProjectInfo(Guid projectId)
         {
             var model = new GetTheProjectInfoViewModel
             {
-                ProjectInfo = await _projectService.Process(
-                new GetTheProjectInfo(id))
+                ProjectInfo = await ApiServiceFacilitator.GetTheProjectInfo(
+                    ProjectApiService, projectId)
             };
             return View(model);
         }
 
+        //[Authorize(Roles = Configuration.AuthDefinitions.Roles.Admin)]
         public IActionResult DefineAProject()
         {
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DefineAProject(
+        public async Task<IActionResult> DefiningAProjectConfirmed(
             DefineAProjectViewModel model)
         {
             if (ModelState.IsValid)
             {
-                await _projectService.Process(model.ToRequest());
+                await ProjectApiService.SendAsync(HttpMethod.Post, model.ToRequest());
+
                 return RedirectToAction(nameof(GetProjectInfoList));
             }
             return View(model);
         }
 
-        public async Task<IActionResult> ChangeTheProjectName(Guid id)
+        public async Task<IActionResult> ChangeTheProjectName(Guid projectId)
         {
             return View(ChangeTheProjectNameViewModel.ToViewModel(
-                (await _projectService.Process(new GetTheProjectInfo(id)))!));
+                await ApiServiceFacilitator.GetTheProjectInfo(
+                    ProjectApiService, projectId)));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangeTheProjectName(
+        public async Task<IActionResult> ChangingTheProjectNameConfirmed(
             ChangeTheProjectNameViewModel model)
         {
             if (ModelState.IsValid)
             {
-                await _projectService.Process(model.ToRequest());
+                await ProjectApiService.SendAsync(
+                    HttpMethod.Patch,
+                    model.ToRequest(),
+                    actionName: "ChangeTheProjectName");
+
                 return RedirectToAction(nameof(GetProjectInfoList));
             }
             return View(model);
         }
 
-        public async Task<IActionResult> ArchiveTheProject(Guid id)
+        public async Task<IActionResult> ArchiveTheProject(Guid projectId)
         {
             var model = new ArchiveTheProjectViewModel
             {
-                ProjectInfo = await _projectService.Process(
-                new GetTheProjectInfo(id)),
+                ProjectInfo = await ApiServiceFacilitator.GetTheProjectInfo(
+                    ProjectApiService, projectId),
                 IssuesOfArchivingPossibility = (await CatchDomainErrors(
-                    () => _projectService.Process(new CheckTheProjectForArchiving(id))))
+                    () => ProjectApiService.SendAsync(
+                        HttpMethod.Get,
+                        actionName: "CheckTheProjectForArchiving",
+                        collectionItemParameter: projectId)))
                     ?.Issues
             };
             return View(model);
@@ -94,16 +124,20 @@ namespace Presentation.WebMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ArchivingTheProjectConfirmed(ArchiveTheProjectViewModel model)
         {
-            await _projectService.Process(new ArchiveTheProject(model.ProjectInfo!.Id));
+            await ProjectApiService.SendAsync(
+                HttpMethod.Patch,
+                 actionName: "ArchiveTheProject",
+                 collectionItemParameter: model.ProjectInfo!.Id);
+ 
             return RedirectToAction(nameof(GetProjectInfoList));
         }
 
-        public async Task<IActionResult> DeleteTheProject(Guid id)
+        public async Task<IActionResult> DeleteTheProject(Guid projectId)
         {
             var model = new DeleteTheProjectViewModel
             {
-                ProjectInfo = await _projectService.Process(
-                    new GetTheProjectInfo(id))
+                ProjectInfo = await ApiServiceFacilitator.GetTheProjectInfo(
+                    ProjectApiService, projectId)
             };
             return View(model);
         }
@@ -113,7 +147,9 @@ namespace Presentation.WebMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletingTheProjectConfirmed(DeleteTheProjectViewModel model)
         {
-            await _projectService.Process(new DeleteTheProject(model.ProjectInfo!.Id));
+            await ProjectApiService.SendAsync(
+                HttpMethod.Delete,
+                collectionItemParameter: model.ProjectInfo!.Id);
             return RedirectToAction(nameof(GetProjectInfoList));
         }
     }

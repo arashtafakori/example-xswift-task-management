@@ -26,7 +26,7 @@ namespace TaskFeature
         {
             var steps = new ToArchiveATask(_serviceScope!);
 
-            var dataFacilitator = new DataFacilitator(_serviceScope);
+            var dataFacilitator = new ApplicationServiceFacilitator(_serviceScope);
             var projectId = await dataFacilitator.DefineAProject(
                 projectName: "Task Managment");
             var taskId = await dataFacilitator.AddATask(

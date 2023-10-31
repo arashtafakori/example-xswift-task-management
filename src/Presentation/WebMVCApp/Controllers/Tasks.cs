@@ -1,28 +1,38 @@
-﻿using Contract;
-using XSwift.Mvc;
+﻿using XSwift.Mvc;
 using Domain.TaskAggregation;
-using Domain.ProjectAggregation;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.WebMVCApp.ViewModels;
 using Domain.SprintAggregation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using XSwift.Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.WebMVCApp.Controllers
 {
+    [Authorize]
     public class Tasks : MvcControllerX
     {
-        private readonly IProjectService _projectService;
-        private readonly ISprintService _sprintService;
-        private readonly ITaskService _taskService;
-        public Tasks(
-            IProjectService projectService,
-            ISprintService sprintService,
-            ITaskService taskService)
+        private HttpService ProjectApiService { get; set; }
+        private HttpService SprintApiService { get; set; }
+        private HttpService TaskApiService { get; set; }
+        public Tasks(IHttpClientFactory httpClientFactory)
         {
-            _projectService = projectService;
-            _sprintService = sprintService;
-            _taskService = taskService;
+            var httpClient = httpClientFactory.CreateClient(HttpClientNames.WebAPIClient);
+
+            ProjectApiService = new HttpService(
+                httpClient: httpClient,
+                version: "v1",
+                collectionResource: "Projects");
+
+            SprintApiService = new HttpService(
+                httpClient: httpClient,
+                version: "v1",
+                collectionResource: "Sprints");
+
+            TaskApiService = new HttpService(
+                httpClient: httpClient,
+                version: "v1",
+                collectionResource: "Tasks");
         }
         [Route($"{nameof(Projects)}/{{{nameof(Domain.TaskAggregation.GetTaskInfoList.ProjectId)}}}/[controller]", Name = nameof(GetTaskInfoList))]
         public async Task<IActionResult> GetTaskInfoList(
@@ -34,30 +44,33 @@ namespace Presentation.WebMVCApp.Controllers
             int? pageNumber = null,
             int? pageSize = null)
         {
-            var request = GetRequest<GetTaskInfoList>()
-                .SetProjectId(projectId);
-            request.Setup(
-                paginationSetting: new PaginationSetting(
-                    defaultPageNumber: 1, defaultPageSize: 10));
-
             model ??= new GetTaskInfoListViewModel();
-            model.TaskInfoList = await _taskService.Process(request);
-            model.ProjectInfo = await _projectService.Process(new GetTheProjectInfo(projectId));
+            model.TaskInfoList =
+                await TaskApiService.SendAsync<PaginatedViewModel<TaskInfo>>(
+                    HttpMethod.Get,
+                    version: "v1.1",
+                    collectionResource: "Projects",
+                    collectionItemParameter: projectId,
+                    subCollectionResource: "Tasks",
+                    queryParametersString: HttpContext.Request.QueryString.ToString());
+            model.ProjectInfo = await ApiServiceFacilitator.GetTheProjectInfo(
+                    ProjectApiService, projectId);
             model.TaskStatusSelectListItems = await GetSelectListOfTaskStatus();
             model.SprintsInfoItems = await GetSelectListOfSprintInfoList(projectId);
 
             return View(model);
         }
 
-        public async Task<IActionResult> GetTheTaskInfo(Guid id)
+        public async Task<IActionResult> GetTheTaskInfo(Guid taskId)
         {
-            var taskInfo = (await _taskService.Process(
-                new GetTheTaskInfo(id)))!;
+            var taskInfo = await ApiServiceFacilitator.GetTheTaskInfo(
+                    TaskApiService, taskId);
+
             var model = new GetTheTaskInfoViewModel()
             {
                 TaskInfo = taskInfo,
-                ProjectInfo = await _projectService.Process(
-                    new GetTheProjectInfo(taskInfo.ProjectId))
+                ProjectInfo = await ApiServiceFacilitator.GetTheProjectInfo(
+                    ProjectApiService, taskInfo.ProjectId)
             };
             return View(model);
         }
@@ -67,7 +80,8 @@ namespace Presentation.WebMVCApp.Controllers
             var model = new AddATaskViewModel
             {
                 ProjectId = projectId,
-                ProjectInfo = await _projectService.Process(new GetTheProjectInfo(projectId)),
+                ProjectInfo = await ApiServiceFacilitator.GetTheProjectInfo(
+                    ProjectApiService, projectId),
                 TaskStatusSelectListItems = await GetSelectListOfTaskStatus(),
                 SprintsInfoItems = await GetSelectListOfSprintInfoList(projectId)
             };
@@ -77,12 +91,12 @@ namespace Presentation.WebMVCApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddATask(
+        public async Task<IActionResult> AddingATaskConfirmed(
             AddATaskViewModel model)
         {
             if (ModelState.IsValid)
             {
-                await _taskService.Process(model.ToRequest());
+                await TaskApiService.SendAsync(HttpMethod.Post, model.ToRequest());
 
                 return RedirectToRoute(
                     nameof(GetTaskInfoList),
@@ -91,9 +105,11 @@ namespace Presentation.WebMVCApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> EditTheTask(Guid id)
+        public async Task<IActionResult> EditTheTask(Guid taskId)
         {
-            var taskInfo = (await _taskService.Process(new GetTheTaskInfo(id)))!;
+            var taskInfo = await ApiServiceFacilitator.GetTheTaskInfo(
+                    TaskApiService, taskId);
+
             var model = EditTheTaskViewModel.ToViewModel(taskInfo);
             model.TaskStatusSelectListItems = await GetSelectListOfTaskStatus();
             model.SprintsInfoItems = await GetSelectListOfSprintInfoList(taskInfo.ProjectId);
@@ -102,12 +118,15 @@ namespace Presentation.WebMVCApp.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTheTask(
+        public async Task<IActionResult> EditingTheTaskConfirmed(
             EditTheTaskViewModel model, Guid projectId)
         {
             if (ModelState.IsValid)
             {
-                await _taskService.Process(model.ToRequest());
+                await TaskApiService.SendAsync(
+                    HttpMethod.Patch,
+                    model.ToRequest(),
+                    actionName: "EditTheTask");
 
                 return RedirectToRoute(
                     nameof(GetTaskInfoList),
@@ -116,12 +135,12 @@ namespace Presentation.WebMVCApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ArchiveTheTask(Guid id)
+        public async Task<IActionResult> ArchiveTheTask(Guid taskId)
         {
             var model = new ArchiveTheTaskViewModel
             {
-                TaskInfo = (await _taskService.Process(
-                new GetTheTaskInfo(id)))!
+                TaskInfo = await ApiServiceFacilitator.GetTheTaskInfo(
+                    TaskApiService, taskId)
             };
             return View(model);
         }
@@ -130,7 +149,10 @@ namespace Presentation.WebMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ArchivingTheTaskConfirmed(ArchiveTheTaskViewModel model)
         {
-            await _taskService.Process(new ArchiveTheTask(model.TaskInfo!.Id));
+            await TaskApiService.SendAsync(
+                HttpMethod.Patch,
+                actionName: "ArchiveTheTask",
+                collectionItemParameter: model.TaskInfo!.Id);
 
             return RedirectToRoute(
                  nameof(GetTaskInfoList),
@@ -139,21 +161,31 @@ namespace Presentation.WebMVCApp.Controllers
 
         public async Task ChangeTheTaskStatus(Guid id, Domain.TaskAggregation.TaskStatus status)
         {
-            await _taskService.Process(new ChangeTheTaskStatus(id, status));
+            await TaskApiService.SendAsync(
+                HttpMethod.Patch,
+                new ChangeTheTaskStatus(id, status),
+                actionName: "ChangeTheTaskStatus");
         }
 
         private async Task<List<SelectListItem>> GetSelectListOfSprintInfoList(Guid projectId)
         {
-           return (await _sprintService.Process(
-                new GetSprintInfoList().SetProjectId(projectId))).Items.ToSelectList(
+            var sprintInfoList = await SprintApiService.SendAsync<PaginatedViewModel<SprintInfo>>(
+                    HttpMethod.Get,
+                    version: "v1.1",
+                    collectionResource: "Projects",
+                    collectionItemParameter: projectId,
+                    subCollectionResource: "Sprints");
+
+           return sprintInfoList.Items.ToSelectList(
                     value: item => item.Id!.ToString(),
                     text: item => item.Name);
         }
         private async Task<List<SelectListItem>> GetSelectListOfTaskStatus()
         {
             return
-                (await _taskService.Process(new GetTaskStatusList()))
-                .ToSelectList(
+                (await TaskApiService.SendAsync<List<KeyValuePair<int, string>>>(
+                    HttpMethod.Get,
+                    actionName: "GetTaskStatusItems")).ToSelectList(
                     value: item => item.Key,
                     text: item => item.Value);
         }

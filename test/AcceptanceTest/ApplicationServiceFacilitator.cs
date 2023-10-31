@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace AcceptanceTest
 {
-    public class DataFacilitator
+    public class ApplicationServiceFacilitator
     {
         private readonly IServiceScope _serviceScope;
-        public DataFacilitator(IServiceScope serviceScope)
+        public ApplicationServiceFacilitator(IServiceScope serviceScope)
         {
             _serviceScope = serviceScope;
         }

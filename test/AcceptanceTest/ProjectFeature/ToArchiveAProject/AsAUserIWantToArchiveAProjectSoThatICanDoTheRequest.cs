@@ -28,7 +28,7 @@ namespace ProjectFeature
         {
             var steps = new ToArchiveAProject(_serviceScope!);
 
-            var projectId = await new DataFacilitator(_serviceScope).
+            var projectId = await new ApplicationServiceFacilitator(_serviceScope).
                 DefineAProject(projectName: "Task Management");
 
             steps.Given(_ => steps.GivenIWantToArchiveAProject(projectId))

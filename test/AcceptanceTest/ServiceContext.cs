@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Persistence.EFCore;
 using Presentation.Configuration;
 using System;
+using XSwift.MassTransit;
 using XSwift.Settings;
 
 namespace AcceptanceTest
@@ -18,11 +19,13 @@ namespace AcceptanceTest
             var services = new ServiceCollection();
 
             var databaseSettings = new DatabaseSettings(configuration);
-            databaseSettings.SetInMemoryDatabaseName(Guid.NewGuid().ToString());
+            var inMemoryDatabaseSettings = new InMemoryDatabaseSettings(configuration);
+            inMemoryDatabaseSettings.SetInMemoryDatabaseName(Guid.NewGuid().ToString());
 
             services.ConfigureAndAddServices(
                 appLanguage: configuration.GetSection("AppLanguage").Value!,
                 databaseSettings: databaseSettings,
+                inMemoryDatabaseSettings: inMemoryDatabaseSettings,
                 massTransitSettings: new MassTransitSettings(configuration));
 
             ServiceProvider = services.BuildServiceProvider(validateScopes: true);

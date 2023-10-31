@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\xswift-framework\xswift\XSwift.csproj" />
+    <ProjectReference Include="..\..\..\..\..\xswift-framework\xswift\src\XSwift.csproj" />
   </ItemGroup>
 
   <ItemGroup>

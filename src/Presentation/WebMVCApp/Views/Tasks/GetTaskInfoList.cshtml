@@ -111,9 +111,11 @@
                     @Html.DisplayFor(modelItem => item.OwnerName)
                 </td>
                 <td>
-                    <a asp-action="@nameof(Tasks.GetTheTaskInfo)" asp-route-id="@item.Id">Info</a> |
-                    <a asp-action="@nameof(Tasks.EditTheTask)" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="@nameof(Tasks.ArchiveTheTask)" asp-route-id="@item.Id">Archive</a>
+                    <a asp-action="@nameof(Tasks.GetTheTaskInfo)" asp-route-taskId="@item.Id">Info</a>
+                    <span> | </span>
+                    <a asp-action="@nameof(Tasks.EditTheTask)" asp-route-taskId="@item.Id">Edit</a>
+                    <span> | </span>
+                    <a asp-action="@nameof(Tasks.ArchiveTheTask)" asp-route-taskId="@item.Id">Archive</a>
                 </td>
             </tr>
         }

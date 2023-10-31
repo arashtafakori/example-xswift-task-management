@@ -3,11 +3,15 @@ using Contract;
 using Domain.TaskAggregation;
 using XSwift.Mvc;
 using XSwift.Domain;
+using Microsoft.AspNetCore.Authorization;
+using Presentation.Configuration.AuthDefinitions;
 
 namespace Presentation.WebAPI
 {
     [ApiController]
     [Route("v1/[controller]")]
+    [Authorize(Policies.ClientId)]
+    [Authorize(Policies.BoardScope)]
     public class Tasks : ApiControllerX
     {
         private readonly ITaskService _service;
