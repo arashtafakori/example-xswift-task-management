@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MassTransit;
 using XSwift.Settings;
 using SoftDeleteServices.Configuration;
 using System.Reflection;
@@ -72,11 +71,6 @@ namespace Module.Application
             }
 
             new DatabaseInitialization(services, databaseSetting).Initialize();
-        }
-
-        public static void AddRequestClients(
-            this IBusRegistrationConfigurator busServiceConfigurator)
-        {
         }
     }
  }

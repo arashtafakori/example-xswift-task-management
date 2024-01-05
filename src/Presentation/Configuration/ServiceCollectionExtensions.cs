@@ -1,6 +1,4 @@
-﻿using XSwift.MassTransit;
-using MassTransit;
-using XSwift.Settings;
+﻿using XSwift.Settings;
 using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +14,6 @@ namespace Module.Presentation.Configuration
             IConfigurationRoot configuration)
         {
             services.ConfigureApplicationServices(
-                massTransitSetting: new MassTransitSetting(configuration),
                 databaseSetting: new DatabaseSetting(configuration),
                 inMemoryDatabaseSetting: new InMemoryDatabaseSetting(configuration),
                 sqlServerSetting: new SqlServerSetting(configuration));
@@ -24,7 +21,6 @@ namespace Module.Presentation.Configuration
 
         public static void ConfigureApplicationServices(
             this IServiceCollection services,
-            MassTransitSetting massTransitSetting,
             DatabaseSetting databaseSetting,
             InMemoryDatabaseSetting? inMemoryDatabaseSetting = null,
             SqlServerSetting? sqlServerSetting = null)
@@ -34,20 +30,6 @@ namespace Module.Presentation.Configuration
                 databaseSetting, 
                 inMemoryDatabaseSetting,
                 sqlServerSetting);
-
-            //-- MassTransit
-            services.AddMassTransit(x =>
-            {
-                //x.AddConsumers();
-
-                x.ConfigureBasedOnSettings(massTransitSetting!,
-                    (context, cfg) =>
-                    {
-                        //cfg.ConfigureConsumers(context);
-                    });
-
-                x.AddRequestClients();
-            });
         }
 
         public static void ConfigureLanguage(

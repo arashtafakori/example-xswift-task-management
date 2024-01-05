@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Module.Persistence;
 using Module.Presentation.Configuration;
 using System;
-using XSwift.MassTransit;
 using XSwift.Settings;
 
 namespace AcceptanceTest
@@ -24,8 +23,7 @@ namespace AcceptanceTest
 
             services.ConfigureApplicationServices(
                 databaseSetting: databaseSetting,
-                inMemoryDatabaseSetting: inMemoryDatabaseSetting,
-                massTransitSetting: new MassTransitSetting(configuration));
+                inMemoryDatabaseSetting: inMemoryDatabaseSetting);
 
             services.ConfigureLanguage(configuration.GetSection("AppLanguage").Value!);
 
