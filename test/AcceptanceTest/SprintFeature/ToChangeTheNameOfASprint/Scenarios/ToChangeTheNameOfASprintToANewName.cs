@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using Contract;
-using Domain.SprintAggregation;
+using Module.Contract;
+using Module.Domain.SprintAggregation;
 
-namespace SprintFeature
+namespace AcceptanceTest.SprintFeature
 {
     internal class ToChangeTheNameOfASprintToANewName
     {

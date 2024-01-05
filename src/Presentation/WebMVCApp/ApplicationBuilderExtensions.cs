@@ -1,6 +1,6 @@
-﻿using Presentation.WebMVCApp.Controllers;
+﻿using Module.Presentation.WebMVCApp.Controllers;
 
-namespace Presentation.WebMVCApp
+namespace Module.Presentation.WebMVCApp
 {
     public static class ApplicationBuilderExtensions
     {

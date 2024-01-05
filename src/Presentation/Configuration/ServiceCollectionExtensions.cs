@@ -4,48 +4,43 @@ using XSwift.Settings;
 using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Application;
-using EntityFrameworkCore.XSwift;
+using Module.Application;
+using XSwift.EntityFrameworkCore;
 
-namespace Presentation.Configuration
+namespace Module.Presentation.Configuration
 {
     public static class ServiceCollectionExtensions
     {
-        public static void ConfigureAndAddServices(
+        public static void ConfigureApplicationServices(
             this IServiceCollection services,
             IConfigurationRoot configuration)
         {
-            services.ConfigureAndAddServices(
-                appLanguage: configuration.GetSection("AppLanguage").Value!,
-                massTransitSettings: new MassTransitSettings(configuration),
-                databaseSettings: new DatabaseSettings(configuration),
-                inMemoryDatabaseSettings: new InMemoryDatabaseSettings(configuration),
-                sqlServerSettings: new SqlServerSettings(configuration));
+            services.ConfigureApplicationServices(
+                massTransitSetting: new MassTransitSetting(configuration),
+                databaseSetting: new DatabaseSetting(configuration),
+                inMemoryDatabaseSetting: new InMemoryDatabaseSetting(configuration),
+                sqlServerSetting: new SqlServerSetting(configuration));
         }
 
-        public static void ConfigureAndAddServices(
+        public static void ConfigureApplicationServices(
             this IServiceCollection services,
-            string appLanguage,
-            MassTransitSettings massTransitSettings,
-            DatabaseSettings databaseSettings,
-            InMemoryDatabaseSettings? inMemoryDatabaseSettings = null,
-            SqlServerSettings? sqlServerSettings = null)
+            MassTransitSetting massTransitSetting,
+            DatabaseSetting databaseSetting,
+            InMemoryDatabaseSetting? inMemoryDatabaseSetting = null,
+            SqlServerSetting? sqlServerSetting = null)
         {
-            Thread.CurrentThread.CurrentUICulture =
-                CultureInfo.GetCultureInfo(appLanguage);
-
             //-- Application
             services.AddApplicationServices(
-                databaseSettings, 
-                inMemoryDatabaseSettings,
-                sqlServerSettings);
+                databaseSetting, 
+                inMemoryDatabaseSetting,
+                sqlServerSetting);
 
             //-- MassTransit
             services.AddMassTransit(x =>
             {
                 //x.AddConsumers();
 
-                x.ConfigureBasedOnSettings(massTransitSettings!,
+                x.ConfigureBasedOnSettings(massTransitSetting!,
                     (context, cfg) =>
                     {
                         //cfg.ConfigureConsumers(context);
@@ -53,6 +48,22 @@ namespace Presentation.Configuration
 
                 x.AddRequestClients();
             });
+        }
+
+        public static void ConfigureLanguage(
+            this IServiceCollection services,
+            IConfigurationRoot configuration)
+        {
+            services.ConfigureLanguage(
+                appLanguage: configuration.GetSection("AppLanguage").Value!);
+        }
+
+        public static void ConfigureLanguage(
+            this IServiceCollection services,
+            string appLanguage)
+        {
+            Thread.CurrentThread.CurrentUICulture =
+                CultureInfo.GetCultureInfo(appLanguage);
         }
     }
 }

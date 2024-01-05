@@ -1,8 +1,7 @@
 ﻿using XSwift.Domain;
-using Domain.ProjectAggregation;
-using Domain.SprintAggregation;
+using Module.Domain.SprintAggregation;
 
-namespace Contract
+namespace Module.Contract
 {
     public interface ISprintService
     {

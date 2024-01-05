@@ -1,12 +1,13 @@
 ﻿using AcceptanceTest;
-using Contract;
-using Domain.TaskAggregation;
+using Module.Contract;
+using Module.Domain.ProjectAggregation;
+using Module.Domain.TaskAggregation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace TaskFeature
+namespace AcceptanceTest.TaskFeature
 {
     /// <summary>
     /// As a user
@@ -28,13 +29,14 @@ namespace TaskFeature
         {
             var steps = new ToRestoreAnArchivedTask(_serviceScope!);
 
-            var dataFacilitator = new ApplicationServiceFacilitator(_serviceScope);
-            var projectId = await dataFacilitator.DefineAProject(
-                projectName: "Task Managment");
-            var taskId = await dataFacilitator.AddATask(
-               projectId,
-               description: "Define a new module as the task module.",
-               null);
+            var projectId = await DataFacilitator.DefineAProject(
+                _serviceScope, name: "Task Management");
+
+            var taskId = await DataFacilitator.AddATask(
+                _serviceScope,
+                projectId,
+                description: "Define a new module as the task module.",
+                sprintId: null);
 
             await _serviceScope.ServiceProvider.
                 GetRequiredService<ITaskService>().Process(
@@ -43,7 +45,7 @@ namespace TaskFeature
             steps.Given(_ => steps.GivenIWantToRestoreAnArchivedTask(taskId))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDone())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
     }

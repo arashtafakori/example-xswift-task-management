@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Persistence.EFCore;
+using Module.Persistence;
 
 #nullable disable
 
-namespace Persistence.EFCore.Migrations
+namespace Module.Persistence.Migrations
 {
     [DbContext(typeof(ModuleDbContext))]
     [Migration("20230829094914_CreatedDateTime field added on all entites.")]

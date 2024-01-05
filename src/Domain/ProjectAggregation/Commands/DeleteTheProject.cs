@@ -1,12 +1,13 @@
 ﻿using XSwift.Domain;
 using MediatR;
 
-namespace Domain.ProjectAggregation
+namespace Module.Domain.ProjectAggregation
 {
     public class DeleteTheProject :
         RequestToDeleteById<ProjectEntity, Guid>
     {
-        public DeleteTheProject(Guid id) : base(id)
+        public DeleteTheProject(Guid id)
+            : base(id)
         { 
             ValidationState.Validate();
         }

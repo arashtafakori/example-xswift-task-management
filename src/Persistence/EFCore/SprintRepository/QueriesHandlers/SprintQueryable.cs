@@ -1,7 +1,7 @@
 ﻿using XSwift.Datastore;
-using Domain.SprintAggregation;
+using Module.Domain.SprintAggregation;
 
-namespace Persistence.EFCore.SprintRepository
+namespace Module.Persistence.SprintRepository
 {
     public class SprintQueryable
     {

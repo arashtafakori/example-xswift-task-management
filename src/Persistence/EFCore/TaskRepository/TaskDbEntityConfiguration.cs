@@ -1,8 +1,8 @@
-﻿using Domain.TaskAggregation;
+﻿using Module.Domain.TaskAggregation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Persistence.EFCore.TaskRepository
+namespace Module.Persistence.TaskRepository
 {
     public class TaskDbEntityConfiguration : IEntityTypeConfiguration<TaskEntity>
     {

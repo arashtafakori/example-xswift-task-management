@@ -2,14 +2,12 @@
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Net.Http.Headers;
 using IdentityModel;
-using Presentation.WebMVCApp.HttpHandlers;
-using Presentation.WebMVCApp.Controllers;
 using XSwift.OAuth;
-using Presentation.Configuration.AuthDefinitions;
+using Module.Presentation.Configuration.AuthDefinitions;
+using Microsoft.Net.Http.Headers;
 
-namespace Presentation.WebMVCApp
+namespace Module.Presentation.WebMVCApp
 {
     public static class ServiceCollectionExtensions
     {
@@ -17,7 +15,7 @@ namespace Presentation.WebMVCApp
             this IServiceCollection services,
             IConfigurationRoot configuration)
         {
-            var openIdConnectSettings = new OpenIdConnectSettings(configuration);
+            var openIdConnectSettings = new OpenIdConnectSetting(configuration);
 
             services.AddAuthentication(options =>
             {
@@ -44,6 +42,7 @@ namespace Presentation.WebMVCApp
                     options.ClaimActions.DeleteClaim("auth_time");
                     options.ClaimActions.MapUniqueJsonKey("role", "role");
 
+                    options.Scope.Add(ApplicationScopes.Development);
                     options.Scope.Add(ApplicationScopes.ProjectSettings);
                     options.Scope.Add(ApplicationScopes.Board);
 
@@ -64,14 +63,19 @@ namespace Presentation.WebMVCApp
         {
             services.AddTransient<AuthenticationDelegatingHandler>();
 
+            //--
+
             services.AddHttpClient(HttpClientNames.WebAPIClient, client =>
             {
-                var uri = configuration.GetSection("HttpClientsUri").GetSection("WebAPIClient").Value!;
+                var uri = configuration.GetSection("HttpClientsUri")
+                .GetSection(HttpClientNames.WebAPIClient).Value!;
 
                 client.BaseAddress = new Uri(uri);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
-            }).AddHttpMessageHandler<AuthenticationDelegatingHandler>(); ;
+            }).AddHttpMessageHandler<AuthenticationDelegatingHandler>();
+
+            //--
 
             services.AddHttpContextAccessor();
         }

@@ -2,7 +2,7 @@
 using XSwift.Base;
 using XSwift.Domain;
 
-namespace Domain.SprintAggregation
+namespace Module.Domain.SprintAggregation
 {
     internal class PreventIfTheSprintHasSomeTasks
         : InvariantRequestById<SprintEntity, Guid>

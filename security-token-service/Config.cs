@@ -17,14 +17,14 @@ namespace IdentityServerHost
           };
 
         public static IEnumerable<ApiScope> ApiScopes =>
-            new[] { 
+            new[] {
+                new ApiScope(ApplicationScopes.Development),
                 new ApiScope(ApplicationScopes.ProjectSettings),
                 new ApiScope(ApplicationScopes.Board)
             };
         public static IEnumerable<ApiResource> ApiResources =>
           new ApiResource[]
-          {
-               //new ApiResource("", "")
+          {          
           };
 
         public static IEnumerable<Client> Clients =>
@@ -40,6 +40,37 @@ namespace IdentityServerHost
                             new Secret("secret".Sha256())
                         },
                         AllowedScopes = {
+                        "roles",
+                        ApplicationScopes.ProjectSettings,
+                        ApplicationScopes.Board }
+                    },
+                new Client
+                   {
+                        ClientId = "TaskManagement.WebAPI.Dev",
+                        ClientName = "TaskManagement WebAPI Dev",
+                        AllowedGrantTypes = GrantTypes.ClientCredentials,
+                        ClientSecrets =
+                        {
+                            new Secret("secret".Sha256())
+                        },
+                        AllowedScopes = {
+                        "roles",
+                        ApplicationScopes.Development,
+                        ApplicationScopes.ProjectSettings,
+                        ApplicationScopes.Board }
+                    },
+                new Client
+                   {
+                        ClientId = "TaskManagement.WebMVCApp.Dev",
+                        ClientName = "TaskManagement WebMVCApp Dev",
+                        AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                        ClientSecrets =
+                        {
+                            new Secret("secret".Sha256())
+                        },
+                        AllowedScopes = {
+                        "roles",
+                        ApplicationScopes.Development,
                         ApplicationScopes.ProjectSettings,
                         ApplicationScopes.Board }
                     },
@@ -69,6 +100,7 @@ namespace IdentityServerHost
                            IdentityServerConstants.StandardScopes.Profile,
                            IdentityServerConstants.StandardScopes.Email,
                            "roles",
+                           ApplicationScopes.Development,
                            ApplicationScopes.ProjectSettings,
                            ApplicationScopes.Board
                        }

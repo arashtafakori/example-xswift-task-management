@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using Contract;
-using Domain.ProjectAggregation;
+using Module.Contract;
+using Module.Domain.ProjectAggregation;
 
-namespace ProjectFeature
+namespace AcceptanceTest.ProjectFeature
 {
     internal class ToChangeTheNameOfAProjectToANewName
     {

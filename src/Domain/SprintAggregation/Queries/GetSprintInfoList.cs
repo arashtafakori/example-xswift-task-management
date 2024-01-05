@@ -2,7 +2,7 @@
 using MediatR;
 using XSwift.Base;
 
-namespace Domain.SprintAggregation
+namespace Module.Domain.SprintAggregation
 {
     public class GetSprintInfoList :
         QueryListRequest<SprintEntity, PaginatedViewModel<SprintInfo>>

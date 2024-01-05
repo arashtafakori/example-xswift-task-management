@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using XSwift.Datastore;
-using Domain.TaskAggregation;
+using Module.Domain.TaskAggregation;
 using XSwift.Domain;
-using EntityFrameworkCore.XSwift;
+using XSwift.EntityFrameworkCore;
 
-namespace Persistence.EFCore.TaskRepository
+namespace Module.Persistence.TaskRepository
 {
     public class GetTaskInfoListHandler :
         IRequestHandler<GetTaskInfoList,

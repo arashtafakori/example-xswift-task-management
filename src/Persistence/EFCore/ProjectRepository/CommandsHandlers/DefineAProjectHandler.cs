@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Domain.ProjectAggregation;
+using Module.Domain.ProjectAggregation;
 using XSwift.Datastore;
-using EntityFrameworkCore.XSwift;
+using XSwift.EntityFrameworkCore;
 
-namespace Persistence.EFCore.ProjectRepository
+namespace Module.Persistence.ProjectRepository
 {
     public class DefineAProjectHandler :
         IRequestHandler<DefineAProject, Guid>

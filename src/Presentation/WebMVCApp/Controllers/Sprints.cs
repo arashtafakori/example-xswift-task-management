@@ -1,31 +1,31 @@
 ﻿using XSwift.Domain;
 using XSwift.Mvc;
-using Domain.SprintAggregation;
+using Module.Domain.SprintAggregation;
 using Microsoft.AspNetCore.Mvc;
-using Presentation.WebMVCApp.ViewModels;
+using Module.Presentation.WebMVCApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Presentation.WebMVCApp.Controllers
+namespace Module.Presentation.WebMVCApp.Controllers
 {
     [Authorize]
-    public class Sprints : MvcControllerX
+    public class Sprints : XMvcController
     {
-        private HttpService ProjectApiService { get; set; }
-        private HttpService SprintApiService { get; set; }
+        private readonly HttpService _projectHttpService;
+        private readonly HttpService _sprintHttpService;
 
         public Sprints(IHttpClientFactory httpClientFactory)
         {
             var httpClient = httpClientFactory.CreateClient(HttpClientNames.WebAPIClient);
 
-            ProjectApiService = new HttpService(
+            _projectHttpService = new HttpService(
                 httpClient: httpClient,
                 version: "v1",
-                collectionResource: "Projects");
+                collectionResource: CollectionNames.Projects);
 
-            SprintApiService = new HttpService(
+            _sprintHttpService = new HttpService(
                 httpClient: httpClient,
                 version: "v1",
-                collectionResource: "Sprints");
+                collectionResource: CollectionNames.Sprints);
         }
 
         [Route($"{nameof(Projects)}/{{{nameof(Domain.SprintAggregation.GetSprintInfoList.ProjectId)}}}/[controller]", Name = nameof(GetSprintInfoList))]
@@ -37,53 +37,50 @@ namespace Presentation.WebMVCApp.Controllers
         {
             model ??= new GetSprintInfoListViewModel();
 
-            model.SprintInfoList =
-                await SprintApiService.SendAsync<PaginatedViewModel<SprintInfo>>(
-                    HttpMethod.Get,
-                    version: "v1.1",
-                    collectionResource: "Projects",
-                    collectionItemParameter: projectId,
-                    subCollectionResource: "Sprints",
-                    queryParametersString: HttpContext.Request.QueryString.ToString());
-            model.ProjectInfo = await ApiServiceFacilitator.GetTheProjectInfo(
-                    ProjectApiService, projectId);
+            model.SprintInfoList = await _sprintHttpService
+                .SendAndReadAsResultAsync<PaginatedViewModel<SprintInfo>>(
+                new XHttpRequest(HttpMethod.Get, version: "v1.1",
+                collectionResource: CollectionNames.Projects,
+                collectionItemParameter: projectId,
+                subCollectionResource: CollectionNames.Sprints,
+                queryParametersString: HttpContext.Request.QueryString.ToString()));
+
+            model.ProjectInfo = await DataFacilitator.GetProjectInfo(_projectHttpService, projectId);
 
             return View(model);
         }
 
-        public async Task<IActionResult> GetTheSprintInfo(Guid sprintId)
+        public async Task<IActionResult> GetInfo(Guid sprintId)
         {
-            var sprintInfo = await ApiServiceFacilitator.GetTheSprintInfo(
-                    SprintApiService, sprintId);
+            var sprintInfo = await DataFacilitator.GetSprintInfo(_sprintHttpService, sprintId);
 
             var model = new GetTheSprintInfoViewModel
             {
                 SprintInfo = sprintInfo,
-                ProjectInfo = await ApiServiceFacilitator.GetTheProjectInfo(
-                    ProjectApiService, sprintInfo.ProjectId)
+                ProjectInfo = await DataFacilitator.GetProjectInfo(_projectHttpService, sprintInfo.ProjectId)
             };
-
+            
             return View(model);
         }
 
-        public async Task<IActionResult> DefineASprint(Guid projectId)
+        public async Task<IActionResult> Define(Guid projectId)
         {
             var model = new DefineASprintViewModel()
             {
                 ProjectId = projectId,
-                ProjectInfo = await ApiServiceFacilitator.GetTheProjectInfo(
-                    ProjectApiService, projectId)
+                ProjectInfo = await DataFacilitator.GetProjectInfo(_projectHttpService, projectId)
             };
             return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DefiningASprintConfirmed(
+        public async Task<IActionResult> DefiningConfirmed(
             DefineASprintViewModel model)
         {
             if (ModelState.IsValid)
             {
-                await SprintApiService.SendAsync(HttpMethod.Post, model.ToRequest());
+                await _sprintHttpService.SendAsync(
+                    new XHttpRequest(HttpMethod.Post, model.ToRequest()));
 
                 return RedirectToRoute(
                     nameof(GetSprintInfoList),
@@ -95,8 +92,7 @@ namespace Presentation.WebMVCApp.Controllers
         public async Task<IActionResult> ChangeTheSprintName(Guid sprintId)
         {
             var model = ChangeTheSprintNameViewModel.ToViewModel(
-                await ApiServiceFacilitator.GetTheSprintInfo(
-                    SprintApiService, sprintId));
+                await DataFacilitator.GetSprintInfo(_sprintHttpService, sprintId));
             return View(model);
         }
         [HttpPost]
@@ -106,10 +102,10 @@ namespace Presentation.WebMVCApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await SprintApiService.SendAsync(
-                    HttpMethod.Patch,
+                await _sprintHttpService.SendAsync(
+                    new XHttpRequest(HttpMethod.Patch,
                     model.ToRequest(),
-                    actionName: "ChangeTheSprintName");
+                    actionName: "ChangeTheProjectName"));
 
                 return RedirectToRoute(
                     nameof(GetSprintInfoList),
@@ -121,8 +117,7 @@ namespace Presentation.WebMVCApp.Controllers
         public async Task<IActionResult> ChangeTheSprintTimeSpan(Guid sprintId)
         {
             var model = ChangeTheSprintTimeSpanViewModel.ToViewModel(
-                await ApiServiceFacilitator.GetTheSprintInfo(
-                    SprintApiService, sprintId));
+                await DataFacilitator.GetSprintInfo(_sprintHttpService, sprintId));
             return View(model);
         }
         [HttpPost]
@@ -132,10 +127,10 @@ namespace Presentation.WebMVCApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await SprintApiService.SendAsync(
-                    HttpMethod.Patch,
+                await _sprintHttpService.SendAsync(
+                    new XHttpRequest(HttpMethod.Patch,
                     model.ToRequest(),
-                    actionName: "ChangeTheSprintTimeSpan");
+                    actionName: "ChangeTheSprintTimeSpan"));
 
                 return RedirectToRoute(
                     nameof(GetSprintInfoList),
@@ -144,18 +139,18 @@ namespace Presentation.WebMVCApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ArchiveTheSprint(Guid sprintId)
+        public async Task<IActionResult> Archive(Guid sprintId)
         {
+            var checkTheItemForArchiving = _sprintHttpService.SendAsync(
+                    new XHttpRequest(HttpMethod.Get,
+                    actionName: HttpServiceBasicActionsName.CheckTheItemForArchiving,
+                    collectionItemParameter: sprintId));
+
             var model = new ArchiveTheSprintViewModel
             {
-                SprintInfo = await ApiServiceFacilitator.GetTheSprintInfo(
-                    SprintApiService, sprintId),
+                SprintInfo = await DataFacilitator.GetSprintInfo(_sprintHttpService, sprintId),
                 IssuesOfArchivingPossibility = (await CatchDomainErrors(
-                    () => SprintApiService.SendAsync(
-                        HttpMethod.Get,
-                        actionName: "CheckTheSprintForArchiving",
-                        collectionItemParameter: sprintId)))
-                    ?.Issues
+                    () => checkTheItemForArchiving))?.Issues
             };
 
             return View(model);
@@ -163,18 +158,16 @@ namespace Presentation.WebMVCApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ArchivingTheSprintConfirmed(ArchiveTheSprintViewModel model)
+        public async Task<IActionResult> ArchivingConfirmed(ArchiveTheSprintViewModel model)
         {
-            var dd = HttpContext.Request.QueryString.ToString();
-
-            await SprintApiService.SendAsync(
-                HttpMethod.Patch,
-                 actionName: "ArchiveTheSprint",
-                 collectionItemParameter: model.SprintInfo!.Id,
+            await _sprintHttpService.SendAsync(
+                new XHttpRequest(HttpMethod.Patch,
+                actionName: HttpServiceBasicActionsName.Archive,
+                collectionItemParameter: model.SprintInfo!.Id,
                  queryParameters: new QueryParameters()
-                 .AddParameter("archivingAllTasksMode", model.ArchivingAllTaskMode));
+                 .AddParameter("archivingAllTasksMode", model.ArchivingAllTaskMode)));
 
-            return RedirectToRoute(
+             return RedirectToRoute(
                 nameof(GetSprintInfoList),
                 new { model.SprintInfo!.ProjectId });
         }

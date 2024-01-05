@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Persistence.EFCore.Migrations
+namespace Module.Persistence.Migrations
 {
     public partial class CreatedDateTimefieldaddedonallentites : Migration
     {

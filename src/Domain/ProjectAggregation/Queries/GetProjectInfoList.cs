@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using XSwift.Domain;
 
-namespace Domain.ProjectAggregation
+namespace Module.Domain.ProjectAggregation
 {
     public class GetProjectInfoList :
         QueryListRequest<ProjectEntity, PaginatedViewModel<ProjectInfo>>

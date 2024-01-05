@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using XSwift.Datastore;
-using Contract;
-using Domain.SprintAggregation;
+using Module.Contract;
+using Module.Domain.SprintAggregation;
 using XSwift.Domain;
 
-namespace Application
+namespace Module.Application
 {
     public class SprintService : ISprintService
     {

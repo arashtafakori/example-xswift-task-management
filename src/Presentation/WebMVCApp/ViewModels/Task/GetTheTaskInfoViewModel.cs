@@ -1,8 +1,8 @@
-﻿using Domain.ProjectAggregation;
-using Domain.TaskAggregation;
+﻿using Module.Domain.ProjectAggregation;
+using Module.Domain.TaskAggregation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Presentation.WebMVCApp.ViewModels
+namespace Module.Presentation.WebMVCApp.ViewModels
 {
     public class GetTheTaskInfoViewModel
     {

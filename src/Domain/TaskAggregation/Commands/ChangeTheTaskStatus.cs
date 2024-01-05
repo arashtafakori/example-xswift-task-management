@@ -1,16 +1,15 @@
 ﻿using XSwift.Domain;
 using MediatR;
- 
-namespace Domain.TaskAggregation
+
+namespace Module.Domain.TaskAggregation
 {
     public class ChangeTheTaskStatus :
         RequestToUpdateById<TaskEntity, Guid>
     {
         public TaskStatus Status { get; private set; }
 
-        public ChangeTheTaskStatus(
-            Guid id, 
-            TaskStatus status) : base(id)
+        public ChangeTheTaskStatus(Guid id, TaskStatus status) 
+            : base(id)
         {
             Status = status;
 

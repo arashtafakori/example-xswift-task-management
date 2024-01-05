@@ -1,18 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
-using Contract;
-using Domain.ProjectAggregation;
+using Module.Contract;
+using Module.Domain.ProjectAggregation;
 using XSwift.Mvc;
 using XSwift.Domain;
 using Microsoft.AspNetCore.Authorization;
-using Presentation.Configuration.AuthDefinitions;
+using Module.Presentation.Configuration.AuthDefinitions;
 
-namespace Presentation.WebAPI
+namespace Module.Presentation.WebAPI
 {
     [Route("v1/[controller]")]
     [ApiController]
-    [Authorize(Policies.ClientId)]
-    [Authorize(Policies.ProjectsSettingsScope)]
-    public class Projects : ApiControllerX
+    [Authorize(Policies.ClientsConstraint)]
+    [Authorize(Policies.ToAccessToTheSettings)]
+    public class Projects : XApiController
     {
         private readonly IProjectService _projectService;
         private readonly ISprintService _sprintService;
@@ -28,7 +28,7 @@ namespace Presentation.WebAPI
         }
 
         [HttpGet]
-        public async Task<ActionResult<PaginatedViewModel<ProjectInfo>>> Get()
+        public async Task<ActionResult<PaginatedViewModel<ProjectInfo>>> GetInfoList()
         {
             var request = GetRequest<GetProjectInfoList>();
             return await _projectService.Process(request);
@@ -41,7 +41,7 @@ namespace Presentation.WebAPI
         /// </summary>
         /// <returns></returns>
         [HttpGet($"/v1.1/[controller]")]
-        public async Task<ActionResult<PaginatedViewModel<ProjectInfo>>> GetProjectInfoList(
+        public async Task<ActionResult<PaginatedViewModel<ProjectInfo>>> GetInfoList(
             int? pageNumber = null,
             int? pageSize = null)
         {
@@ -54,17 +54,17 @@ namespace Presentation.WebAPI
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProjectInfo?>> GetTheProjectInfo(Guid id)
+        public async Task<ActionResult<ProjectInfo?>> GetInfo(Guid id)
         {
             return await View(
                 () => _projectService.Process(new GetTheProjectInfo(id)));
         }
 
         [HttpPost]
-        public async Task<ActionResult<ProjectInfo?>> DefineAProject(DefineAProject request)
+        public async Task<ActionResult<ProjectInfo?>> Define(DefineAProject request)
         {
             var id = await _projectService.Process(request);
-            return CreatedAtAction(nameof(Get), new { id }, id);
+            return CreatedAtAction(nameof(GetInfo), new { id }, id);
         }
 
         [HttpPatch("[action]")]
@@ -75,26 +75,26 @@ namespace Presentation.WebAPI
         }
 
         [HttpPatch("[action]/{id}")]
-        public async Task<IActionResult> ArchiveTheProject(Guid id)
+        public async Task<IActionResult> Archive(Guid id)
         {
             return await View(
                 () => _projectService.Process(new ArchiveTheProject(id)));
         }
         [HttpGet("[action]/{id}")]
-        public async Task<IActionResult> CheckTheProjectForArchiving(Guid id)
+        public async Task<IActionResult> CheckTheItemForArchiving(Guid id)
         {
             return await View(
                 () => _projectService.Process(new CheckTheProjectForArchiving(id)));
         }
         [HttpPatch("[action]/{id}")]
-        public async Task<IActionResult> RestoreTheProject(Guid id)
+        public async Task<IActionResult> Restore(Guid id)
         {
             return await View(
                 () => _projectService.Process(new RestoreTheProject(id)));
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTheProject(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             return await View(
                 () => _projectService.Process(new DeleteTheProject(id)));

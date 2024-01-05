@@ -1,9 +1,10 @@
-﻿namespace Presentation.Configuration.AuthDefinitions
+﻿namespace Module.Presentation.Configuration.AuthDefinitions
 {
     public class Policies
     {
-        public const string ClientId = "client-id";
-        public const string ProjectsSettingsScope = ApplicationScopes.ProjectSettings;
-        public const string BoardScope = ApplicationScopes.Board;
+        public const string ClientsConstraint = "clients-constraint";
+        public const string ToAccessToTheDevelopmentFeatures = $"{ApplicationScopes.Development}";
+        public const string ToAccessToTheSettings = $"{ApplicationScopes.ProjectSettings}";
+        public const string ToAccessToTheBoradActitvitis = $"{ApplicationScopes.Board}";
     }
 }

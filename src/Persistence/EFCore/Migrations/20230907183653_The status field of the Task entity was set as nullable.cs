@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Persistence.EFCore.Migrations
+namespace Module.Persistence.Migrations
 {
     public partial class ThestatusfieldoftheTaskentitywassetasnullable : Migration
     {

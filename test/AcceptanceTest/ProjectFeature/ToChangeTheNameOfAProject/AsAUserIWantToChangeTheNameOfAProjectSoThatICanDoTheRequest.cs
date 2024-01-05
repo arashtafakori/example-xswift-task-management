@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace ProjectFeature
+namespace AcceptanceTest.ProjectFeature
 {
     /// <summary>
     /// As a user
@@ -26,15 +26,15 @@ namespace ProjectFeature
         {
             var steps = new ToChangeTheNameOfAProjectToANewName(_serviceScope!);
 
-            var projectId = await new ApplicationServiceFacilitator(_serviceScope)
-                .DefineAProject(projectName: "Task Management");
+            var projectId = await DataFacilitator.DefineAProject(
+                _serviceScope, name: "Task Management");
 
             var newProjectName = "Task Board";
 
             steps.Given(_ => steps.GivenIWantToChangeTheNameOfAProjectToANewName(projectId, newProjectName))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDone())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
 
@@ -43,8 +43,8 @@ namespace ProjectFeature
         {
             var steps = new ToChangeTheNameOfAProjectToANewAndGivenAProjectWithTheSameNewNameHasAlreadyExisted(_serviceScope!);
 
-            var projectId = await new ApplicationServiceFacilitator(_serviceScope)
-                .DefineAProject(projectName: "Task Management");
+            var projectId = await DataFacilitator.DefineAProject(
+                _serviceScope, name: "Task Management");
 
             var newProjectName = "Task Board";
 
@@ -52,7 +52,7 @@ namespace ProjectFeature
                 .Given(_ => steps.AndGivenAProjectWithTheSameNewNameHasAlreadyExisted(newProjectName))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDenied())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
     }

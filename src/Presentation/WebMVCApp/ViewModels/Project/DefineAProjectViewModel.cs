@@ -1,7 +1,7 @@
-﻿using Domain.ProjectAggregation;
+﻿using Module.Domain.ProjectAggregation;
 using System.ComponentModel.DataAnnotations;
 
-namespace Presentation.WebMVCApp.ViewModels
+namespace Module.Presentation.WebMVCApp.ViewModels
 {
     public class DefineAProjectViewModel
     {

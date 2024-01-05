@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Persistence.EFCore;
+using Module.Persistence;
 
 #nullable disable
 
-namespace Persistence.EFCore.Migrations
+namespace Module.Persistence.Migrations
 {
     [DbContext(typeof(ModuleDbContext))]
     partial class ModuleDbContextModelSnapshot : ModelSnapshot

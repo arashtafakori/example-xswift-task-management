@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace TaskFeature
+namespace AcceptanceTest.TaskFeature
 {
     /// <summary>
     /// As a user
@@ -27,27 +27,27 @@ namespace TaskFeature
         {
             var steps = new ToEditATask(_serviceScope!);
 
-            var dataFacilitator = new ApplicationServiceFacilitator(_serviceScope);
-            var projectId = await dataFacilitator.DefineAProject(
-                projectName: "Task Managment");
-            Guid? sprintId = null;
+            var projectId = await DataFacilitator.DefineAProject(
+                _serviceScope, name: "Task Management");
 
-            var taskId = await dataFacilitator.AddATask(
+            var taskId = await DataFacilitator.AddATask(
+                _serviceScope,
                 projectId,
                 description: "Define a new module as the task module.",
-                sprintId);
+                sprintId: null);
+
             var newDescription = "Implement the project feature as an application service.";
 
-            Guid? newSprintId = await new ApplicationServiceFacilitator(_serviceScope).
-                DefineASprint(projectId, "Sprint 01");
+            Guid? newSprintId = await DataFacilitator.DefineASprint(
+                _serviceScope, projectId, "Sprint 01"); ;
 
-            var newStatus = Domain.TaskAggregation.TaskStatus.Completed;
+            var newStatus = Module.Domain.TaskAggregation.TaskStatus.Completed;
 
             steps.Given(_ => steps.GivenIWantToEditATask(taskId, newDescription,
                 newStatus, newSprintId))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDone())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
     }

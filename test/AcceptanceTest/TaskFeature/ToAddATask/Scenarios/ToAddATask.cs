@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using Contract;
-using Domain.TaskAggregation;
+using Module.Contract;
+using Module.Domain.TaskAggregation;
 
-namespace TaskFeature
+namespace AcceptanceTest.TaskFeature
 {
     internal class ToAddATask
     {

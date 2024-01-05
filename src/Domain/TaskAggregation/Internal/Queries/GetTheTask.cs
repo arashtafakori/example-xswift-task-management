@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using XSwift.Domain;
 
-namespace Domain.TaskAggregation
+namespace Module.Domain.TaskAggregation
 {
     internal class GetTheTask :
         QueryItemRequestById<TaskEntity, Guid, TaskEntity?>

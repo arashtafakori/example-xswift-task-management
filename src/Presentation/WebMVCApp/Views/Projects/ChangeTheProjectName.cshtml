@@ -1,5 +1,5 @@
-﻿@using Presentation.WebMVCApp.Controllers;
-@model Presentation.WebMVCApp.ViewModels.ChangeTheProjectNameViewModel
+﻿@using Module.Presentation.WebMVCApp.Controllers;
+@model Module.Presentation.WebMVCApp.ViewModels.ChangeTheProjectNameViewModel
 
 @{
     ViewData["Title"] = "Change The Project Name";
@@ -22,7 +22,7 @@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
                 @Html.ActionLink("Cancel", 
-                nameof(Projects.GetProjectInfoList), 
+                nameof(Projects.GetInfoList), 
                 null, null, new { @class="btn btn-light"})
             </div>
         </form>

@@ -1,9 +1,9 @@
 ﻿using XSwift.Datastore;
 using XSwift.Domain;
-using EntityFrameworkCore.XSwift;
+using XSwift.EntityFrameworkCore;
 using SoftDeleteServices.Configuration;
 
-namespace Persistence.EFCore
+namespace Module.Persistence
 {
     public class ModuleDeletabilityConfiguration :
         CascadeSoftDeleteConfiguration<ISoftDelete>

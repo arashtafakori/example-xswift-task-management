@@ -1,7 +1,6 @@
-﻿using EntityFrameworkCore.XSwift;
-using EntityFrameworkCore.XSwift.Datastore;
+﻿using XSwift.EntityFrameworkCore;
 
-namespace Persistence.EFCore
+namespace Module.Persistence
 {
     public class ModuleDbTransaction : DbTransaction
     {

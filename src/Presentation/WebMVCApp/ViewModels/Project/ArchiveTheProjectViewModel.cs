@@ -1,7 +1,7 @@
 ﻿using XSwift.Base;
-using Domain.ProjectAggregation;
+using Module.Domain.ProjectAggregation;
 
-namespace Presentation.WebMVCApp.ViewModels
+namespace Module.Presentation.WebMVCApp.ViewModels
 {
     public class ArchiveTheProjectViewModel
     {

@@ -1,8 +1,7 @@
 ﻿using XSwift.Domain;
 using MediatR;
- 
 
-namespace Domain.ProjectAggregation
+namespace Module.Domain.ProjectAggregation
 {
     public class ChangeTheProjectName :
         RequestToUpdateById<ProjectEntity, Guid>
@@ -10,7 +9,8 @@ namespace Domain.ProjectAggregation
         [BindTo(typeof(ProjectEntity), nameof(ProjectEntity.Name))]
         public string Name { get; private set; }
  
-        public ChangeTheProjectName(Guid id, string name) : base(id)
+        public ChangeTheProjectName(Guid id, string name) 
+            : base(id)
         {
             Name = name.Trim();
             ValidationState.Validate();

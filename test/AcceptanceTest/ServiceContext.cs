@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Persistence.EFCore;
-using Presentation.Configuration;
+using Module.Persistence;
+using Module.Presentation.Configuration;
 using System;
 using XSwift.MassTransit;
 using XSwift.Settings;
@@ -18,22 +18,23 @@ namespace AcceptanceTest
  
             var services = new ServiceCollection();
 
-            var databaseSettings = new DatabaseSettings(configuration);
-            var inMemoryDatabaseSettings = new InMemoryDatabaseSettings(configuration);
-            inMemoryDatabaseSettings.SetInMemoryDatabaseName(Guid.NewGuid().ToString());
+            var databaseSetting = new DatabaseSetting(configuration);
+            var inMemoryDatabaseSetting = new InMemoryDatabaseSetting(configuration);
+            inMemoryDatabaseSetting.SetInMemoryDatabaseName(Guid.NewGuid().ToString());
 
-            services.ConfigureAndAddServices(
-                appLanguage: configuration.GetSection("AppLanguage").Value!,
-                databaseSettings: databaseSettings,
-                inMemoryDatabaseSettings: inMemoryDatabaseSettings,
-                massTransitSettings: new MassTransitSettings(configuration));
+            services.ConfigureApplicationServices(
+                databaseSetting: databaseSetting,
+                inMemoryDatabaseSetting: inMemoryDatabaseSetting,
+                massTransitSetting: new MassTransitSetting(configuration));
+
+            services.ConfigureLanguage(configuration.GetSection("AppLanguage").Value!);
 
             ServiceProvider = services.BuildServiceProvider(validateScopes: true);
 
-            ResetDbContext();
+            EnsureRecreatedDatabase();
         }
 
-        public void ResetDbContext()
+        public void EnsureRecreatedDatabase()
         {
             var serviceScope = ServiceProvider.CreateAsyncScope();
             var context = serviceScope.ServiceProvider.GetRequiredService<ModuleDbContext>();

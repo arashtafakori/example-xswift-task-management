@@ -1,7 +1,7 @@
 ﻿using XSwift.Domain;
 using MediatR;
 
-namespace Domain.ProjectAggregation
+namespace Module.Domain.ProjectAggregation
 {
     internal class GetTheProject :
         QueryItemRequestById<ProjectEntity, Guid, ProjectEntity?>

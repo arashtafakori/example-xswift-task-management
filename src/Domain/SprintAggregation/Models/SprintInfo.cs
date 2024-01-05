@@ -1,7 +1,7 @@
 ﻿using XSwift.Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.SprintAggregation
+namespace Module.Domain.SprintAggregation
 {
     public class SprintInfo : ViewModel, IModifiedViewModel
     {

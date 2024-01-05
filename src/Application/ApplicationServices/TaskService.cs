@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using XSwift.Datastore;
-using Contract;
-using Domain.TaskAggregation;
+using Module.Contract;
+using Module.Domain.TaskAggregation;
 using XSwift.Domain;
 
-namespace Application
+namespace Module.Application
 {
     public class TaskService : ITaskService
     {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using EntityFrameworkCore.XSwift;
-using Persistence.EFCore.ProjectRepository;
-using Domain.ProjectAggregation;
-using Domain.SprintAggregation;
-using Domain.TaskAggregation;
+using XSwift.EntityFrameworkCore;
+using Module.Persistence.ProjectRepository;
+using Module.Domain.ProjectAggregation;
+using Module.Domain.SprintAggregation;
+using Module.Domain.TaskAggregation;
 
-namespace Persistence.EFCore
+namespace Module.Persistence
 {
     public class ModuleDbContext : DbContext
     {

@@ -1,7 +1,7 @@
 ﻿using XSwift.Domain;
 using MediatR;
 
-namespace Domain.SprintAggregation
+namespace Module.Domain.SprintAggregation
 {
     public class GetTheSprintInfo :
         QueryItemRequestById<SprintEntity, Guid, SprintInfo?>

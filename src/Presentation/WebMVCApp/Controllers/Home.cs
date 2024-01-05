@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication;
 
-namespace Presentation.WebMVCApp.Controllers
+namespace Module.Presentation.WebMVCApp.Controllers
 {
-    public class Home : MvcControllerX
+    public class Home : XMvcController
     {
         private readonly ILogger<Home> _logger;
 

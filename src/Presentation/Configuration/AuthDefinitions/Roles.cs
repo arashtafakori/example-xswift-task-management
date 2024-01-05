@@ -1,7 +1,7 @@
-﻿namespace Presentation.Configuration.AuthDefinitions
+﻿namespace Module.Presentation.Configuration.AuthDefinitions
 {
     public class Roles
-    {
+    {       
         // Members who can create, modify and delete build definitions and manage projects.
         public const string Admin = "admin";
 

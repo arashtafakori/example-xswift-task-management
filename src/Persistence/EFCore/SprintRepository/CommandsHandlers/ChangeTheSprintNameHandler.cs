@@ -1,9 +1,9 @@
 ﻿using XSwift.Datastore;
-using Domain.SprintAggregation;
+using Module.Domain.SprintAggregation;
 using MediatR;
-using EntityFrameworkCore.XSwift;
+using XSwift.EntityFrameworkCore;
 
-namespace Persistence.EFCore.SprintRepository
+namespace Module.Persistence.SprintRepository
 {
     public class ChangeTheSprintNameHandler :
         IRequestHandler<ChangeTheSprintName>

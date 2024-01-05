@@ -1,18 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
-using Contract;
-using Domain.SprintAggregation;
+using Module.Contract;
+using Module.Domain.SprintAggregation;
 using XSwift.Mvc;
 using XSwift.Domain;
 using Microsoft.AspNetCore.Authorization;
-using Presentation.Configuration.AuthDefinitions;
+using Module.Presentation.Configuration.AuthDefinitions;
 
-namespace Presentation.WebAPI
+namespace Module.Presentation.WebAPI
 {
     [ApiController]
     [Route("v1/[controller]")]
-    [Authorize(Policies.ClientId)]
-    [Authorize(Policies.ProjectsSettingsScope)]
-    public class Sprints : ApiControllerX
+    [Authorize(Policies.ClientsConstraint)]
+    [Authorize(Policies.ToAccessToTheSettings)]
+    public class Sprints : XApiController
     {
         private readonly ISprintService _service;
 
@@ -20,16 +20,16 @@ namespace Presentation.WebAPI
         {
             _service = service;
         }
-        [HttpGet($"/v1/{nameof(Projects)}/{{{nameof(Domain.SprintAggregation.GetSprintInfoList.ProjectId)}}}/[controller]")]
-        public async Task<ActionResult<PaginatedViewModel<SprintInfo>>> GetSprintInfoList(
+        [HttpGet($"/v1/{nameof(Projects)}/{{{nameof(GetSprintInfoList.ProjectId)}}}/[controller]")]
+        public async Task<ActionResult<PaginatedViewModel<SprintInfo>>> GetInfoList(
             Guid projectId)
         {
             var request = GetRequest<GetSprintInfoList>()
                            .SetProjectId(projectId);
             return await _service.Process(request);
         }
-        [HttpGet($"/v1.1/{nameof(Projects)}/{{{nameof(Domain.SprintAggregation.GetSprintInfoList.ProjectId)}}}/[controller]")]
-        public async Task<ActionResult<PaginatedViewModel<SprintInfo>>> GetSprintInfoList(
+        [HttpGet($"/v1.1/{nameof(Projects)}/{{{nameof(GetSprintInfoList.ProjectId)}}}/[controller]")]
+        public async Task<ActionResult<PaginatedViewModel<SprintInfo>>> GetInfoList(
             Guid projectId, 
             int? pageNumber = null,
             int? pageSize = null)
@@ -43,17 +43,17 @@ namespace Presentation.WebAPI
             return await _service.Process(request);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<SprintInfo?>> GetTheSprintInfo(Guid id)
+        public async Task<ActionResult<SprintInfo?>> GetInfo(Guid id)
         {
             return await View(
                 () => _service.Process(new GetTheSprintInfo(id)));
         }
 
         [HttpPost]
-        public async Task<ActionResult<SprintInfo?>> DefineASprint(DefineASprint request)
+        public async Task<ActionResult<SprintInfo?>> Define(DefineASprint request)
         {
             var id = await _service.Process(request);
-            return CreatedAtAction(nameof(GetTheSprintInfo), new { id }, id);
+            return CreatedAtAction(nameof(GetInfo), new { id }, id);
         }
 
         [HttpPatch("[action]")]
@@ -69,7 +69,7 @@ namespace Presentation.WebAPI
                 () => _service.Process(request));
         }
         [HttpPatch("[action]/{id}")]
-        public async Task<IActionResult> ArchiveTheSprint(
+        public async Task<IActionResult> Archive(
             Guid id, bool archivingAllTaskMode)
         {
             var request = GetRequest<ArchiveTheSprint>();
@@ -79,13 +79,13 @@ namespace Presentation.WebAPI
                 () => _service.Process(request));
         }
         [HttpGet("[action]/{id}")]
-        public async Task<IActionResult> CheckTheSprintForArchiving(Guid id)
+        public async Task<IActionResult> CheckTheItemForArchiving(Guid id)
         {
             return await View(
                 () => _service.Process(new CheckTheSprintForArchiving(id)));
         }
         [HttpPatch("[action]/{id}")]
-        public async Task<IActionResult> RestoreTheSprint(Guid id)
+        public async Task<IActionResult> Restore(Guid id)
         {
             return await View(
                 () => _service.Process(new RestoreTheSprint(id)));

@@ -1,7 +1,7 @@
 ﻿using XSwift.Domain;
 using MediatR;
 
-namespace Domain.ProjectAggregation
+namespace Module.Domain.ProjectAggregation
 {
     public class CheckTheProjectForArchiving :
         AnyRequestById<ProjectEntity, Guid>

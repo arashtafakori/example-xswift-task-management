@@ -1,20 +1,21 @@
 ﻿using XSwift.Base;
-using Presentation.Configuration;
+using Module.Presentation.Configuration;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Diagnostics;
-using Presentation.WebAPI;
+using Module.Presentation.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.ConfigureAndAddServices(builder.Configuration);
+builder.Services.ConfigureApplicationServices(builder.Configuration);
+builder.Services.ConfigureLanguage(builder.Configuration);
 builder.Services.AddAuthService(builder.Configuration);
 builder.Services.AddControllers().AddNewtonsoftJson();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Logging.AddFilter("Module", LogLevel.Information);
+
 var app = builder.Build();
-Application.DataSeeder.SeedData(app);
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>

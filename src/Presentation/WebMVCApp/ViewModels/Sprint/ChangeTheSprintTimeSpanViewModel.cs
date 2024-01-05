@@ -1,8 +1,8 @@
 ﻿using XSwift.Base;
-using Domain.SprintAggregation;
+using Module.Domain.SprintAggregation;
 using System.ComponentModel.DataAnnotations;
 
-namespace Presentation.WebMVCApp.ViewModels
+namespace Module.Presentation.WebMVCApp.ViewModels
 {
     public class ChangeTheSprintTimeSpanViewModel
     {

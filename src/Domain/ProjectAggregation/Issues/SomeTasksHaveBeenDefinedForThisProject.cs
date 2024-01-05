@@ -1,8 +1,8 @@
 ﻿using XSwift.Domain;
-using Domain.Properties;
+using Module.Domain.Properties;
 using System.Globalization;
 
-namespace Domain.ProjectAggregation
+namespace Module.Domain.ProjectAggregation
 {
     internal class SomeTasksHaveBeenDefinedForThisProject : InvariantIssue
     {

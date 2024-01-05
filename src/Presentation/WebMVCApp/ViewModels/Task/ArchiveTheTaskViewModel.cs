@@ -1,7 +1,7 @@
-﻿using Domain.TaskAggregation;
+﻿using Module.Domain.TaskAggregation;
 
 
-namespace Presentation.WebMVCApp.ViewModels
+namespace Module.Presentation.WebMVCApp.ViewModels
 {
     public class ArchiveTheTaskViewModel
     {

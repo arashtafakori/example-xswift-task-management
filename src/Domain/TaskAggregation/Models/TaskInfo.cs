@@ -1,9 +1,9 @@
 ﻿using XSwift.Base;
 using XSwift.Domain;
-using Domain.Properties;
+using Module.Domain.Properties;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.TaskAggregation
+namespace Module.Domain.TaskAggregation
 {
     public class TaskInfo : ViewModel, IModifiedViewModel
     {

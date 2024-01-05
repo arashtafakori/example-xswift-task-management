@@ -2,7 +2,7 @@
 using TestStack.BDDfy;
 using Xunit;
 
-namespace ProjectFeature
+namespace AcceptanceTest.ProjectFeature
 {
     /// <summary>
     /// As a user
@@ -29,7 +29,7 @@ namespace ProjectFeature
             steps.Given(_ => steps.GivenIWantToDefineAProject(projectName))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDone())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
         [Fact]
@@ -43,7 +43,7 @@ namespace ProjectFeature
                 .Given(_ => steps.AndGivenAProjectWithThisNameHasAlreadyExisted(projectName))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDenied())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
     }

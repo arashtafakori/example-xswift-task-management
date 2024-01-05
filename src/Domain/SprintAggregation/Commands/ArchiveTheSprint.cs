@@ -1,16 +1,17 @@
 ﻿using XSwift.Domain;
-using Domain.TaskAggregation;
+using Module.Domain.TaskAggregation;
 using MediatR;
 
-namespace Domain.SprintAggregation
+namespace Module.Domain.SprintAggregation
 {
     public class ArchiveTheSprint :
         RequestToArchiveById<SprintEntity, Guid>
     {
         public bool ArchivingAllTaskMode { get; private set; }
-        public ArchiveTheSprint(
-            Guid id,
-            bool archivingAllTaskMode = false) : base(id)
+
+        public ArchiveTheSprint(Guid id,
+            bool archivingAllTaskMode = false) 
+            : base(id)
         {
             ArchivingAllTaskMode = archivingAllTaskMode;
             ValidationState.Validate();

@@ -1,8 +1,8 @@
 ﻿using XSwift.Domain;
-using Domain.Properties;
+using Module.Domain.Properties;
 using System.Globalization;
 
-namespace Domain.SprintAggregation
+namespace Module.Domain.SprintAggregation
 {
     public class TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths : InvariantIssue
     {

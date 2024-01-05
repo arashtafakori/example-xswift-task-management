@@ -2,7 +2,7 @@
 using XSwift.Base;
 using XSwift.Domain;
 
-namespace Domain.ProjectAggregation
+namespace Module.Domain.ProjectAggregation
 {
     internal class PreventIfTheProjectHasSomeSprints
         : InvariantRequestById<ProjectEntity, Guid>

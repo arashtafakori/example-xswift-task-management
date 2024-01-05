@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="XSwift" Version="1.3.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.20" />
+    <PackageReference Include="XSwift" Version="1.3.1.7" />
+    <PackageReference Include="Xswift.MassTransit" Version="1.3.1.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\xswift-framework\xswift\src\XSwift.csproj" />
     <ProjectReference Include="..\Contract\Contract.csproj" />
     <ProjectReference Include="..\Persistence\EFCore\Persistence.EFCore.csproj" />
   </ItemGroup>

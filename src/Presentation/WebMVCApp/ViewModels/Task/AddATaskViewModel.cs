@@ -1,10 +1,10 @@
-﻿using Domain.ProjectAggregation;
-using Domain.TaskAggregation;
+﻿using Module.Domain.ProjectAggregation;
+using Module.Domain.TaskAggregation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Presentation.WebMVCApp.ViewModels
+namespace Module.Presentation.WebMVCApp.ViewModels
 {
     public class AddATaskViewModel
     {

@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using XSwift.Datastore;
-using Contract;
-using Domain.ProjectAggregation;
+using Module.Contract;
+using Module.Domain.ProjectAggregation;
 using XSwift.Domain;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Application
+namespace Module.Application
 {
     public class ProjectService : IProjectService
     {

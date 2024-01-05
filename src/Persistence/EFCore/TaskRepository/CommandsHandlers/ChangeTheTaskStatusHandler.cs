@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Domain.TaskAggregation;
+using Module.Domain.TaskAggregation;
 using XSwift.Datastore;
-using EntityFrameworkCore.XSwift;
+using XSwift.EntityFrameworkCore;
 
-namespace Persistence.EFCore.TaskRepository
+namespace Module.Persistence.TaskRepository
 {
     public class ChangeTheTaskStatusHandler :
         IRequestHandler<ChangeTheTaskStatus>

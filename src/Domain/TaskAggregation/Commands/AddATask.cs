@@ -1,7 +1,7 @@
 ﻿using XSwift.Domain;
 using MediatR;
 
-namespace Domain.TaskAggregation
+namespace Module.Domain.TaskAggregation
 {
     public class AddATask
         : RequestToCreate<TaskEntity, Guid>
@@ -14,10 +14,8 @@ namespace Domain.TaskAggregation
         public Guid? SprintId { get; private set; }
         public TaskStatus Status { get; private set; } = TaskEntity.GetTaskStatusDefaultValue();
 
-        public AddATask(
-            Guid projectId,
-            string description,
-            Guid? sprintId = null)
+        public AddATask(Guid projectId,
+            string description, Guid? sprintId = null)
         {
             ProjectId = projectId;
             Description = description.Trim();

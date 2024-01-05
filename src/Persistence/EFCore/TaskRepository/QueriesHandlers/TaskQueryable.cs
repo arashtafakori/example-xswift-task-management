@@ -1,7 +1,7 @@
 ﻿using XSwift.Datastore;
-using Domain.TaskAggregation;
+using Module.Domain.TaskAggregation;
 
-namespace Persistence.EFCore.TaskRepository
+namespace Module.Persistence.TaskRepository
 {
     public class TaskQueryable
     {

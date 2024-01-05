@@ -1,10 +1,10 @@
 ﻿using XSwift.Domain;
-using Domain.Properties;
+using Module.Domain.Properties;
 using System.ComponentModel.DataAnnotations;
-using Domain.ProjectAggregation;
-using Domain.TaskAggregation;
+using Module.Domain.ProjectAggregation;
+using Module.Domain.TaskAggregation;
 
-namespace Domain.SprintAggregation
+namespace Module.Domain.SprintAggregation
 {
     public class SprintEntity : Entity<SprintEntity, Guid>, IAggregateRoot
     {

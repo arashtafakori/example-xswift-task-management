@@ -1,8 +1,8 @@
 ﻿using XSwift.Base;
-using Domain.Properties;
+using Module.Domain.Properties;
 using MediatR;
 
-namespace Domain.TaskAggregation
+namespace Module.Domain.TaskAggregation
 {
     internal class GetTaskStatusListHandler :
         IRequestHandler<GetTaskStatusList, List<KeyValuePair<int, string>>>

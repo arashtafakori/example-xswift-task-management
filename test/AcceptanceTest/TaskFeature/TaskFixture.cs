@@ -1,7 +1,7 @@
 ﻿using AcceptanceTest;
 using System;
 
-namespace TaskFeature
+namespace AcceptanceTest.TaskFeature
 {
     public class TaskFixture : ServiceContext, IDisposable
     {
@@ -11,7 +11,7 @@ namespace TaskFeature
 
         void IDisposable.Dispose()
         {
-            ResetDbContext();
+            EnsureRecreatedDatabase();
             Dispose();
         }
     }

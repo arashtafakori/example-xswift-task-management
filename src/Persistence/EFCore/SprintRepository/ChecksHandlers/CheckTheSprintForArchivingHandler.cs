@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using XSwift.Datastore;
-using Domain.SprintAggregation;
-using EntityFrameworkCore.XSwift;
+using Module.Domain.SprintAggregation;
+using XSwift.EntityFrameworkCore;
 
-namespace Persistence.EFCore.SprintAggregation
+namespace Module.Persistence.SprintAggregation
 {
     public class CheckTheSprintForArchivingHandler :
         IRequestHandler<CheckTheSprintForArchiving, bool>

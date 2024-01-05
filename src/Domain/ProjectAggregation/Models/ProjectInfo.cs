@@ -1,7 +1,7 @@
 ﻿using XSwift.Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.ProjectAggregation
+namespace Module.Domain.ProjectAggregation
 {
     public class ProjectInfo : ViewModel, IModifiedViewModel, IArchivableViewModel
     {

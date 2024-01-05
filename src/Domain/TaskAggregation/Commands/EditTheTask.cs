@@ -1,7 +1,7 @@
 ﻿using XSwift.Domain;
 using MediatR;
- 
-namespace Domain.TaskAggregation
+
+namespace Module.Domain.TaskAggregation
 {
     public class EditTheTask :
         RequestToUpdateById<TaskEntity, Guid>
@@ -12,10 +12,8 @@ namespace Domain.TaskAggregation
         public TaskStatus Status { get; private set; }
 
         public EditTheTask(
-            Guid id, 
-            string description,
-            TaskStatus status,
-            Guid? sprintId = null) : base(id)
+            Guid id,  string description, TaskStatus status, Guid? sprintId = null)
+            : base(id)
         {
             Description = description.Trim();
             Status = status;

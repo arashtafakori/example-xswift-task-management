@@ -1,18 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
-using Contract;
-using Domain.TaskAggregation;
+using Module.Contract;
+using Module.Domain.TaskAggregation;
 using XSwift.Mvc;
 using XSwift.Domain;
 using Microsoft.AspNetCore.Authorization;
-using Presentation.Configuration.AuthDefinitions;
+using Module.Presentation.Configuration.AuthDefinitions;
 
-namespace Presentation.WebAPI
+namespace Module.Presentation.WebAPI
 {
     [ApiController]
     [Route("v1/[controller]")]
-    [Authorize(Policies.ClientId)]
-    [Authorize(Policies.BoardScope)]
-    public class Tasks : ApiControllerX
+    [Authorize(Policies.ClientsConstraint)]
+    [Authorize(Policies.ToAccessToTheBoradActitvitis)]
+    public class Tasks : XApiController
     {
         private readonly ITaskService _service;
 
@@ -21,8 +21,8 @@ namespace Presentation.WebAPI
             _service = service;
         }
 
-        [HttpGet($"/v1/{nameof(Projects)}/{{{nameof(Domain.TaskAggregation.GetTaskInfoList.ProjectId)}}}/[controller]")]
-        public async Task<ActionResult<PaginatedViewModel<TaskInfo>>> GetTaskInfoList(
+        [HttpGet($"/v1/{nameof(Projects)}/{{{nameof(GetTaskInfoList.ProjectId)}}}/[controller]")]
+        public async Task<ActionResult<PaginatedViewModel<TaskInfo>>> GetInfoList(
             Guid projectId,
             Guid? sprintId = null,
             Domain.TaskAggregation.TaskStatus? status = null,
@@ -36,8 +36,8 @@ namespace Presentation.WebAPI
 
             return await _service.Process(request);
         }
-        [HttpGet($"/v1.1/{nameof(Projects)}/{{{nameof(Domain.TaskAggregation.GetTaskInfoList.ProjectId)}}}/[controller]")]
-        public async Task<ActionResult<PaginatedViewModel<TaskInfo>>> GetTaskInfoList(
+        [HttpGet($"/v1.1/{nameof(Projects)}/{{{nameof(GetTaskInfoList.ProjectId)}}}/[controller]")]
+        public async Task<ActionResult<PaginatedViewModel<TaskInfo>>> GetInfoList(
             Guid projectId,
             Guid? sprintId = null,
             Domain.TaskAggregation.TaskStatus? status = null,
@@ -54,21 +54,21 @@ namespace Presentation.WebAPI
             return await _service.Process(request);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<TaskInfo?>> GetTheTaskInfo(Guid id)
+        public async Task<ActionResult<TaskInfo?>> GetInfo(Guid id)
         {
             return await View(
                 () => _service.Process(new GetTheTaskInfo(id)));
         }
 
         [HttpPost]
-        public async Task<ActionResult<TaskInfo?>> AddATask(AddATask request)
+        public async Task<ActionResult<TaskInfo?>> Add(AddATask request)
         {
             var id = await _service.Process(request);
-            return CreatedAtAction(nameof(GetTheTaskInfo), new { id }, id);
+            return CreatedAtAction(nameof(GetInfo), new { id }, id);
         }
 
-        [HttpPatch("[action]")]
-        public async Task<IActionResult> EditTheTask(EditTheTask request)
+        [HttpPut]
+        public async Task<IActionResult> Edit(EditTheTask request)
         {
             return await View(
                 () => _service.Process(request));
@@ -80,13 +80,13 @@ namespace Presentation.WebAPI
                 () => _service.Process(request));
         }
         [HttpPatch("[action]/{id}")]
-        public async Task<IActionResult> ArchiveTheTask(Guid id)
+        public async Task<IActionResult> Archive(Guid id)
         {
             return await View(
                 () => _service.Process(new ArchiveTheTask(id)));
         }
         [HttpPatch("[action]/{id}")]
-        public async Task<IActionResult> RestoreTheTask(Guid id)
+        public async Task<IActionResult> Restore(Guid id)
         {
             return await View(
                 () => _service.Process(new RestoreTheTask(id)));

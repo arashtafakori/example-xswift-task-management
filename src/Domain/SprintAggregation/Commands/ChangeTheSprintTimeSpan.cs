@@ -3,7 +3,7 @@ using XSwift.Domain;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.SprintAggregation
+namespace Module.Domain.SprintAggregation
 {
     public class ChangeTheSprintTimeSpan :
         RequestToUpdateById<SprintEntity, Guid>
@@ -17,12 +17,13 @@ namespace Domain.SprintAggregation
         public DateTime EndDate { get; private set; }
 
         public ChangeTheSprintTimeSpan(
-            Guid id, DateTime startDate, DateTime endDate) : base(id)
+            Guid id, DateTime startDate, DateTime endDate) 
+            : base(id)
         {
             StartDate = startDate;
             EndDate = endDate;
 
-            ValidationState.AddAnValidation(
+            ValidationState.AddAValidation(
                 new PreventIfStartDateIsLaterThanEndDate<SprintEntity>
                 (StartDate, EndDate));
 

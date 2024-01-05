@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using MediatR;
 using XSwift.Base;
 
-namespace Domain.TaskAggregation
+namespace Module.Domain.TaskAggregation
 {
     internal class GetTheTasksIdsListOfTheSprint :
         QueryListRequest<TaskEntity, List<Guid>>

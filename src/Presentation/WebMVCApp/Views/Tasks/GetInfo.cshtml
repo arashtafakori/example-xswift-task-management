@@ -1,0 +1,56 @@
+﻿@using Module.Domain.ProjectAggregation;
+@using Module.Presentation.WebMVCApp.Controllers;
+@model Module.Presentation.WebMVCApp.ViewModels.GetTheTaskInfoViewModel;
+ 
+@{
+    ViewData["Title"] = "Task Info";
+}
+
+<h4>@ViewData["Title"]</h4>
+
+
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Belongs to
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ProjectInfo!.Name project
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TaskInfo!.ModifiedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskInfo!.ModifiedDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TaskInfo!.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskInfo!.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TaskInfo!.SprintName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskInfo!.SprintName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TaskInfo!.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskInfo!.StatusName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TaskInfo!.OwnerName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskInfo!.OwnerName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="@nameof(Tasks.GetTaskInfoList)"
+       asp-route-projectId="@Model.TaskInfo!.ProjectId">Back to List</a>
+</div>

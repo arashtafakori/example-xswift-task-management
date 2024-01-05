@@ -1,8 +1,8 @@
-﻿using Domain.ProjectAggregation;
+﻿using Module.Domain.ProjectAggregation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Persistence.EFCore.ProjectRepository
+namespace Module.Persistence.ProjectRepository
 {
     public class ProjectDbEntityConfiguration : IEntityTypeConfiguration<ProjectEntity>
     {

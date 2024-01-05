@@ -1,9 +1,9 @@
 ﻿using XSwift.Datastore;
-using Domain.ProjectAggregation;
+using Module.Domain.ProjectAggregation;
 using MediatR;
-using EntityFrameworkCore.XSwift;
+using XSwift.EntityFrameworkCore;
 
-namespace Persistence.EFCore.ProjectRepository
+namespace Module.Persistence.ProjectRepository
 {
     public class ChangeTheProjectNameHandler :
         IRequestHandler<ChangeTheProjectName>

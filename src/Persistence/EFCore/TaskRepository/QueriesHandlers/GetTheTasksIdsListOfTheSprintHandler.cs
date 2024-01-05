@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using XSwift.Datastore;
-using Domain.TaskAggregation;
-using EntityFrameworkCore.XSwift;
+using Module.Domain.TaskAggregation;
+using XSwift.EntityFrameworkCore;
 
-namespace Persistence.EFCore.TaskRepository
+namespace Module.Persistence.TaskRepository
 {
     internal class GetTheTasksIdsListOfTheSprintHandler :
         IRequestHandler<GetTheTasksIdsListOfTheSprint, List<Guid>>

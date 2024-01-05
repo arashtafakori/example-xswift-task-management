@@ -7,7 +7,7 @@ using TestStack.BDDfy;
 using XSwift.Base;
 using Xunit;
 
-namespace SprintFeature
+namespace AcceptanceTest.SprintFeature
 {
     /// <summary>
     /// As a user
@@ -31,17 +31,17 @@ namespace SprintFeature
         {
             var steps = new ToChangeTheTimeSpanOfASprintToANewWhileStartDateAndEndDateIsEarlierThanTheLastTwelveMonths(_serviceScope!);
 
-            var dataFacilitator = new ApplicationServiceFacilitator(_serviceScope);
-            var projectId = await dataFacilitator.DefineAProject(
-                projectName: "Task Managment");
-            var sprintId = await dataFacilitator.DefineASprint(
-                projectId, sprintName: "Sprint 01");
+            var projectId = await DataFacilitator.DefineAProject(
+                _serviceScope, name: "Task Management");
+
+            var sprintId = await DataFacilitator.DefineASprint(
+                _serviceScope, projectId, name: "Sprint 01");
 
             steps.Given(_ => steps.GivenIWantToChangeTheTimeSpanOfASprintToANewTimeSpan(sprintId, startDate, endDate))
                 .Given(_ => steps.AndGivenTheStartDateAndTheEndDateIsEarlierThanTheLastTwelveMonths())
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDenied())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
 

@@ -1,12 +1,13 @@
 ﻿using XSwift.Domain;
 using MediatR;
 
-namespace Domain.TaskAggregation
+namespace Module.Domain.TaskAggregation
 {
     public class ArchiveTheTask :
         RequestToArchiveById<TaskEntity, Guid>
     {
-        public ArchiveTheTask(Guid id) : base(id)
+        public ArchiveTheTask(Guid id)
+            : base(id)
         {
             ValidationState.Validate();
         }

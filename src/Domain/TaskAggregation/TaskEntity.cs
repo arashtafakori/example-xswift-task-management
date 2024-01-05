@@ -1,9 +1,9 @@
-﻿using Domain.ProjectAggregation;
-using Domain.SprintAggregation;
+﻿using Module.Domain.ProjectAggregation;
+using Module.Domain.SprintAggregation;
 using System.ComponentModel.DataAnnotations;
 using XSwift.Domain;
 
-namespace Domain.TaskAggregation
+namespace Module.Domain.TaskAggregation
 {
     public class TaskEntity : Entity<TaskEntity, Guid>, IAggregateRoot
     {

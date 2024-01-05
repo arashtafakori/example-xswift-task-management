@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Domain.Properties {
+namespace Module.Domain.Properties {
     using System;
     
     

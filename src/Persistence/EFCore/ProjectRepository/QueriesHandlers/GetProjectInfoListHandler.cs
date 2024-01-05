@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using XSwift.Datastore;
-using Domain.ProjectAggregation;
+using Module.Domain.ProjectAggregation;
 using XSwift.Domain;
-using EntityFrameworkCore.XSwift;
+using XSwift.EntityFrameworkCore;
 
-namespace Persistence.EFCore.ProjectRepository
+namespace Module.Persistence.ProjectRepository
 {
     public class GetProjectInfoListHandler :
         IRequestHandler<GetProjectInfoList,

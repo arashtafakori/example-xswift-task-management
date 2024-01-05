@@ -1,8 +1,8 @@
-﻿using Domain.SprintAggregation;
+﻿using Module.Domain.SprintAggregation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Persistence.EFCore.SprintRepository
+namespace Module.Persistence.SprintRepository
 {
     public class SprintDbEntityConfiguration : IEntityTypeConfiguration<SprintEntity>
     {

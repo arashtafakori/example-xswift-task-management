@@ -1,0 +1,1230 @@
+{
+	"info": {
+		"_postman_id": "69661014-95db-4ef2-a684-37c0003c927c",
+		"name": "TaskModule",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29002257"
+	},
+	"item": [
+		{
+			"name": "ProjectUseCase",
+			"item": [
+				{
+					"name": "DefineAProject.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"    let jsonResponse = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"projectId\", jsonResponse);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Task Manager2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Projects",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTheProjectInfo.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Projects/{{projectId}}",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Projects",
+								"{{projectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProjectInfoList.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Projects",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProjectInfoList.v1.1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1.1/Projects?pageNumber=1&pageSize=5",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1.1",
+								"Projects"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ChangeTheProjectName/v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{projectId}}\",\r\n    \"name\": \"Task Borad\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Projects/ChangeTheProjectName",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Projects",
+								"ChangeTheProjectName"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ArchiveTheProject.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Projects/ArchiveTheProject/{{projectId}}",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Projects",
+								"ArchiveTheProject",
+								"{{projectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RestoreTheProject.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Projects/RestoreTheProject/{{projectId}}",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Projects",
+								"RestoreTheProject",
+								"{{projectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteTheProject.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"    pm.collectionVariables.set(\"projectId\", null);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Projects/{{projectId}}",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Projects",
+								"{{projectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CheckTheProjectForArchiving.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Projects/CheckTheProjectForArchiving/{{projectId}}",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Projects",
+								"CheckTheProjectForArchiving",
+								"{{projectId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SprintUseCase",
+			"item": [
+				{
+					"name": "DefineASprint.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"    let jsonResponse = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"sprintId\", jsonResponse);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"    url: pm.globals.get(\"doit-task-module-url\") + '/Projects/DefineANewProject',\r",
+									"    method: 'POST',\r",
+									"    header: {\r",
+									"    'Content-Type': 'application/json'\r",
+									"    },\r",
+									"    body: {\r",
+									"    mode: 'raw',\r",
+									"    raw: JSON.stringify(\r",
+									"{\r",
+									"    \"name\": \"Task Manager\"\r",
+									"}\r",
+									"    )\r",
+									"  }\r",
+									"    }, (error, response) => {\r",
+									"    if (error) {\r",
+									"        console.log(error);\r",
+									"    } else {\r",
+									"        console.log(response);\r",
+									"        if(response.code == 201)\r",
+									"        {\r",
+									"            let jsonResponse = response.json();\r",
+									"            pm.collectionVariables.set(\"projectId\", jsonResponse);\r",
+									"        }\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"projectId\": \"{{projectId}}\",\r\n    \"name\": \"Iteration 01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Sprints",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Sprints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTheSprintInfo.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Sprints/{{sprintId}}",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Sprints",
+								"{{sprintId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetSprintInfoList.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Projects/{{projectId}}/Sprints",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Projects",
+								"{{projectId}}",
+								"Sprints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetSprintInfoList.v1.1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1.1/Projects/{{projectId}}/Sprints?pageNumber=1&pageSize=5",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1.1",
+								"Projects",
+								"{{projectId}}",
+								"Sprints"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ChangeTheSprintName.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{sprintId}}\",\r\n    \"name\": \"Iteration 02\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Sprints/ChangeTheSprintName",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Sprints",
+								"ChangeTheSprintName"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ChangeTheSprintTimeSpan.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{sprintId}}\",\r\n    \"startDate\": \"2023-08-22\",\r\n    \"endDate\": \"2023-08-23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Sprints/ChangeTheSprintTimeSpan",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Sprints",
+								"ChangeTheSprintTimeSpan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ArchiveTheSprint.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Sprints/ArchiveTheSprint/{{sprintId}}?archivingAllTasksMode=true",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Sprints",
+								"ArchiveTheSprint",
+								"{{sprintId}}"
+							],
+							"query": [
+								{
+									"key": "archivingAllTasksMode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RestoreTheSprint.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Sprints/RestoreTheSprint/{{sprintId}}",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Sprints",
+								"RestoreTheSprint",
+								"{{sprintId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CheckTheSprintForArchiving.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Sprints/CheckTheSprintForArchiving/{{sprintId}}",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Sprints",
+								"CheckTheSprintForArchiving",
+								"{{sprintId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TaskUseCase",
+			"item": [
+				{
+					"name": "AddATask.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"    let jsonResponse = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"taskId\", jsonResponse);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"    url: pm.globals.get(\"doit-task-module-url\") + '/Projects/DefineANewProject',\r",
+									"    method: 'POST',\r",
+									"    header: {\r",
+									"    'Content-Type': 'application/json'\r",
+									"    },\r",
+									"    body: {\r",
+									"    mode: 'raw',\r",
+									"    raw: JSON.stringify(\r",
+									"{\r",
+									"    \"name\": \"Task Manager\"\r",
+									"}\r",
+									"    )\r",
+									"  }\r",
+									"    }, (error, response) => {\r",
+									"    if (error) {\r",
+									"        console.log(error);\r",
+									"    } else {\r",
+									"        console.log(response);\r",
+									"        if(response.code == 201)\r",
+									"        {\r",
+									"            let jsonResponse = response.json();\r",
+									"            pm.collectionVariables.set(\"projectId\", jsonResponse);\r",
+									"        }\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"projectId\": \"{{projectId}}\",\r\n    \"description\": \"Implement the project feature as an application service\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Tasks",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTheTaskInfo.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Tasks/{{taskId}}",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Tasks",
+								"{{taskId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTaskInfoList.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Projects/{{projectId}}/Tasks?descriptionSearchKey=&sprintId=&status=",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Projects",
+								"{{projectId}}",
+								"Tasks"
+							],
+							"query": [
+								{
+									"key": "descriptionSearchKey",
+									"value": ""
+								},
+								{
+									"key": "sprintId",
+									"value": ""
+								},
+								{
+									"key": "status",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTaskInfoList.v1.1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1.1/Projects/{{projectId}}/Tasks?pageNumber=1&pageSize=5&descriptionSearchKey=&sprintId=&status=",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1.1",
+								"Projects",
+								"{{projectId}}",
+								"Tasks"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								},
+								{
+									"key": "descriptionSearchKey",
+									"value": ""
+								},
+								{
+									"key": "sprintId",
+									"value": ""
+								},
+								{
+									"key": "status",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTaskStatusItems.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Tasks/GetTaskStatusItems",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Tasks",
+								"GetTaskStatusItems"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditTheTask.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{taskId}}\",\r\n    \"description\": \"Modified: Define a new module as the task module.\",\r\n    \"status\": 10,\r\n    \"sprintId\": \"{{sprintId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Tasks/EditTheTask",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Tasks",
+								"EditTheTask"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ChangeTheTaskStatus.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{taskId}}\",\r\n    \"status\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Tasks/ChangeTheTaskStatus",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Tasks",
+								"ChangeTheTaskStatus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ArchiveTheTask.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Tasks/ArchiveTheTask/{{taskId}}",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Tasks",
+								"ArchiveTheTask",
+								"{{taskId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RestoreTheTask.v1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{doit-task-module-url}}/v1/Tasks/RestoreTheTask/{{taskId}}",
+							"host": [
+								"{{doit-task-module-url}}"
+							],
+							"path": [
+								"v1",
+								"Tasks",
+								"RestoreTheTask",
+								"{{taskId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "projectId",
+			"value": ""
+		}
+	]
+}

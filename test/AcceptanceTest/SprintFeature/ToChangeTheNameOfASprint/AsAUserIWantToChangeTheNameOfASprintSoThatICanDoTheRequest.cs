@@ -1,10 +1,14 @@
 ﻿using AcceptanceTest;
+using Module.Contract;
+using Module.Domain.ProjectAggregation;
+using Module.Domain.SprintAggregation;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace SprintFeature
+namespace AcceptanceTest.SprintFeature
 {
     /// <summary>
     /// As a user
@@ -25,17 +29,18 @@ namespace SprintFeature
         {
             var steps = new ToChangeTheNameOfASprintToANewName(_serviceScope!);
 
-            var dataFacilitator = new ApplicationServiceFacilitator(_serviceScope);
-            var projectId = await dataFacilitator.DefineAProject(
-                projectName: "Task Managment");
-            var sprintId = await dataFacilitator.DefineASprint(
-                projectId, sprintName: "Sprint 01");
+            var projectId = await DataFacilitator.DefineAProject(
+                _serviceScope, name: "Task Management");
+
+            var sprintId = await DataFacilitator.DefineASprint(
+                _serviceScope, projectId, name: "Sprint 01");
+
             var newSprintName = "Sprint 02";
 
             steps.Given(_ => steps.GivenIWantToChangeTheNameOfASprintToANewName(sprintId, newSprintName))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDone())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
         [Fact]
@@ -43,18 +48,19 @@ namespace SprintFeature
         {
             var steps = new ToChangeTheNameOfASprintToANewNameAndGivenASprintWithTheSameNewNameHasAlreadyExistedForThisProject(_serviceScope!);
 
-            var dataFacilitator = new ApplicationServiceFacilitator(_serviceScope);
-            var projectId = await dataFacilitator.DefineAProject(
-                projectName: "Task Managment");
-            var sprintId = await dataFacilitator.DefineASprint(
-                projectId, sprintName: "Sprint 01");
+            var projectId = await DataFacilitator.DefineAProject(
+                _serviceScope, name: "Task Management");
+
+            var sprintId = await DataFacilitator.DefineASprint(
+                _serviceScope, projectId, name: "Sprint 01");
+
             var newSprintName = "Sprint 02";
 
             steps.Given(_ => steps.GivenIWantToChangeTheNameOfASprintToANewName(sprintId, newSprintName))
                 .Given(_ => steps.AndGivenASprintTheSameNewNameHasAlreadyExistedForThisProject(projectId, newSprintName))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDenied())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
     }

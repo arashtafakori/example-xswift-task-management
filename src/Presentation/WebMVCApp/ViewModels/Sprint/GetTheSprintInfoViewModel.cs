@@ -1,7 +1,7 @@
-﻿using Domain.ProjectAggregation;
-using Domain.SprintAggregation;
+﻿using Module.Domain.ProjectAggregation;
+using Module.Domain.SprintAggregation;
 
-namespace Presentation.WebMVCApp.ViewModels
+namespace Module.Presentation.WebMVCApp.ViewModels
 {
     public class GetTheSprintInfoViewModel
     {

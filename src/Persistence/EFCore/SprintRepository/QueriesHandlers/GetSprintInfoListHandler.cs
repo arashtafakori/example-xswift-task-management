@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using XSwift.Datastore;
-using Domain.SprintAggregation;
+using Module.Domain.SprintAggregation;
 using XSwift.Domain;
-using EntityFrameworkCore.XSwift;
+using XSwift.EntityFrameworkCore;
 
-namespace Persistence.EFCore.SprintRepository
+namespace Module.Persistence.SprintRepository
 {
     public class GetSprintInfoListHandler :
         IRequestHandler<GetSprintInfoList,

@@ -1,9 +1,9 @@
 ﻿using XSwift.Datastore;
-using Domain.TaskAggregation;
+using Module.Domain.TaskAggregation;
 using MediatR;
-using EntityFrameworkCore.XSwift;
+using XSwift.EntityFrameworkCore;
 
-namespace Persistence.EFCore.TaskRepository
+namespace Module.Persistence.TaskRepository
 {
     public class EditTheTaskHandler :
         IRequestHandler<EditTheTask>

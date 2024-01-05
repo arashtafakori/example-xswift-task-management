@@ -1,4 +1,4 @@
-﻿namespace Domain.TaskAggregation
+﻿namespace Module.Domain.TaskAggregation
 {
     public enum TaskStatus
     {

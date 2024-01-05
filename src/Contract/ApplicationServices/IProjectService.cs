@@ -1,7 +1,7 @@
 ﻿using XSwift.Domain;
-using Domain.ProjectAggregation;
+using Module.Domain.ProjectAggregation;
 
-namespace Contract
+namespace Module.Contract
 {
     public interface IProjectService
     {

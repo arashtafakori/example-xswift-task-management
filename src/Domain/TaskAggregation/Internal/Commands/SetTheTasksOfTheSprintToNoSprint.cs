@@ -2,7 +2,7 @@
 using MediatR;
 using XSwift.Base;
 
-namespace Domain.TaskAggregation
+namespace Module.Domain.TaskAggregation
 {
     internal class SetTheTasksOfTheSprintToNoSprint :
         BulkCommandRequest<TaskEntity, List<Guid>>

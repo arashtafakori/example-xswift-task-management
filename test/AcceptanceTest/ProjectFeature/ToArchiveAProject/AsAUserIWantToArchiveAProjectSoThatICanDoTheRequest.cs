@@ -1,12 +1,12 @@
 ﻿using AcceptanceTest;
-using Contract;
-using Domain.ProjectAggregation;
+using Module.Contract;
+using Module.Domain.ProjectAggregation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace ProjectFeature
+namespace AcceptanceTest.ProjectFeature
 {
     /// <summary>
     /// As a user
@@ -28,13 +28,13 @@ namespace ProjectFeature
         {
             var steps = new ToArchiveAProject(_serviceScope!);
 
-            var projectId = await new ApplicationServiceFacilitator(_serviceScope).
-                DefineAProject(projectName: "Task Management");
+            var projectId = await DataFacilitator.DefineAProject(
+                _serviceScope, name: "Task Management");
 
             steps.Given(_ => steps.GivenIWantToArchiveAProject(projectId))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDone())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
     }

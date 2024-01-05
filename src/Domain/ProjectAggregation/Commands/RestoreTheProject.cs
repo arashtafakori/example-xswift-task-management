@@ -1,12 +1,13 @@
 ﻿using XSwift.Domain;
 using MediatR;
 
-namespace Domain.ProjectAggregation
+namespace Module.Domain.ProjectAggregation
 {
     public class RestoreTheProject :
         RequestToRestoreById<ProjectEntity, Guid>
     {
-        public RestoreTheProject(Guid id) : base(id)
+        public RestoreTheProject(Guid id) 
+            : base(id)
         {
             ValidationState.Validate();
         }

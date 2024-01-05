@@ -4,31 +4,31 @@ using XSwift.Settings;
 using SoftDeleteServices.Configuration;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Contract;
+using Module.Contract;
 using MediatR;
-using Persistence.EFCore;
+using Module.Persistence;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using EntityFrameworkCore.XSwift;
 using XSwift.Datastore;
+using XSwift.EntityFrameworkCore;
 
-namespace Application
+namespace Module.Application
 {
     public static class ServiceCollectionExtensions
     {
         public static void AddApplicationServices(
             this IServiceCollection services,
-            DatabaseSettings databaseSettings,
-            InMemoryDatabaseSettings? inMemoryDatabaseSettings = null,
-            SqlServerSettings? sqlServerSettings = null)
+            DatabaseSetting databaseSetting,
+            InMemoryDatabaseSetting? inMemoryDatabaseSetting = null,
+            SqlServerSetting? sqlServerSetting = null)
         {
             services.ConfigureDataStore(
-                databaseSettings,
-                inMemoryDatabaseSettings,
-                sqlServerSettings);
+                databaseSetting,
+                inMemoryDatabaseSetting,
+                sqlServerSetting);
 
             // MediatR Registrations
             services.AddMediatR(typeof(ProjectService));
-            services.AddMediatR(typeof(Persistence.EFCore.ProjectRepository.DefineAProjectHandler));
+            services.AddMediatR(typeof(Persistence.ProjectRepository.DefineAProjectHandler));
             services.AddMediatR(typeof(Domain.ProjectAggregation.DefineAProject));
 
             // Application Services
@@ -41,17 +41,17 @@ namespace Application
 
         private static void ConfigureDataStore(
             this IServiceCollection services,
-            DatabaseSettings databaseSettings,
-            InMemoryDatabaseSettings? inMemoryDatabaseSettings = null,
-            SqlServerSettings? sqlServerSettings = null)
+            DatabaseSetting databaseSetting,
+            InMemoryDatabaseSetting? inMemoryDatabaseSetting = null,
+            SqlServerSetting? sqlServerSetting = null)
         {
-            if (databaseSettings.IsInMemory)
+            if (databaseSetting.IsInMemory)
             {
                 services.AddScoped<IDatabase, ModuleEFCoreDatabase>();
                 services.AddScoped<IDbTransaction, ModuleDbTransaction>();
 
                 services.AddDbContext<ModuleDbContext>(options =>
-                   options.UseInMemoryDatabase(databaseName: inMemoryDatabaseSettings.DatabaseName)
+                   options.UseInMemoryDatabase(databaseName: inMemoryDatabaseSetting!.DatabaseName)
                    .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning)),
                    ServiceLifetime.Scoped);
             }
@@ -63,13 +63,15 @@ namespace Application
                 var assembly = typeof(ModuleDbContext).Assembly.GetName().Name;
                 services.AddDbContext<ModuleDbContext>(options =>
                    options.UseSqlServer(
-                       sqlServerSettings.ConnectString!,
+                       sqlServerSetting!.ConnectString!,
                        b => b.MigrationsAssembly(assembly)),
                    ServiceLifetime.Scoped);
 
                 services.RegisterSoftDelServicesAndYourConfigurations(
                     Assembly.GetAssembly(typeof(ModuleDeletabilityConfiguration)));
             }
+
+            new DatabaseInitialization(services, databaseSetting).Initialize();
         }
 
         public static void AddRequestClients(

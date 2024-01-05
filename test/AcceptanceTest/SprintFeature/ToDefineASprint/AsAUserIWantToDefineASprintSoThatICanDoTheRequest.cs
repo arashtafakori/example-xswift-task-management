@@ -1,12 +1,10 @@
 ﻿using AcceptanceTest;
-using Contract;
-using Domain.ProjectAggregation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace SprintFeature
+namespace AcceptanceTest.SprintFeature
 {
     /// <summary>
     /// As a user
@@ -28,16 +26,15 @@ namespace SprintFeature
         {
             var steps = new ToDefineASprintToAProject(_serviceScope!);
 
-            var projectService = _serviceScope.ServiceProvider.GetRequiredService<IProjectService>();
-            var projectName = "Task Management";
-            var projectId = await projectService.Process(new DefineAProject(projectName));
+            var projectId = await DataFacilitator.DefineAProject(
+                _serviceScope, name: "Task Management");
 
             var sprintName = "Sprint 01";
 
             steps.Given(_ => steps.GivenIWantToDefineASprintForAProject(projectId, sprintName))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDone())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
 
@@ -46,15 +43,16 @@ namespace SprintFeature
         {
             var steps = new ToDefineASprintToAProjectAndGivenASprintWithThisNameHasAlreadyExistedForThisProject(_serviceScope!);
 
-            var projectId = await new ApplicationServiceFacilitator(_serviceScope).
-                DefineAProject(projectName: "Task Managment");
+            var projectId = await DataFacilitator.DefineAProject(
+                _serviceScope, name: "Task Management");
+
             var sprintName = "Sprint 01";
 
             steps.Given(_ => steps.GivenIWantToDefineASprintForAProject(projectId, sprintName))
                 .Given(_ => steps.AndGivenASprintWithThisNameHasAlreadyExistedForThisProject(projectId, sprintName))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDenied())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
     }

@@ -1,11 +1,11 @@
 ﻿using XSwift.Domain;
-using Domain.Properties;
+using Module.Domain.Properties;
 using System.ComponentModel.DataAnnotations;
-using Domain.SprintAggregation;
-using Domain.TaskAggregation;
+using Module.Domain.SprintAggregation;
+using Module.Domain.TaskAggregation;
 using System.Text.Json.Serialization;
 
-namespace Domain.ProjectAggregation
+namespace Module.Domain.ProjectAggregation
 {
     public class ProjectEntity : Entity<ProjectEntity, Guid>, IAggregateRoot
     {

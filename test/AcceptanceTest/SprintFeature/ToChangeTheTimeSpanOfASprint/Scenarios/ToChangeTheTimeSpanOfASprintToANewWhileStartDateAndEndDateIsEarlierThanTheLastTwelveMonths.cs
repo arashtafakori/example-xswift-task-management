@@ -2,11 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using Contract;
-using Domain.SprintAggregation;
-using FluentAssertions.XSwift;
+using Module.Contract;
+using Module.Domain.SprintAggregation;
+using XSwift.FluentAssertions;
 
-namespace SprintFeature
+namespace AcceptanceTest.SprintFeature
 {
     internal class ToChangeTheTimeSpanOfASprintToANewWhileStartDateAndEndDateIsEarlierThanTheLastTwelveMonths
     {

@@ -1,7 +1,7 @@
 ﻿using XSwift.Domain;
-using Domain.TaskAggregation;
+using Module.Domain.TaskAggregation;
 
-namespace Contract
+namespace Module.Contract
 {
     public interface ITaskService
     {

@@ -1,12 +1,11 @@
-﻿using Contract;
-using Domain.ProjectAggregation;
+﻿using AcceptanceTest;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 using TestStack.BDDfy;
 using Xunit;
 
-namespace TaskFeature
+namespace AcceptanceTest.TaskFeature
 {
     /// <summary>
     /// As a user
@@ -28,10 +27,9 @@ namespace TaskFeature
         {
             var steps = new ToAddATask(_serviceScope!);
 
-            var projectService = _serviceScope.ServiceProvider.GetRequiredService<IProjectService>();
-            var projectName = "Task Management";
-            var projectId = await projectService.Process(
-                new DefineAProject(projectName));
+            var projectId = await DataFacilitator.DefineAProject(
+                _serviceScope, name: "Task Management");
+
             var description = "Add a new module as the task module.";
             Guid? sprintId = null;
 
@@ -39,7 +37,7 @@ namespace TaskFeature
                 projectId, description, sprintId))
                 .When(_ => steps.WhenIRequestIt())
                 .Then(_ => steps.ThenTheRequestSholudBeDone())
-                .TearDownWith(_ => _fixture.ResetDbContext())
+                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
                 .BDDfy();
         }
     }

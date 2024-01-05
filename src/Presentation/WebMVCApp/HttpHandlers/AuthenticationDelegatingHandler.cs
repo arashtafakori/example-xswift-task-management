@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
-namespace Presentation.WebMVCApp.HttpHandlers
+namespace Module.Presentation.WebMVCApp
 {
     public class AuthenticationDelegatingHandler : DelegatingHandler
     {
@@ -10,18 +10,16 @@ namespace Presentation.WebMVCApp.HttpHandlers
 
         public AuthenticationDelegatingHandler(IHttpContextAccessor httpContextAccessor)
         {
-            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            _httpContextAccessor = httpContextAccessor;
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var accessToken = await _httpContextAccessor
-                .HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+                .HttpContext!.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
             if (!string.IsNullOrWhiteSpace(accessToken))
-            {
                 request.SetBearerToken(accessToken);
-            }
 
             return await base.SendAsync(request, cancellationToken);
         }

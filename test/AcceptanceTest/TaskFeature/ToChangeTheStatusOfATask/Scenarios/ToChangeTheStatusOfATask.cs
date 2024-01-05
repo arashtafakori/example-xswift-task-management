@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using Contract;
-using Domain.TaskAggregation;
+using Module.Contract;
+using Module.Domain.TaskAggregation;
 using System.Threading.Tasks;
 
-namespace TaskFeature
+namespace AcceptanceTest.TaskFeature
 {
     internal class ToChangeTheStatusOfATask
     {
@@ -17,7 +17,7 @@ namespace TaskFeature
         {
             _service = serviceScope.ServiceProvider.GetRequiredService<ITaskService>();
         }
-        internal void GivenIWantToChangeTheStatusOfATask(Guid taskId, Domain.TaskAggregation.TaskStatus newStatus)
+        internal void GivenIWantToChangeTheStatusOfATask(Guid taskId, Module.Domain.TaskAggregation.TaskStatus newStatus)
         {
             _request = new ChangeTheTaskStatus(taskId, newStatus);
         }

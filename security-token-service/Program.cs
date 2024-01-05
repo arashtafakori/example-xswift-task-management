@@ -5,9 +5,9 @@ using IdentityServerHost.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly.GetName().Name;
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
 
-//IdentityServerHost.DataSeeder.Seed(connectionString!);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
+new IdentityServerHost.DatabaseInitialization(connectionString!, "").Initialize();
 
 builder.Services.AddDbContext<AspNetIdentityDbContext>(options =>
     options.UseSqlServer(connectionString!,

@@ -1,9 +1,9 @@
 ﻿using XSwift.Domain;
-using Domain.ProjectAggregation;
-using Domain.Properties;
+using Module.Domain.ProjectAggregation;
+using Module.Domain.Properties;
 using System.Globalization;
 
-namespace Domain.SprintAggregation
+namespace Module.Domain.SprintAggregation
 {
     internal class SomeTasksHaveBeenDefinedForThisSprint : InvariantIssue
     {

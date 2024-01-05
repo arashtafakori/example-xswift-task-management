@@ -1,12 +1,13 @@
 ﻿using XSwift.Domain;
 using MediatR;
 
-namespace Domain.SprintAggregation
+namespace Module.Domain.SprintAggregation
 {
     public class RestoreTheSprint :
         RequestToRestoreById<SprintEntity, Guid>
     {
-        public RestoreTheSprint(Guid id) : base(id)
+        public RestoreTheSprint(Guid id)
+            : base(id)
         {
             ValidationState.Validate();
         }

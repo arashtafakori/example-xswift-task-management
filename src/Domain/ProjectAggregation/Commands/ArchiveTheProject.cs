@@ -1,12 +1,13 @@
 ﻿using XSwift.Domain;
 using MediatR;
 
-namespace Domain.ProjectAggregation
+namespace Module.Domain.ProjectAggregation
 {
     public class ArchiveTheProject :
         RequestToArchiveById<ProjectEntity, Guid>
     {
-        public ArchiveTheProject(Guid id) : base(id)
+        public ArchiveTheProject(Guid id) 
+            : base(id)
         {
             ValidationState.Validate();
         }

@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using Contract;
-using Domain.TaskAggregation;
+using Module.Contract;
+using Module.Domain.TaskAggregation;
 using System.Threading.Tasks;
 
-namespace TaskFeature
+namespace AcceptanceTest.TaskFeature
 {
     internal class ToRestoreAnArchivedTask
     {

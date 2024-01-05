@@ -1,12 +1,13 @@
 ﻿using XSwift.Domain;
 using MediatR;
 
-namespace Domain.TaskAggregation
+namespace Module.Domain.TaskAggregation
 {
     public class RestoreTheTask :
         RequestToRestoreById<TaskEntity, Guid>
     {
-        public RestoreTheTask(Guid id) : base(id)
+        public RestoreTheTask(Guid id)
+            : base(id)
         {
             ValidationState.Validate();
         }

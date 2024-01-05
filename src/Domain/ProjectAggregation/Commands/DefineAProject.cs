@@ -1,7 +1,7 @@
 ﻿using XSwift.Domain;
 using MediatR;
 
-namespace Domain.ProjectAggregation
+namespace Module.Domain.ProjectAggregation
 {
     public class DefineAProject
         : RequestToCreate<ProjectEntity, Guid>
@@ -9,7 +9,7 @@ namespace Domain.ProjectAggregation
         [BindTo(typeof(ProjectEntity), nameof(ProjectEntity.Name))]
         public string Name { get; private set; }
 
-        public DefineAProject(string name)
+        public DefineAProject(string name) 
         {
             Name = name.Trim();
             ValidationState.Validate();

@@ -1,16 +1,15 @@
 ﻿using XSwift.Domain;
 using MediatR;
- 
-namespace Domain.TaskAggregation
+
+namespace Module.Domain.TaskAggregation
 {
     internal class ChangeTheTaskSprint :
         RequestToUpdateById<TaskEntity, Guid>
     {
         public Guid? SprintId { get; private set; }
 
-        public ChangeTheTaskSprint(
-            Guid id, 
-            Guid? sprintId = null) : base(id)
+        public ChangeTheTaskSprint(Guid id, Guid? sprintId = null) 
+            : base(id)
         {
             SprintId = sprintId;
 

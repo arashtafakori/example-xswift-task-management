@@ -2,12 +2,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using FluentAssertions.XSwift;
-using Contract;
-using Domain.ProjectAggregation;
+using XSwift.FluentAssertions;
+using Module.Contract;
+using Module.Domain.ProjectAggregation;
 using XSwift.Domain;
 
-namespace ProjectFeature
+namespace AcceptanceTest.ProjectFeature
 {
     internal class ToChangeTheNameOfAProjectToANewAndGivenAProjectWithTheSameNewNameHasAlreadyExisted
     {

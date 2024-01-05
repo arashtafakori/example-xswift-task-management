@@ -1,7 +1,7 @@
 ﻿using AcceptanceTest;
 using System;
 
-namespace SprintFeature
+namespace AcceptanceTest.SprintFeature
 {
     public class SprintFixture : ServiceContext, IDisposable
     {
@@ -11,7 +11,7 @@ namespace SprintFeature
 
         void IDisposable.Dispose()
         {
-            ResetDbContext();
+            EnsureRecreatedDatabase();
             Dispose();
         }
     }
