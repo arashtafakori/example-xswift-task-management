@@ -5,7 +5,6 @@ using Module.Presentation.WebMVCApp.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureLanguage(builder.Configuration);
 builder.Services.HttpClientService(builder.Configuration);
-builder.Services.AddAuthService(builder.Configuration);
 builder.Services.AddControllers().AddNewtonsoftJson();
 
 // Add services to the container.
@@ -19,8 +18,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.AddEndpoints();
 

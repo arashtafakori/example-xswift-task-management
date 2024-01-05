@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.Configuration"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.WebMVCApp", "src\Presentation\WebMVCApp\Presentation.WebMVCApp.csproj", "{D5C78028-B717-4D5A-A918-B9ADA93DA22C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityTokenService", "security-token-service\SecurityTokenService.csproj", "{C89175DC-EFAA-4EAB-A374-18B586B05C57}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcceptanceTest", "test\AcceptanceTest\AcceptanceTest.csproj", "{D71E1FF6-5601-4390-85E8-E667539D2D55}"
 EndProject
 Global
@@ -85,14 +83,6 @@ Global
 		{D5C78028-B717-4D5A-A918-B9ADA93DA22C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D5C78028-B717-4D5A-A918-B9ADA93DA22C}.Release|ARM32.ActiveCfg = Release|Any CPU
 		{D5C78028-B717-4D5A-A918-B9ADA93DA22C}.Release|ARM32.Build.0 = Release|Any CPU
-		{C89175DC-EFAA-4EAB-A374-18B586B05C57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C89175DC-EFAA-4EAB-A374-18B586B05C57}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C89175DC-EFAA-4EAB-A374-18B586B05C57}.Debug|ARM32.ActiveCfg = Debug|Any CPU
-		{C89175DC-EFAA-4EAB-A374-18B586B05C57}.Debug|ARM32.Build.0 = Debug|Any CPU
-		{C89175DC-EFAA-4EAB-A374-18B586B05C57}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C89175DC-EFAA-4EAB-A374-18B586B05C57}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C89175DC-EFAA-4EAB-A374-18B586B05C57}.Release|ARM32.ActiveCfg = Release|Any CPU
-		{C89175DC-EFAA-4EAB-A374-18B586B05C57}.Release|ARM32.Build.0 = Release|Any CPU
 		{D71E1FF6-5601-4390-85E8-E667539D2D55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D71E1FF6-5601-4390-85E8-E667539D2D55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D71E1FF6-5601-4390-85E8-E667539D2D55}.Debug|ARM32.ActiveCfg = Debug|Any CPU

@@ -9,13 +9,9 @@
 <h4>@ViewData["Title"]</h4>
 
 <hr />
-@if (User.IsInRole(
-              Module.Presentation.Configuration.AuthDefinitions.Roles.Admin))
-{
-    <p>
-        <a asp-action="@nameof(Projects.Define)">Define A New</a>
-    </p>
-}
+<p>
+    <a asp-action="@nameof(Projects.Define)">Define A New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -39,16 +35,12 @@
                     <span> | </span>
                     <a asp-controller="@nameof(Sprints)" asp-action="@nameof(Sprints.GetSprintInfoList)" asp-route-projectId="@item.Id">Sprints</a>
 
-                    @if (User.IsInRole(
-                        Module.Presentation.Configuration.AuthDefinitions.Roles.Admin))
-                    {
-                        <span> | </span>
-                        <a asp-action="@nameof(Projects.ChangeTheProjectName)" asp-route-projectId="@item.Id">Edit</a>
-                        <span> | </span>
-                        <a asp-action="@nameof(Projects.Archive)" asp-route-projectId="@item.Id">Archive</a>
-                        <span> | </span>
-                        <a asp-action="@nameof(Projects.Delete)" asp-route-projectId="@item.Id">Delete</a>
-                    }
+                    <span> | </span>
+                    <a asp-action="@nameof(Projects.ChangeTheProjectName)" asp-route-projectId="@item.Id">Edit</a>
+                    <span> | </span>
+                    <a asp-action="@nameof(Projects.Archive)" asp-route-projectId="@item.Id">Archive</a>
+                    <span> | </span>
+                    <a asp-action="@nameof(Projects.Delete)" asp-route-projectId="@item.Id">Delete</a>
                 </td>
             </tr>
         }

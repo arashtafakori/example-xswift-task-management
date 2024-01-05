@@ -10,7 +10,6 @@ using System.Diagnostics;
 
 namespace Module.Presentation.WebMVCApp.Controllers
 {
-    [Authorize]
     public class Projects : XMvcController
     {
         private readonly HttpService _projectHttpService;
@@ -24,7 +23,6 @@ namespace Module.Presentation.WebMVCApp.Controllers
                 collectionResource: CollectionNames.Projects);
         }
 
-        //[Authorize(Roles = Roles.Developer)]
         public async Task<IActionResult> GetInfoList(
             int? pageNumber = null,
             int? pageSize = null)
@@ -35,8 +33,6 @@ namespace Module.Presentation.WebMVCApp.Controllers
                 .SendAndReadAsResultAsync<PaginatedViewModel<ProjectInfo>>(
                 new XHttpRequest(HttpMethod.Get, version: "v1.1",
                 queryParametersString: HttpContext.Request.QueryString.ToString()));
-
-            await LogTokenAndClaims();
 
             return View(model);
         }
@@ -137,18 +133,6 @@ namespace Module.Presentation.WebMVCApp.Controllers
                 collectionItemParameter: model.ProjectInfo!.Id));
 
             return RedirectToAction(nameof(GetInfoList));
-        }
-
-        private async Task LogTokenAndClaims()
-        {
-            var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
-
-            Debug.WriteLine($"Identity token: {identityToken}");
-
-            foreach (var claim in User.Claims)
-            {
-                Debug.WriteLine($"Claim type: {claim.Type} - Claim value: {claim.Value}");
-            }
         }
     }
 }

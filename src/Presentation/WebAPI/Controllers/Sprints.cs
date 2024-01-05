@@ -3,15 +3,11 @@ using Module.Contract;
 using Module.Domain.SprintAggregation;
 using XSwift.Mvc;
 using XSwift.Domain;
-using Microsoft.AspNetCore.Authorization;
-using Module.Presentation.Configuration.AuthDefinitions;
 
 namespace Module.Presentation.WebAPI
 {
     [ApiController]
     [Route("v1/[controller]")]
-    [Authorize(Policies.ClientsConstraint)]
-    [Authorize(Policies.ToAccessToTheSettings)]
     public class Sprints : XApiController
     {
         private readonly ISprintService _service;

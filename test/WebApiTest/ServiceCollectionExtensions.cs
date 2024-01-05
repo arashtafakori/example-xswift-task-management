@@ -11,10 +11,6 @@ namespace WebApiTest
             this IServiceCollection services,
             IConfigurationRoot configuration)
         {
-            services.AddTransient<AuthenticationDelegatingHandler>();
-
-            //--
-
             services.AddHttpClient(HttpClientNames.WebAPIClient, client =>
             {
                 var uri = configuration.GetSection("HttpClientsUri")
@@ -23,22 +19,7 @@ namespace WebApiTest
                 client.BaseAddress = new Uri(uri);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
-            }).AddHttpMessageHandler<AuthenticationDelegatingHandler>();
-
-            //--
-
-            services.AddHttpClient(HttpClientNames.SecurityTokenServiceClient, client =>
-            {
-                var uri = configuration.GetSection("HttpClientsUri")
-                .GetSection(HttpClientNames.SecurityTokenServiceClient).Value!;
-                client.BaseAddress = new Uri(uri);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             });
-
-            //--
-
-            services.AddHttpContextAccessor();
         }
     }
 }

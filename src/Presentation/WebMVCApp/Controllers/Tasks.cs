@@ -5,12 +5,9 @@ using Module.Presentation.WebMVCApp.ViewModels;
 using Module.Domain.SprintAggregation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using XSwift.Domain;
-using Microsoft.AspNetCore.Authorization;
-
 
 namespace Module.Presentation.WebMVCApp.Controllers
 {
-    [Authorize]
     public class Tasks : XMvcController
     {
         private readonly HttpService _projectHttpService;

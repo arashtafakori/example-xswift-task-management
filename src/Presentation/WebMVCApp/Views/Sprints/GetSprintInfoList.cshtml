@@ -10,14 +10,10 @@
 <h4>@ViewData["Title"] of the @Model.ProjectInfo!.Name project</h4>
 
 <hr />
-@if (User.IsInRole(
-   Module.Presentation.Configuration.AuthDefinitions.Roles.Admin))
-{
-    <p>
-        <a asp-action="@nameof(Sprints.Define)"
-        asp-route-projectId="@Model.ProjectInfo.Id">Define A New</a>
-    </p>
-}
+<p>
+    <a asp-action="@nameof(Sprints.Define)"
+       asp-route-projectId="@Model.ProjectInfo.Id">Define A New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -48,16 +44,12 @@
                 </td>
                 <td>
                     <a asp-action="@nameof(Sprints.GetInfo)" asp-route-sprintId="@item.Id">Info</a>
-                    @if (User.IsInRole(
-                        Module.Presentation.Configuration.AuthDefinitions.Roles.Admin))
-                    {
-                        <span> | </span>
-                        <a asp-action="@nameof(Sprints.ChangeTheSprintName)" asp-route-sprintId="@item.Id">Edit</a>
-                        <span> | </span>
-                        <a asp-action="@nameof(Sprints.ChangeTheSprintTimeSpan)" asp-route-sprintId="@item.Id">Time span</a>
-                        <span> | </span>
-                        <a asp-action="@nameof(Sprints.Archive)" asp-route-sprintId="@item.Id">Archive</a>
-                    }
+                    <span> | </span>
+                    <a asp-action="@nameof(Sprints.ChangeTheSprintName)" asp-route-sprintId="@item.Id">Edit</a>
+                    <span> | </span>
+                    <a asp-action="@nameof(Sprints.ChangeTheSprintTimeSpan)" asp-route-sprintId="@item.Id">Time span</a>
+                    <span> | </span>
+                    <a asp-action="@nameof(Sprints.Archive)" asp-route-sprintId="@item.Id">Archive</a>
                 </td>
             </tr>
         }

@@ -3,15 +3,11 @@ using Module.Contract;
 using Module.Domain.TaskAggregation;
 using XSwift.Mvc;
 using XSwift.Domain;
-using Microsoft.AspNetCore.Authorization;
-using Module.Presentation.Configuration.AuthDefinitions;
 
 namespace Module.Presentation.WebAPI
 {
     [ApiController]
     [Route("v1/[controller]")]
-    [Authorize(Policies.ClientsConstraint)]
-    [Authorize(Policies.ToAccessToTheBoradActitvitis)]
     public class Tasks : XApiController
     {
         private readonly ITaskService _service;

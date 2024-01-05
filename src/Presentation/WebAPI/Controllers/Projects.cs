@@ -3,15 +3,11 @@ using Module.Contract;
 using Module.Domain.ProjectAggregation;
 using XSwift.Mvc;
 using XSwift.Domain;
-using Microsoft.AspNetCore.Authorization;
-using Module.Presentation.Configuration.AuthDefinitions;
 
 namespace Module.Presentation.WebAPI
 {
     [Route("v1/[controller]")]
     [ApiController]
-    [Authorize(Policies.ClientsConstraint)]
-    [Authorize(Policies.ToAccessToTheSettings)]
     public class Projects : XApiController
     {
         private readonly IProjectService _projectService;

@@ -7,7 +7,6 @@ using Module.Presentation.WebAPI;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureApplicationServices(builder.Configuration);
 builder.Services.ConfigureLanguage(builder.Configuration);
-builder.Services.AddAuthService(builder.Configuration);
 builder.Services.AddControllers().AddNewtonsoftJson();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -34,7 +33,7 @@ app.UseExceptionHandler(c => c.Run(async context =>
 }));
 app.MapControllers();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.Run();

@@ -23,19 +23,6 @@ namespace WebApiTest
 
         public async void EnsureRecreatedDatabase()
         {
-            //var serviceScope = ServiceProvider.CreateAsyncScope();
-            //var httpClientFactory = serviceScope.ServiceProvider
-            //    .GetRequiredService<IHttpClientFactory>();
-            //var httpClient = httpClientFactory.CreateClient(
-            //    HttpClientNames.WebAPIClient);
-
-            //var httpService = new HttpService(
-            //    httpClient: httpClient,
-            //    version: "v1",
-            //    collectionResource: "development");
-
-            //await httpService.SendAsync(
-            //    new XHttpRequest(HttpMethod.Post, actionName: "EnsureRecreatedDatabase"));
         }
         public void Dispose()
         {

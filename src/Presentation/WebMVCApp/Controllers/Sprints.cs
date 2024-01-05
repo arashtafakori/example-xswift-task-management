@@ -3,11 +3,9 @@ using XSwift.Mvc;
 using Module.Domain.SprintAggregation;
 using Microsoft.AspNetCore.Mvc;
 using Module.Presentation.WebMVCApp.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Module.Presentation.WebMVCApp.Controllers
 {
-    [Authorize]
     public class Sprints : XMvcController
     {
         private readonly HttpService _projectHttpService;
