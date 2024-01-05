@@ -11,17 +11,14 @@ builder.Services.AddAuthService(builder.Configuration);
 builder.Services.AddControllers().AddNewtonsoftJson();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerService(builder.Configuration);
 
 builder.Logging.AddFilter("Module", LogLevel.Information);
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.DefaultModelsExpandDepth(-1); // Disable swagger schemas at bottom
-});
+app.UseSwaggerService();
 
 app.UseHttpsRedirection();
 app.UseExceptionHandler(c => c.Run(async context =>

@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "edb380b2-203b-496e-a769-dab3f60d26cc",
+		"_postman_id": "cabe37f7-a931-486f-9eec-d98ff3795780",
 		"name": "STS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "29002257"
+		"_exporter_id": "31564167"
 	},
 	"item": [
 		{
@@ -56,7 +56,7 @@
 						},
 						{
 							"key": "scope",
-							"value": "Project",
+							"value": "development project-settings board",
 							"type": "text"
 						},
 						{
