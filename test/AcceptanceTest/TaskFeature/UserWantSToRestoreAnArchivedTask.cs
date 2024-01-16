@@ -1,33 +1,32 @@
-﻿using AcceptanceTest;
-using Module.Contract;
-using Module.Domain.ProjectAggregation;
+﻿using Module.Contract;
 using Module.Domain.TaskAggregation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
-using TestStack.BDDfy;
 using Xunit;
+using System;
+using FluentAssertions;
 
 namespace AcceptanceTest.TaskFeature
 {
     /// <summary>
     /// As a user
     /// I want to restore an archived task
-    /// So that I can do the request
+    /// So that I should be able to access the task again
     /// </summary>
-    public class AsAUserIWantToRestoreAnArchivedTaskSoThatICanDoTheRequest : IClassFixture<TaskFixture>
+    public class UserWantSToRestoreAnArchivedTask : IClassFixture<TaskFixture>
     {
         private IServiceScope _serviceScope;
         private readonly TaskFixture _fixture;
-        public AsAUserIWantToRestoreAnArchivedTaskSoThatICanDoTheRequest(TaskFixture fixture)
+        public UserWantSToRestoreAnArchivedTask(TaskFixture fixture)
         {
             _fixture = fixture;
             _serviceScope = _fixture.ServiceProvider.CreateAsyncScope();
         }
 
         [Fact]
-        internal async Task ToRestoreAnArchivedTask()
+        internal async Task GivenUserRestoresAnArchivedTask_WhenRestoringTask_TheShouldRestoreItSuccessfully()
         {
-            var steps = new ToRestoreAnArchivedTask(_serviceScope!);
+            ITaskService _service = _serviceScope.ServiceProvider.GetRequiredService<ITaskService>();
 
             var projectId = await DataFacilitator.DefineAProject(
                 _serviceScope, name: "Task Management");
@@ -42,11 +41,17 @@ namespace AcceptanceTest.TaskFeature
                 GetRequiredService<ITaskService>().Process(
                 new ArchiveTheTask(taskId));
 
-            steps.Given(_ => steps.GivenIWantToRestoreAnArchivedTask(taskId))
-                .When(_ => steps.WhenIRequestIt())
-                .Then(_ => steps.ThenTheRequestSholudBeDone())
-                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
-                .BDDfy();
+            // Given
+            var request = new RestoreTheTask(taskId);
+
+            // When
+            Func<Task> actual = async () => await _service.Process(request);
+
+            // Then
+            await actual.Should().NotThrowAsync();
+
+            // Tear Down
+            _fixture.EnsureRecreatedDatabase();
         }
     }
 }

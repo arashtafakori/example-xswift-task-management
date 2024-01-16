@@ -1,33 +1,33 @@
-﻿using AcceptanceTest;
-using Module.Contract;
+﻿using Module.Contract;
 using Module.Domain.SprintAggregation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
-using TestStack.BDDfy;
 using Xunit;
+using System;
+using FluentAssertions;
 
 namespace AcceptanceTest.SprintFeature
 {
     /// <summary>
     /// As a user
     /// I want to restore an archived sprint
-    /// So that I can do the request
+    /// So that I should be able to access the sprint again
     /// </summary>
-    public class AsAUserIWantToRestoreATaskSoThatICanDoTheRequest : IClassFixture<SprintFixture>
+    public class UserWantsToRestoreASprint : IClassFixture<SprintFixture>
     {
         private IServiceScope _serviceScope;
         private readonly SprintFixture _fixture;
-        public AsAUserIWantToRestoreATaskSoThatICanDoTheRequest(SprintFixture fixture)
+        public UserWantsToRestoreASprint(SprintFixture fixture)
         {
             _fixture = fixture;
             _serviceScope = _fixture.ServiceProvider.CreateAsyncScope();
         }
 
         [Fact]
-        internal async Task UserRestoresAnArchivedSprint()
+        internal async Task GivenUserRestoresAnArchivedSprint_WhenRestoringSprint_ThenShouldRestoreItSuccessfully()
         {
-            var steps = new UserRestoresAnArchivedSprint(_serviceScope!);
-
+            ISprintService service = _serviceScope.ServiceProvider.GetRequiredService<ISprintService>();
+    
             var projectId = await DataFacilitator.DefineAProject(
                 _serviceScope, name: "Task Management");
 
@@ -38,11 +38,17 @@ namespace AcceptanceTest.SprintFeature
                 GetRequiredService<ISprintService>().Process(
                 new ArchiveTheSprint(sprintId));
 
-            steps.Given(_ => steps.GivenIWantToRestoreAnArchivedSprint(sprintId))
-                .When(_ => steps.WhenIRequestIt())
-                .Then(_ => steps.ThenTheRequestSholudBeDone())
-                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
-                .BDDfy();
+            // Given
+            var request = new RestoreTheSprint(sprintId);
+
+            // When
+            Func<Task> actual = async () => await service.Process(request);
+
+            // Then
+            await actual.Should().NotThrowAsync();
+
+            // Tear down
+            _fixture.EnsureRecreatedDatabase();
         }
     }
 }

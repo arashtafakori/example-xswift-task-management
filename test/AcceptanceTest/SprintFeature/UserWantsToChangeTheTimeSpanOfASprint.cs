@@ -1,24 +1,26 @@
-﻿using AcceptanceTest;
+﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Module.Contract;
+using Module.Domain.SprintAggregation;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TestStack.BDDfy;
 using XSwift.Base;
+using XSwift.FluentAssertions;
 using Xunit;
 
 namespace AcceptanceTest.SprintFeature
 {
     /// <summary>
     /// As a user
-    /// I want to change the start span of a sprint
-    /// So that I can do the request
+    /// I want to change the time span of a sprint
+    /// So that I can be able to access the sprint with the new time span
     /// </summary>
-    public class AsAUserIWantToChangeTheTimeSpanOfASprintSoThatICanDoTheRequest : IClassFixture<SprintFixture>
+    public class UserWantsToChangeTheTimeSpanOfASprint : IClassFixture<SprintFixture>
     {
         private IServiceScope _serviceScope;
         private readonly SprintFixture _fixture;
-        public AsAUserIWantToChangeTheTimeSpanOfASprintSoThatICanDoTheRequest(SprintFixture fixture)
+        public UserWantsToChangeTheTimeSpanOfASprint(SprintFixture fixture)
         {
             _fixture = fixture;
             _serviceScope = _fixture.ServiceProvider.CreateAsyncScope();
@@ -26,10 +28,10 @@ namespace AcceptanceTest.SprintFeature
 
         [Theory]
         [MemberData(nameof(GetDatePairs))]
-        internal async Task ToChangeTheTimeSpanOfASprintToANewWhileStartDateAndEndDateIsEarlierThanTheLastTwelveMonths(
+        internal async Task GivenUserChangesTheTimeSpanOfASprintToANew_AandGivenStartDateOrEndDateIsEarlierThanTheLastTwelveMonths_WhenChangingTheTimeSpan_ThenShouldBePreventedFromChangingIt(
             DateTime startDate, DateTime endDate)
         {
-            var steps = new ToChangeTheTimeSpanOfASprintToANewWhileStartDateAndEndDateIsEarlierThanTheLastTwelveMonths(_serviceScope!);
+            ISprintService service = _serviceScope.ServiceProvider.GetRequiredService<ISprintService>();
 
             var projectId = await DataFacilitator.DefineAProject(
                 _serviceScope, name: "Task Management");
@@ -37,12 +39,17 @@ namespace AcceptanceTest.SprintFeature
             var sprintId = await DataFacilitator.DefineASprint(
                 _serviceScope, projectId, name: "Sprint 01");
 
-            steps.Given(_ => steps.GivenIWantToChangeTheTimeSpanOfASprintToANewTimeSpan(sprintId, startDate, endDate))
-                .Given(_ => steps.AndGivenTheStartDateAndTheEndDateIsEarlierThanTheLastTwelveMonths())
-                .When(_ => steps.WhenIRequestIt())
-                .Then(_ => steps.ThenTheRequestSholudBeDenied())
-                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
-                .BDDfy();
+            // Given
+            var request = new ChangeTheSprintTimeSpan(sprintId, startDate, endDate);
+
+            // When
+            Func<Task> actual = async () => await service.Process(request);
+
+            // Then
+            await actual.Should().BeSatisfiedWith<TheStartDateAndEndDateOfTheSprintCanNotBeEarlierThanTheLastTwelveMonths>();
+
+            // Tear down
+            _fixture.EnsureRecreatedDatabase();
         }
 
         private static IEnumerable<object[]> GetDatePairs()

@@ -1,33 +1,32 @@
-﻿using AcceptanceTest;
-using Module.Contract;
-using Module.Domain.ProjectAggregation;
+﻿using Module.Contract;
 using Module.Domain.TaskAggregation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
-using TestStack.BDDfy;
 using Xunit;
+using System;
+using FluentAssertions;
 
 namespace AcceptanceTest.TaskFeature
 {
     /// <summary>
     /// As a user
     /// I want to archive a task
-    /// So that I can do the request
+    /// So that I can not to be able to access the task
     /// </summary>
-    public class AsAUserIWantToArchiveATaskSoThatICanDoTheRequest : IClassFixture<TaskFixture>
+    public class UserWantsToArchiveATask : IClassFixture<TaskFixture>
     {
         private IServiceScope _serviceScope;
         private readonly TaskFixture _fixture;
-        public AsAUserIWantToArchiveATaskSoThatICanDoTheRequest(TaskFixture fixture)
+        public UserWantsToArchiveATask(TaskFixture fixture)
         {
             _fixture = fixture;
             _serviceScope = _fixture.ServiceProvider.CreateAsyncScope();
         }
 
         [Fact]
-        internal async Task ToArchiveATask()
+        internal async Task GivenUserArchivesATask_WhenArchivingTask_ThenShouldArchiveItSuccessfully()
         {
-            var steps = new ToArchiveATask(_serviceScope!);
+            ITaskService _service = _serviceScope.ServiceProvider.GetRequiredService<ITaskService>();
 
             var projectId = await DataFacilitator.DefineAProject(
                 _serviceScope, name: "Task Management");
@@ -38,11 +37,17 @@ namespace AcceptanceTest.TaskFeature
                 description: "Define a new module as the task module.",
                 sprintId: null);
 
-            steps.Given(_ => steps.GivenIWantToArchiveATask(taskId))
-                .When(_ => steps.WhenIRequestIt())
-                .Then(_ => steps.ThenTheRequestSholudBeDone())
-                .TearDownWith(_ => _fixture.EnsureRecreatedDatabase())
-                .BDDfy();
+            // Given
+            var request = new ArchiveTheTask(taskId);
+
+            // When
+            Func<Task> actual = async () => await _service.Process(request);
+
+            // Then
+            await actual.Should().NotThrowAsync();
+
+            // Tear Down
+            _fixture.EnsureRecreatedDatabase();
         }
     }
 }
